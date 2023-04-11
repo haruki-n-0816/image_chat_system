@@ -1,0 +1,12 @@
+version: '2'
+services:
+  image_chat_system_db:
+    build: './image_chat_system_db/'
+    container_name: 'image_chat_system_db'
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: image_chat_system_db
+    ports:
+      - "13306:3306"
