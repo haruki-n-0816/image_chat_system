@@ -10,7 +10,7 @@ import com.example.image_chat_system_api.service.UserLoginService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8081")
-public class UserLogin {
+public class UserLoginController {
     @Autowired
     UserLoginService service;
 
@@ -18,5 +18,4 @@ public class UserLogin {
     public boolean getUserLogin(@RequestParam("mail")String mail,@RequestParam("password")String password){
         return service.getPassword(mail, password);
     }
-
 }

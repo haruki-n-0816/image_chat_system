@@ -8,11 +8,12 @@ import com.example.image_chat_system_api.repository.UserLoginRepository;
 
 @Service
 public class UserLoginService {
+    
     @Autowired
-    UserLoginRepository userLoginRepository;
+    UserLoginRepository repository;
 
     public boolean getPassword (String mail,String password){
-        UserLogin result = userLoginRepository.findByUserMail(mail).orElse(null);
+        UserLogin result = repository.findByUserMail(mail).orElse(null);
         String getpassword = result.getUserPassword();
         System.out.println(getpassword);
         boolean a = true;
