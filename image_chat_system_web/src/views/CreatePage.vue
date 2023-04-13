@@ -10,14 +10,15 @@
         <input type="password" v-model="password"><br>
         <b-button variant="primary" @click="CreateAcaunt()">新規登録</b-button>
         <br>
-        <router-link to="/Login">キャンセル</router-link>
+        <router-link to="/Login">キャンセル</router-link><br><br>
+        <b-button variant="primary" @click="imageup()">画像アップ</b-button>
     </div>
 </template>
 
 <script>
-import axios  from 'axios';
+import axios from 'axios';
 export default{
-    date(){
+    data(){
         return{
             name:'',
             mail:'',
@@ -38,6 +39,10 @@ export default{
                 console.error(error)
             }
         }
+    },
+    async imageup(){
+        alert("画像編集！");
     }
+    
 }
 </script>
