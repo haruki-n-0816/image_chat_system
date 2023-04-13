@@ -1,18 +1,21 @@
 <template>
     <div>
-        <p>次郎チャットログイン</p><br>
-        <label>mail:</label>
-        <input type="email" v-model="mail"><br>
-        <label>パスワード:</label>
-        <input type="password" v-model="password"><br>
-        <b-button variant="primary" @click="LoginCheck()">ログイン</b-button>
+        <p>次郎チャットログイン</p>
         <br>
-        <router-link to="/Create">新規作成はこちらから</router-link>
+        <form @submit.prevent="LoginCheck()">
+            <label>mail</label>
+            <input type="email" v-model="mail"><br>
+            <label>パスワード</label>
+            <input type="password" v-model="password"><br>
+            <b-button variant="primary" type="submit">ログイン</b-button>
+        </form>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
+
+axios.defaults.baseURL = 'http://localhost:8081';
 
 export default {
     data() {
@@ -23,13 +26,12 @@ export default {
     },
     methods: {
         async LoginCheck() {
-            alert("もーーーーーーーーーーーーーーーーーーーーり");
             try {
-                const response = await axios.post('localhost:8080/login', {
+                const respones = await axios.post('/login', {
                     mail: this.mail,
                     password: this.password,
                 });
-                console.log(response);
+                console.log(respones);
             } catch (error) {
                 console.error(error);
             }

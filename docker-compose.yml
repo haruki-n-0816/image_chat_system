@@ -5,7 +5,7 @@ services:
     container_name: 'image_chat_system_db'
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: root
+      MYSQL_USER: test
       MYSQL_PASSWORD: root
       MYSQL_DATABASE: image_chat_system_db
     ports:

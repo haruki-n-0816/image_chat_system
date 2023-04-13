@@ -1,21 +1,19 @@
 package com.example.image_chat_system_api.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.image_chat_system_api.service.UserLoginService;
+import com.example.image_chat_system_api.domain.UserLogin;
 
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
-@CrossOrigin(origins = "http://localhost:8081")
 public class UserLoginController {
-    @Autowired
-    UserLoginService service;
-
-    @PostMapping(path="/login")
-    public boolean getUserLogin(@RequestParam("mail")String mail,@RequestParam("password")String password){
-        return service.getPassword(mail, password);
+    
+    @PostMapping("/login")
+    public boolean loginCheck(@RequestBody UserLogin request){
+        System.out.println(request.getMail() + request.getPassword());
+        return true;
     }
 }
