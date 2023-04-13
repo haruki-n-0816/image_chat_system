@@ -1,13 +1,13 @@
 <template>
     <div>
         <p>次郎チャットログイン</p><br>
-        <label>mail</label>
+        <label>mail:</label>
         <input type="email" v-model="mail"><br>
-        <label>パスワード</label>
+        <label>パスワード:</label>
         <input type="password" v-model="password"><br>
         <b-button variant="primary" @click="LoginCheck()">ログイン</b-button>
         <br>
-        <router-link to="後から入力">新規作成はこちらから</router-link>
+        <router-link to="/Create">新規作成はこちらから</router-link>
     </div>
 </template>
 
@@ -23,12 +23,13 @@ export default {
     },
     methods: {
         async LoginCheck() {
+            alert("もーーーーーーーーーーーーーーーーーーーーり");
             try {
-                const respones = await axios.post('localhost:8080/login', {
+                const response = await axios.post('localhost:8080/login', {
                     mail: this.mail,
                     password: this.password,
                 });
-                console.log(respones);
+                console.log(response);
             } catch (error) {
                 console.error(error);
             }
