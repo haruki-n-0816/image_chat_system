@@ -17,9 +17,10 @@ public class UserLoginService {
     public Boolean loginCheck(UserLoginModel request){
 
     Optional<UserLogin> optionalUserLogin = userLoginRepository.findByUserMail(request.getMail());
-    
+
     boolean result = false;
-    if (request.getPassword().equals(optionalUserLogin.get().getUserPassword())) {
+
+    if (optionalUserLogin.isPresent() && request.getPassword().equals(optionalUserLogin.get().getUserPassword())) {
         result = true;
     }
     return result;
