@@ -9,6 +9,6 @@ CREATE TABLE user_list (
     user_id CHAR(10) NOT NULL               COMMENT '英数字のid',
     user_name CHAR(255) NOT NULL            COMMENT 'ユーザーの名前',
     user_mail CHAR(255) NOT NULL            COMMENT 'メールアドレス',
-    user_pw CHAR(255) NOT NULL              COMMENT 'パスワード',
+    user_password CHAR(255) NOT NULL        COMMENT 'パスワード',
     PRIMARY KEY (id)
 );
