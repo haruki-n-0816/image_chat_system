@@ -37,8 +37,8 @@
         <version>8.0.4</version>
         <configuration>
           <url>jdbc:mysql://localhost:13306/image_chat_system_db?allowPublicKeyRetrieval=true</url>
-          <user>test</user>
-          <password>test</password>
+          <user>root</user>
+          <password>root</password>
           <locations>
             <location>filesystem:src/main/resources/db/migration</location>
           </locations>
