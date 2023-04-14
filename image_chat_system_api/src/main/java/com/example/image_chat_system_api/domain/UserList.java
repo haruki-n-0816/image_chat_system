@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "user_list")
-public class UserLogin {
+public class UserList {
 
     @Id@Getter@Setter
     private Integer id;

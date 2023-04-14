@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.image_chat_system_api.domain.UserLogin;
+import com.example.image_chat_system_api.domain.UserList;
 import com.example.image_chat_system_api.repository.UserLoginRepository;
 import com.example.image_chat_system_api.viewModel.UserLoginModel;
 
@@ -16,7 +16,7 @@ public class UserLoginService {
 
     public Boolean loginCheck(UserLoginModel request){
 
-    Optional<UserLogin> optionalUserLogin = userLoginRepository.findByUserMail(request.getMail());
+    Optional<UserList> optionalUserLogin = userLoginRepository.findByUserMail(request.getMail());
 
     boolean result = false;
 
