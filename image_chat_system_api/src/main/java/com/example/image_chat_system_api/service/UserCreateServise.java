@@ -11,11 +11,15 @@ import com.example.image_chat_system_api.viewModel.UserCreateModel;
 
 @Service
 public class UserCreateServise {
+
     @Autowired UserCreateRepositry userCreateRepositry;
+    
     public boolean userCreate(UserCreateModel userCreateModel){
-        //入力したした値を持ってきたい、それをテーブルに追加したい
+        
         String id = UUID.randomUUID().toString();
+        
         UserList userList = new UserList();
+        
         userList.setUserId(id);
         userList.setUserName(userCreateModel.getName());
         userList.setUserMail(userCreateModel.getMail());
@@ -23,12 +27,15 @@ public class UserCreateServise {
 
         System.out.print(id);
         try {
+            
             userCreateRepositry.save(userList);
-            return true; // 処理成功
-        } catch (Exception e) {
-            // エラー処理
-            //e.printStackTrace(); //など、エラーログの出力などの適切な処理を追加する必要があります。
-            return false; // 処理失敗
+            
+            return true;
+            } catch (Exception e) {
+            
+            e.printStackTrace();
+
+            return false;
         }
     }
 }

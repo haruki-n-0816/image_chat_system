@@ -9,5 +9,4 @@ public class ImageChatSystemApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ImageChatSystemApiApplication.class, args);
 	}
-
 }

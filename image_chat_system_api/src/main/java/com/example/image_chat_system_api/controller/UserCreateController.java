@@ -17,11 +17,7 @@ public class UserCreateController {
     @PostMapping("/create")
     public boolean userCreate(@RequestBody UserCreateModel userCreateModel){
         
-        System.out.println(userCreateModel.getName() + userCreateModel.getMail() + userCreateModel.getPassword());
-
         boolean result = userCreateServise.userCreate(userCreateModel);
-
-        System.out.println(result);
 
         return result;
     }
