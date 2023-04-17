@@ -53,6 +53,7 @@ export default {
     }
     .chat-message {
       display: flex;
+      justify-content: flex-end;
       margin-bottom: 10px;
     }
     .chat-message-text {

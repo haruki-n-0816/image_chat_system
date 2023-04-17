@@ -5,7 +5,7 @@ import lombok.Setter;
 
 public class UserCreateModel {
     @Getter@Setter
-    private String userName;
+    private String name;
     @Getter@Setter
     private String mail;
     @Getter@Setter
