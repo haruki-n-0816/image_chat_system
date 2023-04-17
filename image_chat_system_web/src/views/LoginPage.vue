@@ -32,6 +32,7 @@ export default {
                     password: this.password,
                 });
                 console.log(respones);
+                this.$store.dispatch('setAuthentication', respones.data);
             } catch (error) {
                 console.error(error);
             }
