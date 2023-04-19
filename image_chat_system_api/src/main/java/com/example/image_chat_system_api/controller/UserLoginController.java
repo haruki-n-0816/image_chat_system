@@ -23,6 +23,7 @@ public class UserLoginController {
 
         UserLoginResultModel result = userLoginService.loginCheck(request);
 
+        // 削除予定
         System.out.println(result.getResult());
         System.out.println(result.getUserId());
         System.out.println(result.getUserName());

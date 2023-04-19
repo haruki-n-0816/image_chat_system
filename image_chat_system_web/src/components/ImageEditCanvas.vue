@@ -16,16 +16,14 @@ export default {
         }
     },
     mounted() {
-        // 画像の読み込み
         fabric.Image.fromURL(this.imagePath, (img) => {
-            // キャンバスの作成
+            
             const canvas = new fabric.Canvas(this.$refs.canvas, {
                 width: img.width,
                 height: img.height
             });
             canvas.setBackgroundImage(img);
 
-            // 図形の描写
             const rect = new fabric.Rect({
                 left: 100,
                 top: 100,
@@ -37,7 +35,6 @@ export default {
         });
     },
     methods: {
-        // キャンバス上の描写結果を画像としてエクスポートする
         exportImage() {
             const dataUrl = this.$refs.canvas.toDataURL({
                 format: 'png',
