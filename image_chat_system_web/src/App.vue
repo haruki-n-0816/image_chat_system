@@ -3,7 +3,9 @@
     <nav>
       <router-link to="/login">Login</router-link> /
       <router-link to="/create">Create</router-link>/
-      <router-link to="/chat">Chat</router-link>
+      <router-link to="/chat">Chat</router-link>/
+      <router-link to="/WebSocket">WebSocket</router-link>/
+
     </nav>
     <router-view/>
   </div>

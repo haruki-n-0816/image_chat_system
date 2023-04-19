@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import LoginPage from '../views/LoginPage.vue'
 import Createpage from '../views/CreatePage.vue'
 import Chatpage from '../views/ChatPage.vue'
+// import WebSocket from '../views/WebSocket.vue'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,12 @@ const routes = [
     name: 'ChatPage',
     component: Chatpage
     // component: () => import('../views/ChatPage.vue')
+  },
+  {
+    path: '/WebSocket',
+    name: 'WebSocket',
+    // component: WebSocket
+    component: () => import('../views/WebSocket.vue')
   }
   
 ]
