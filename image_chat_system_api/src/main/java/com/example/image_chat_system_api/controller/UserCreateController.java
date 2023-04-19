@@ -25,4 +25,20 @@ public class UserCreateController {
 
         return result;
     }
+
+    // public class chatcon {
+    //     @Autowired catser chatservise;
+        
+    //     @PostMapping("/chatindex")
+    //     public boolean roomName(@RequestBody ChatIndex chatindex){
+            
+    //         System.out.println(chatindex.getRoomName() );
+    
+    //         boolean result = chatservise.roomName(chatindex);
+    
+    //         System.out.println(result);
+    
+    //         return result;
+    //     }
+    // }
 }
