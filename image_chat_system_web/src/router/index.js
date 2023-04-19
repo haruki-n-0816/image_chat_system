@@ -7,6 +7,7 @@ import store from '../store'
 
 import ImageEditCropper from '../components/ImageEditCropper.vue'
 import ImageEditCanvas from '../components/ImageEditCanvas.vue'
+import ChatIndexPage from '../views/ChatIndexPage.vue'
 
 Vue.use(VueRouter)
 
@@ -22,7 +23,7 @@ const routes = [
     component: CreatePage
   },
   {
-    path: '/chat',
+    path: '/chat/${groupName}',
     name: 'ChatPage',
     component: ChatPage,
     meta: { requiresAuth: true }
@@ -36,6 +37,12 @@ const routes = [
     path: '/imageEditCanvas',
     name: 'ImageEditCanvas',
     component: ImageEditCanvas,
+  },
+  {
+    path: '/chatindex',
+    name:'ChatIndexPage',
+    component:ChatIndexPage
+    // component: () => import('../views/ChatRoom.vue')
   }
 ]
 
