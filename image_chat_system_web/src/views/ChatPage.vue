@@ -29,7 +29,7 @@ export default {
   methods: {
     sendMessage() {
       if (this.message) {
-        const time = new Date().toLocaleTimeString();
+        // const time = new Date().toLocaleTimeString();
         const chatMessage = {
           schat_poster: this.schat_poster,
           message: this.message,

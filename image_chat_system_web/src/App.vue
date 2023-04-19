@@ -4,11 +4,8 @@
       <router-link to="/login">Login</router-link> /
       <router-link to="/create">Create</router-link>/
       <router-link to="/chat">Chat</router-link>/
-<<<<<<< HEAD
       <router-link to="/chatindex">chatindex</router-link>/
-=======
       <router-link to="/WebSocket">WebSocket</router-link>/
->>>>>>> origin/n02
 
     </nav>
     <router-view/>
