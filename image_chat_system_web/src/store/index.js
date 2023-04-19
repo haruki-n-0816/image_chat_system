@@ -6,26 +6,34 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     isAuthenticated: false,
-    user: null
+    userId: null,
+    userName: null
   },
   getters: {
     isAuthenticated: state => state.isAuthenticated,
-    user: state => state.user
+    userId: state => state.userId,
+    userName: state => state.userName,
   },
   mutations: {
     setAuthentication(state, status) {
       state.isAuthenticated = status;
     },
-    setUser(state, user) {
-      state.user = user;
+    setUserId(state, userId) {
+      state.userId = userId;
+    },
+    setUserName(state, userName){
+      state.userName = userName;
     }
   },
   actions: {
     setAuthentication({commit}, status) {
       commit('setAuthentication', status);
     },
-    setUser({commit}, user) {
-      commit('setUser', user);
+    setUserId({commit}, userId) {
+      commit('setUserId', userId);
+    },
+    setUserName({commit}, userName){
+      commit('setUserName', userName);
     }
   },
   modules: {

@@ -1,5 +1,6 @@
 <template>
     <div>
+        <p>userId:{{ userId }} userName:{{ userName }}</p>
         <p>次郎チャットログイン</p>
         <br>
         <form @submit.prevent="LoginCheck()">
@@ -22,7 +23,9 @@ export default {
     data() {
         return {
             mail: '',
-            password: ''
+            password: '',
+            userName: '',
+            userId: ''
         }
     },
     methods: {
@@ -33,7 +36,13 @@ export default {
                     password: this.password,
                 });
                 console.log(respones);
-                this.$store.dispatch('setAuthentication', respones.data);
+                this.$store.dispatch('setAuthentication', respones.data.result);
+                if (respones.data.result) {
+                    this.$store.dispatch('setUserId', respones.data.userId);
+                    this.$store.dispatch('setUserName', respones.data.userName);
+                    this.userId = this.$store.getters.userId;
+                    this.userName = this.$store.getters.userName;
+                }
             } catch (error) {
                 console.error(error);
             }

@@ -5,6 +5,9 @@ import CreatePage from '../views/CreatePage.vue'
 import ChatPage from '../views/ChatPage.vue'
 import store from '../store'
 
+import ImageEditCropper from '../components/ImageEditCropper.vue'
+import ImageEditCanvas from '../components/ImageEditCanvas.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -23,6 +26,16 @@ const routes = [
     name: 'ChatPage',
     component: ChatPage,
     meta: { requiresAuth: true }
+  },// ここからテスト
+  {
+    path: '/imageEditCropper',
+    name: 'ImageEditCropper',
+    component: ImageEditCropper,
+  },
+  {
+    path: '/imageEditCanvas',
+    name: 'ImageEditCanvas',
+    component: ImageEditCanvas,
   }
 ]
 
