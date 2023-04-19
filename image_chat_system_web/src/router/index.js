@@ -8,6 +8,7 @@ import store from '../store'
 import ImageEditCropper from '../components/ImageEditCropper.vue'
 import ImageEditCanvas from '../components/ImageEditCanvas.vue'
 import ChatIndexPage from '../views/ChatIndexPage.vue'
+// import WebSocket from '../views/WebSocket.vue'
 
 Vue.use(VueRouter)
 
@@ -43,6 +44,12 @@ const routes = [
     name:'ChatIndexPage',
     component:ChatIndexPage
     // component: () => import('../views/ChatRoom.vue')
+  },
+  {
+    path: '/WebSocket',
+    name: 'WebSocket',
+    // component: WebSocket
+    component: () => import('../views/WebSocket.vue')
   }
 ]
 
