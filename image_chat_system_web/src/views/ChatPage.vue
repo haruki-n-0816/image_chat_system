@@ -41,13 +41,13 @@ export default {
         this.$socket.send(JSON.stringify(chatMessage)); // WebSocketを使用してメッセージを送信する
       }
     },
-  },
-  created() {
-    this.$socket.onmessage = (event) => {
-      const chatMessage = JSON.parse(event.data);
-      this.chatMessages.push(chatMessage);
-      this.$refs.chatBox.scrollTop = this.$refs.chatBox.scrollHeight; // メッセージ受信後、自動でスクロールする
-    };
+    created() {
+      this.$socket.onmessage = (event) => {
+        const chatMessage = JSON.parse(event.data);
+        this.chatMessages.push(chatMessage);
+        this.$refs.chatBox.scrollTop = this.$refs.chatBox.scrollHeight; // メッセージ受信後、自動でスクロールする
+      };
+    }
   },
 }
 </script>

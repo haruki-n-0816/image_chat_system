@@ -8,7 +8,7 @@ import store from '../store'
 import ImageEditCropper from '../components/ImageEditCropper.vue'
 import ImageEditCanvas from '../components/ImageEditCanvas.vue'
 import ChatIndexPage from '../views/ChatIndexPage.vue'
-// import WebSocket from '../views/WebSocket.vue'
+import AllPage from '../views/AllPage.vue'
 
 Vue.use(VueRouter)
 
@@ -46,6 +46,11 @@ const routes = [
     // component: () => import('../views/ChatRoom.vue')
   },
   {
+    path:'/chatindex2',
+    name:'AllPage',
+    component:AllPage
+  },
+  {
     path: '/WebSocket',
     name: 'WebSocket',
     // component: WebSocket
@@ -73,5 +78,7 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+
+
 
 export default router

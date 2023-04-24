@@ -1,0 +1,97 @@
+@Repository
+public interface roomRepo extends JpaRepository<ChatIndex,Integer>{
+}
+
+
+@Service
+public class roomSer {
+    @Autowired roomRepo roomrepo;
+    public String getRoomName(Integer id){
+
+        ChatIndex roomname =roomrepo.findById(id).get();
+        //.getをつけるとChatIndex型にできる
+    return roomname.getRoomName();
+    }
+}
+
+
+@CrossOrigin(origins = "http://localhost:8080")
+@RestController
+public class roomCon {
+    @Autowired roomSer roomser;
+    @PostMapping("/chatindex2")
+    
+    public String getRoomName(@RequestBody Integer id){
+        String roomname = roomser.getRoomName(id);
+        
+        return roomname;
+    }
+}
+
+<!-- 
+<template>
+  <div>
+    <h1>ChatRoom</h1>
+    <button @click="showAddGroupPopup = true">部屋を追加する</button>
+    <div v-if="showAddGroupPopup">
+      <div class="popup-container">
+        <div class="popup">
+          <h2>グループ名を記入してください:</h2>
+          <input type="text" v-model="roomName">
+          <button @click="addGroup">追加する</button>
+          <button @click="showAddGroupPopup = false">閉じる</button>
+        </div>
+      </div>
+
+      
+      <ul>
+        <li>
+          <li v-for="room in rooms" :key="room.roomId">{{ room.roomName }}</li>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+axios.defaults.baseURL='http://localhost:8081';
+
+export default {
+  data() {
+    return {
+      groups: [],
+      roomName: "",
+      showAddGroupPopup: false,
+    };
+  },
+  methods: {
+    async showALL(){
+        try {
+      const response = await axios.get('/chatindex');
+      console.log(response.data);
+      this.rooms = response.data; // レスポンスから取得したroomsを代入する
+    } catch (error) {
+      console.log(error);
+    }
+    },
+    async addGroup() {
+      const groupName = this.roomName;
+
+      if (groupName) {
+        this.roomName = ""; // テキストボックスをクリアする
+        try {
+          const response = await axios.post('/chatindex', {
+            roomName: groupName // room_nameから変更
+          });
+          console.log(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+        this.showAddGroupPopup = false;
+      }
+    },
+  }
+}
+</script> -->
