@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LoginPage from '../views/LoginPage.vue'
 import CreatePage from '../views/CreatePage.vue'
-// import ChatPage from '../views/ChatPage.vue'
+import ChatPage from '../views/ChatPage.vue'
 import store from '../store'
 
 import ImageEditCropper from '../components/ImageEditCropper.vue'
@@ -23,12 +23,12 @@ const routes = [
     name: 'CreatePage',
     component: CreatePage
   },
-  // {
-  //   path: { path: '/chat/' + chatIndex.roomId },
-  //   name: 'ChatPage',
-  //   component: ChatPage,
+  {
+    path: '/chatpage',
+    name: 'ChatPage',
+    component: ChatPage,
   //   meta: { requiresAuth: true }
-  // },// ここからテスト
+  },
   {
     path: '/imageEditCropper',
     name: 'ImageEditCropper',

@@ -36,6 +36,7 @@ export default {
             roomName: groupName // room_nameから変更
           });
           console.log(response.data);
+          this.$router.push("/chatindex2") //他のページに移動
         } catch (error) {
           console.log(error);
         }

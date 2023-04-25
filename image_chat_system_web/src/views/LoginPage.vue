@@ -49,7 +49,7 @@ export default {
                     this.$store.dispatch('setUserName', respones.data.userName);
                     this.userId = this.$store.getters.userId;
                     this.userName = this.$store.getters.userName;
-                    this.$router.push("/chatindex") //他のページに移動
+                    this.$router.push("/chatindex2") //他のページに移動
 
                 }
             } catch (error) {

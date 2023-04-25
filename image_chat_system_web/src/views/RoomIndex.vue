@@ -3,14 +3,16 @@
     <h1>ChatRoom</h1>
     <ul>
       <li v-for="chatIndex in chatIndexes" :key="chatIndex.roomId">
-        <div><router-link :to="{ path: '/chat/' + chatIndex.roomName }">{{ chatIndex.roomName + "の部屋"}}</router-link></div>
+        <!-- <div><router-link :to="{ path: '/chatpage/' + chatIndex.roomName }">{{ chatIndex.roomName + "の部屋"}}</router-link></div> -->
+        <div><router-link to="/chatpage">{{ chatIndex.roomName + "の部屋"}}</router-link></div>
       </li>
     </ul>
+    <router-link to="/chatindex">新規ルーム作成の方はこちら</router-link>
   </div>
 </template>
   
 <script>
-  import router from '@/router';
+  // import router from '@/router';
   import axios from 'axios';
   
   axios.defaults.baseURL='http://localhost:8081';
@@ -35,7 +37,7 @@
         }
       },
     },
-    components: { router }
+    // components: { router }
   };
 </script>
 
