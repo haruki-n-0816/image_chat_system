@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.image_chat_system_api.domain.ChatIndex;
-import com.example.image_chat_system_api.service.AllRoomSer;
+import com.example.image_chat_system_api.service.RoomIndexService;
 
 // @CrossOrigin(origins = "http://localhost:8080")
 // //@RestController
@@ -23,8 +23,8 @@ import com.example.image_chat_system_api.service.AllRoomSer;
 // }
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
-public class AllRoomCon {
-    @Autowired AllRoomSer roomser;
+public class RoomIndexController {
+    @Autowired RoomIndexService roomser;
 
     @GetMapping("/chatindex2")
     public List<ChatIndex> roomNameInsert() {

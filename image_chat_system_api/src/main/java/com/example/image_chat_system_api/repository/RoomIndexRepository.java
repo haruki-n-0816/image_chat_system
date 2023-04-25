@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.example.image_chat_system_api.domain.ChatIndex;
 
 @Repository
-public interface AllRoomRepo extends JpaRepository<ChatIndex,Integer>{
+public interface RoomIndex extends JpaRepository<ChatIndex,Integer>{
 }
