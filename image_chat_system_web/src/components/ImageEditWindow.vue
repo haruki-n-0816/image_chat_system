@@ -4,6 +4,10 @@
         <br>
         <canvas ref="canvas" @mousedown="startCrop" @mousemove="crop" @mouseup="endCrop"></canvas>
         <br>
+        <label for="toggle">トリミング</label>
+        <input type="checkbox" id="toggle" v-model="toggle" />
+        <button @click="addRect">マスキング</button>
+        <button @click="allDelete">全削除</button>
         <button @click="exportImage">画像出力</button>
     </div>
 </template>
@@ -20,7 +24,8 @@ export default {
             cropStartX: null,
             cropStartY: null,
             cropEndX: null,
-            cropEndY: null
+            cropEndY: null,
+            toggle: false,
         };
     },
     mounted() {
@@ -48,6 +53,8 @@ export default {
             });
         },
         startCrop(event) {
+            if (!this.toggle) return;
+            this.canvas.remove(this.cropRect);
             this.cropStarted = true;
             const pointer = this.canvas.getPointer(event);
             this.cropStartX = pointer.x;
@@ -62,10 +69,9 @@ export default {
                 strokeWidth: 1
             });
             this.canvas.add(this.cropRect);
-            console.log("startCrop");
         },
         crop(event) {
-            if (!this.cropStarted) return;
+            if (!this.cropStarted || !this.toggle) return;
             const pointer = this.canvas.getPointer(event);
             this.cropEndX = pointer.x;
             this.cropEndY = pointer.y;
@@ -75,10 +81,25 @@ export default {
             this.canvas.renderAll();
         },
         endCrop() {
-            if (this.cropStarted) {
-                console.log("endCrop");
-            }
             this.cropStarted = false;
+        },
+        addRect() {
+            const canvas = this.canvas;
+            const rect = new fabric.Rect({
+                left: 100,
+                top: 100,
+                width: 50,
+                height: 50,
+                fill: 'black'
+            });
+            canvas.add(rect);
+        },
+        allDelete() {
+            const canvas = this.canvas;
+            const objects = canvas.getObjects();
+            objects.forEach((obj) => {
+                canvas.remove(obj);
+            });
         },
         exportImage() {
             const croppedImage = this.canvas.toDataURL({

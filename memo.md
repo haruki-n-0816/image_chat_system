@@ -1,10 +1,4 @@
-mvn archetype:generate \
-    -DgroupId=com.example \
-    -DartifactId=image_chat_system_flyway \
-    -DarchetypeArtifactId=maven-archetype-quickstart \
-    -DinteractiveMode=false
-
-    # プロジェクトの起動方法
+# プロジェクトの起動方法
 ##　起動順
 1.mysql
 2.flyway

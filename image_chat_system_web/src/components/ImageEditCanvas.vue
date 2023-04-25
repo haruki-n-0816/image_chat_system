@@ -1,29 +1,47 @@
 <template>
     <div>
-        <!-- <img src="@/assets/menkyo_gold.png" alt=""> -->
-        <canvas ref="canvas"></canvas>
-        <h4>画像加工</h4>
+        <input type="file" @change="handleImageUpload" />
+        <br>
+        <button @click="addRect">addRect</button>
         <button @click="exportImage">画像出力</button>
+        <canvas ref="canvas" />
     </div>
 </template>
 <script>
 import { fabric } from 'fabric';
 
 export default {
-    data(){
-        return{
-            imagePath:'/img/menkyo_gold.c9cf8195.png'
-        }
+    data() {
+        return {
+            imageUrl: null
+        };
     },
     mounted() {
-        fabric.Image.fromURL(this.imagePath, (img) => {
-            
-            const canvas = new fabric.Canvas(this.$refs.canvas, {
-                width: img.width,
-                height: img.height
+        const canvas = new fabric.Canvas(this.$refs.canvas);
+        this.instance = canvas;
+    },
+    methods: {
+        handleImageUpload(e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const imageUrl = event.target.result;
+                fabric.Image.fromURL(imageUrl, (img) => {
+                    this.setBackgroundImage(img);
+                });
+            };
+            reader.readAsDataURL(file);
+        },
+        setBackgroundImage(image) {
+            const instance = this.instance;
+            instance.setBackgroundImage(image, () => {
+                instance.renderAll();
+                instance.setWidth(image.width);
+                instance.setHeight(image.height);
             });
-            canvas.setBackgroundImage(img);
-
+        },
+        addRect() {
+            const canvas = this.instance;
             const rect = new fabric.Rect({
                 left: 100,
                 top: 100,
@@ -32,11 +50,9 @@ export default {
                 fill: 'black'
             });
             canvas.add(rect);
-        });
-    },
-    methods: {
+        },
         exportImage() {
-            const dataUrl = this.$refs.canvas.toDataURL({
+            const dataUrl = this.instance.toDataURL({
                 format: 'png',
                 quality: 1
             });

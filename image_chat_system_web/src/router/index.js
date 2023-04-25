@@ -7,6 +7,9 @@ import store from '../store'
 
 import ImageEditCropper from '../components/ImageEditCropper.vue'
 import ImageEditCanvas from '../components/ImageEditCanvas.vue'
+import ImageEditWindow from '../components/ImageEditWindow.vue'
+
+
 import ChatIndexPage from '../views/ChatIndexPage.vue'
 // import WebSocket from '../views/WebSocket.vue'
 
@@ -39,6 +42,13 @@ const routes = [
     name: 'ImageEditCanvas',
     component: ImageEditCanvas,
   },
+  {
+    path: '/imageEditWindow',
+    name: 'ImageEditWindow',
+    component: ImageEditWindow,
+  },
+  
+  // ここまで
   {
     path: '/chatindex',
     name:'ChatIndexPage',
