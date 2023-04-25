@@ -12,13 +12,14 @@ import lombok.Setter;
 public class UserChatPageModel {
     @Id@Getter@Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String userId;
     @Getter@Setter
-    private int chat_poster;
+    private String chat_poster;
     @Getter@Setter
     private String message;
     @Getter@Setter
     private String image_path;
     @Getter@Setter
-    private Timestamp post_time;
+    private Timestamp post_time = new Timestamp(System.currentTimeMillis());
+
 }

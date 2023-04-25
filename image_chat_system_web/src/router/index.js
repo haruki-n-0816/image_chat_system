@@ -27,7 +27,7 @@ const routes = [
     path: '/chat/${groupName}',
     name: 'ChatPage',
     component: ChatPage,
-    meta: { requiresAuth: true }
+    // meta: { requiresAuth: true }
   },// ここからテスト
   {
     path: '/imageEditCropper',

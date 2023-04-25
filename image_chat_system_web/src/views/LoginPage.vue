@@ -38,12 +38,16 @@ export default {
                 console.log(respones);
                 this.$store.dispatch('setAuthentication', respones.data.result);
                 if (respones.data.result) {
+                    alert("ログインしたよ！")
                     this.$store.dispatch('setUserId', respones.data.userId);
                     this.$store.dispatch('setUserName', respones.data.userName);
                     this.userId = this.$store.getters.userId;
                     this.userName = this.$store.getters.userName;
+                    this.$router.push("/chatindex") //他のページに移動
+
                 }
             } catch (error) {
+                alert("新規登録してね！")
                 console.error(error);
             }
         }

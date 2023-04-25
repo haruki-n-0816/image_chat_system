@@ -13,12 +13,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "user_chat_page")
+@Table(name = "chat_history")
 public class ChatMessageList {
     
     @Id@Getter@Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String userId;
+    @Getter@Setter
+    private String chat_poster;
     @Getter@Setter
     private String message;
     @Getter@Setter
