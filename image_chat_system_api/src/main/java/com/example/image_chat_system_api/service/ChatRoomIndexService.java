@@ -13,7 +13,7 @@ public class ChatRoomIndexService {
     public boolean roomNameInsert(ChatRoomIndexModel chatRoomIndexModel){
         //入力したした値を持ってきたい、それをテーブルに追加したい
         ChatIndex chatIndex = new ChatIndex();
-        chatIndex.setRoomName(chatRoomIndexModel.getRoomIndexName());
+        chatIndex.setRoomName(chatRoomIndexModel.getRoomName());
 
         try {
             chatRoomRepository.save(chatIndex);
@@ -24,4 +24,5 @@ public class ChatRoomIndexService {
             return false; // 処理失敗
         }
     }
+    
 }

@@ -1,1 +1,0 @@
-ALTER TABLE user_list MODIFY COLUMN user_id CHAR(36);

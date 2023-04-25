@@ -2,13 +2,13 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LoginPage from '../views/LoginPage.vue'
 import CreatePage from '../views/CreatePage.vue'
-import ChatPage from '../views/ChatPage.vue'
+// import ChatPage from '../views/ChatPage.vue'
 import store from '../store'
 
 import ImageEditCropper from '../components/ImageEditCropper.vue'
 import ImageEditCanvas from '../components/ImageEditCanvas.vue'
 import ChatIndexPage from '../views/ChatIndexPage.vue'
-// import WebSocket from '../views/WebSocket.vue'
+import RoomIndex from '../views/RoomIndex.vue'
 
 Vue.use(VueRouter)
 
@@ -23,12 +23,12 @@ const routes = [
     name: 'CreatePage',
     component: CreatePage
   },
-  {
-    path: '/chat/${groupName}',
-    name: 'ChatPage',
-    component: ChatPage,
-    // meta: { requiresAuth: true }
-  },// ここからテスト
+  // {
+  //   path: { path: '/chat/' + chatIndex.roomId },
+  //   name: 'ChatPage',
+  //   component: ChatPage,
+  //   meta: { requiresAuth: true }
+  // },// ここからテスト
   {
     path: '/imageEditCropper',
     name: 'ImageEditCropper',
@@ -44,6 +44,11 @@ const routes = [
     name:'ChatIndexPage',
     component:ChatIndexPage
     // component: () => import('../views/ChatRoom.vue')
+  },
+  {
+    path:'/chatindex2',
+    name:'RoomIndex',
+    component:RoomIndex
   },
   {
     path: '/WebSocket',
@@ -73,5 +78,7 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+
+
 
 export default router

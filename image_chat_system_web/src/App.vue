@@ -5,6 +5,7 @@
       <router-link to="/create">Create</router-link>/
       <router-link to="/chat">Chat</router-link>/
       <router-link to="/chatindex">chatindex</router-link>/
+      <router-link to="/chatindex2">chatindex2</router-link>/
       <router-link to="/WebSocket">WebSocket</router-link>/
 
     </nav>

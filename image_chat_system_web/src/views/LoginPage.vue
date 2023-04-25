@@ -12,6 +12,12 @@
         </form>
         <router-link to="/create">新規登録の方はこちらから</router-link>
     </div>
+
+
+
+
+
+    
 </template>
 
 <script>

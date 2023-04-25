@@ -29,7 +29,6 @@ export default{
     },
     methods:{
         async CreateAcaunt(){
-            alert("作成できそうだよ！");
             try{
                 const response = await axios.post('/create',{
                     name: this.name,

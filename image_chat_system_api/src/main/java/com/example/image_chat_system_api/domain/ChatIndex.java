@@ -18,6 +18,6 @@ public class ChatIndex {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer roomId;
 
-    @Getter@Setter
+    @Getter@Setter 
     private String roomName;
 }

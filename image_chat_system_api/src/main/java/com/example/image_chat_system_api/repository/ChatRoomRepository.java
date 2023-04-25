@@ -7,4 +7,5 @@ import com.example.image_chat_system_api.domain.ChatIndex;
 
 @Repository
 public interface ChatRoomRepository extends JpaRepository<ChatIndex,Integer>{
+    
 }

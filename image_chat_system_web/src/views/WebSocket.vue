@@ -1,4 +1,11 @@
-<template>
+
+
+
+
+
+
+
+<!-- <template>
     <div>
       <div id="state" style="border: 1px solid #000; width: 10rem;"></div>
       <div>
@@ -41,4 +48,4 @@
     }
   }
   </script>
-  
+   -->

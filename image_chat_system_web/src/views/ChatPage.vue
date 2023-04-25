@@ -267,6 +267,7 @@ export default {
         this.message = '';
       }
     },
+<<<<<<< HEAD
   },
   // created() {
   //   axios.get('/messages')
