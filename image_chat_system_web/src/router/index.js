@@ -47,7 +47,6 @@ const routes = [
     name: 'ImageEditWindow',
     component: ImageEditWindow,
   },
-  
   // ここまで
   {
     path: '/chatindex',

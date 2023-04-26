@@ -5,6 +5,6 @@ CREATE TABLE chat_history (
     user_id CHAR(36)                    COMMENT 'ユーザーID',
     message CHAR(255)                   COMMENT '文章',
     image_path CHAR(255)                COMMENT '画像パス',
-    post_time timestamp                 COMMENT '投稿時間',
+    post_time timestamp not null                COMMENT '投稿時間',
 	PRIMARY KEY (id)
 );

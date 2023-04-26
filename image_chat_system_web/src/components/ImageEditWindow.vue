@@ -4,11 +4,15 @@
         <br>
         <canvas ref="canvas" @mousedown="startCrop" @mousemove="crop" @mouseup="endCrop"></canvas>
         <br>
-        <label for="toggle">トリミング</label>
-        <input type="checkbox" id="toggle" v-model="toggle" />
-        <button @click="addRect">マスキング</button>
-        <button @click="allDelete">全削除</button>
-        <button @click="exportImage">画像出力</button>
+        <b-form-group>
+            <b-form-radio v-model="selectedMode" name="radio-group" value="1">トリミング</b-form-radio>
+            <b-form-radio v-model="selectedMode" name="radio-group" value="2">マスキング</b-form-radio>
+        </b-form-group>
+        <b-button @click="addRect">マスキング</b-button>
+        <b-button @click="undo">戻る</b-button>
+        <b-button @click="redo">進む</b-button>
+        <b-button variant="danger" @click="allDelete">全削除</b-button>
+        <b-button variant="primary" @click="exportImage">画像出力</b-button>
     </div>
 </template>
 
@@ -25,7 +29,9 @@ export default {
             cropStartY: null,
             cropEndX: null,
             cropEndY: null,
-            toggle: false,
+            selectedMode: 0,
+            history: [],
+            historyIndex: 0
         };
     },
     mounted() {
@@ -34,6 +40,7 @@ export default {
         this.canvas.on('mouse:down', this.startCrop);
         this.canvas.on('mouse:move', this.crop);
         this.canvas.on('mouse:up', this.endCrop);
+        this.canvas.on('object:modified', this.saveHistory);
     },
     methods: {
         handleImageUpload(e) {
@@ -53,7 +60,7 @@ export default {
             });
         },
         startCrop(event) {
-            if (!this.toggle) return;
+            if (!(this.selectedMode == 1)) return;
             this.canvas.remove(this.cropRect);
             this.cropStarted = true;
             const pointer = this.canvas.getPointer(event);
@@ -69,9 +76,10 @@ export default {
                 strokeWidth: 1
             });
             this.canvas.add(this.cropRect);
+            this.saveHistory();
         },
         crop(event) {
-            if (!this.cropStarted || !this.toggle) return;
+            if (!this.cropStarted || !(this.selectedMode == 1)) return;
             const pointer = this.canvas.getPointer(event);
             this.cropEndX = pointer.x;
             this.cropEndY = pointer.y;
@@ -93,6 +101,7 @@ export default {
                 fill: 'black'
             });
             canvas.add(rect);
+            this.saveHistory();
         },
         allDelete() {
             const canvas = this.canvas;
@@ -100,6 +109,27 @@ export default {
             objects.forEach((obj) => {
                 canvas.remove(obj);
             });
+            this.saveHistory();
+        },
+        saveHistory() {
+            const data = JSON.stringify(this.canvas.toJSON());
+            this.history.splice(this.historyIndex);
+            this.history.push(data);
+            this.historyIndex++;
+        },
+        undo() {
+            if (this.historyIndex > 1) {
+                this.historyIndex--;
+                this.canvas.loadFromJSON(this.history[this.historyIndex - 1]);
+                this.canvas.renderAll();
+            }
+        },
+        redo() {
+            if (this.historyIndex < this.history.length) {
+                this.historyIndex++;
+                this.canvas.loadFromJSON(this.history[this.historyIndex - 1]);
+                this.canvas.renderAll();
+            }
         },
         exportImage() {
             const croppedImage = this.canvas.toDataURL({
@@ -118,3 +148,10 @@ export default {
     }
 };
 </script>
+
+<style>
+canvas {
+    display: block;
+    margin: auto;
+}
+</style>
