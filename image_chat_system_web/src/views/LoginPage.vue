@@ -6,10 +6,10 @@
             <!-- <p>userId:{{ userId }} userName:{{ userName }}</p> -->
             <!-- <div v-if="errorMessage" class="error">{{ errorMessage }}</div> -->
             <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mail:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <input type="email" v-model="mail">
+            <input class="loginInfo" type="email" v-model="mail">
             <br><br>
             <label>パスワード:</label>
-            <input type="password" v-model="password">
+            <input class="loginInfo" type="password" v-model="password">
             <br>
             <b-button class="createPageButton" variant="primary" type="submit">ログイン</b-button>
         </form>
@@ -65,7 +65,7 @@ export default {
     margin-left: 30%;
     }
 
-    input {
+    .loginInfo{
     width: 80%;
     /* border-bottom: solid 1px #3e00fa;
     border-top: none;
