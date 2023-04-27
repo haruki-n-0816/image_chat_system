@@ -51,18 +51,17 @@ public class UserCreateServise {
     public boolean userCreate(UserCreateModel userCreateModel) {
 
         String id = UUID.randomUUID().toString();
-
+        UserList userList = new UserList();
         // メールアドレスの重複チェック
         UserList existingUser = userCreateRepositry.findByUserMail(userCreateModel.getMail());
         if (existingUser != null) {
             throw new RuntimeException("既に登録されたメールアドレスです");
+        }else{
+            userList.setUserMail(userCreateModel.getMail());
         }
-
-        UserList userList = new UserList();
 
         userList.setUserId(id);
         userList.setUserName(userCreateModel.getName());
-        userList.setUserMail(userCreateModel.getMail());
         userList.setUserPassword(userCreateModel.getPassword());
 
         System.out.print(id);
