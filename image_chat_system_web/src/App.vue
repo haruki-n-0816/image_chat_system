@@ -2,12 +2,11 @@
   <div id="app">
     <nav>
       <router-link to="/login">Login</router-link> /
-      <router-link to="/create">Create</router-link>/
-      <router-link to="/chat">Chat</router-link>/
-      <router-link to="/chatindex">chatindex</router-link>/
-      <router-link to="/chatindex2">chatindex2</router-link>/
-      <router-link to="/WebSocket">WebSocket</router-link>/
-
+      <router-link to="/create">CreateAccount</router-link>/
+      <!-- <router-link to="/chat">Chat</router-link>/ -->
+      <router-link to="/chatindex2">ChatRoomIndex</router-link>/
+      <router-link to="/chatindex">CreateChatRoom</router-link>/
+      <!-- <router-link to="/WebSocket">WebSocket</router-link>/ -->
     </nav>
     <router-view/>
   </div>

@@ -23,12 +23,18 @@ const routes = [
     name: 'CreatePage',
     component: CreatePage
   },
+  // {
+  //   path: '/chatpage',
+  //   name: 'ChatPage',
+  //   component: ChatPage,
+  // //   meta: { requiresAuth: true }
+  // },
   {
-    path: '/chatpage',
+    path: '/chatpage/:roomId',
     name: 'ChatPage',
     component: ChatPage,
-  //   meta: { requiresAuth: true }
-  },
+    props: true,
+  },  
   {
     path: '/imageEditCropper',
     name: 'ImageEditCropper',
@@ -42,13 +48,15 @@ const routes = [
   {
     path: '/chatindex',
     name:'ChatIndexPage',
-    component:ChatIndexPage
+    component:ChatIndexPage,
+    meta: { requiresAuth: true }//ログイン制限
     // component: () => import('../views/ChatRoom.vue')
   },
   {
     path:'/chatindex2',
     name:'RoomIndex',
-    component:RoomIndex
+    component:RoomIndex,
+    meta: { requiresAuth: true }
   },
   {
     path: '/WebSocket',
@@ -78,7 +86,5 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
-
-
 
 export default router

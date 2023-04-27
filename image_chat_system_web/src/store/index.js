@@ -23,6 +23,9 @@ export default new Vuex.Store({
     },
     setUserName(state, userName){
       state.userName = userName;
+    },
+    clearAuthentication(state) {
+      state.isAuthenticated = false;
     }
   },
   actions: {
@@ -34,6 +37,11 @@ export default new Vuex.Store({
     },
     setUserName({commit}, userName){
       commit('setUserName', userName);
+    },
+    clearUserData({ commit }) {
+      commit('clearAuthentication');
+      // commit('setUserId', null);
+      // commit('setUserName', null);
     }
   },
   modules: {

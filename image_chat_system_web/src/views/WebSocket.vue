@@ -1,11 +1,4 @@
-
-
-
-
-
-
-
-<!-- <template>
+<template>
     <div>
       <div id="state" style="border: 1px solid #000; width: 10rem;"></div>
       <div>
@@ -14,9 +7,9 @@
       </div>
       <ul id="list"></ul>
     </div>
-  </template>
+</template>
   
-  <script>
+<script>
   export default {
     mounted() {
       // Web Socketの生成
@@ -47,5 +40,5 @@
       });
     }
   }
-  </script>
-   -->
+</script>
+  

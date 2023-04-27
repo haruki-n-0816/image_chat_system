@@ -7,4 +7,5 @@ import com.example.image_chat_system_api.domain.UserList;
 
 @Repository
 public interface UserCreateRepositry extends JpaRepository<UserList,Integer>{
+    UserList findByUserMail(String mail);
 }

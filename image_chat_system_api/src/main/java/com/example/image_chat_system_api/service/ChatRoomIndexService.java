@@ -19,10 +19,7 @@ public class ChatRoomIndexService {
             chatRoomRepository.save(chatIndex);
             return true; // 処理成功
         } catch (Exception e) {
-            // エラー処理
-            //e.printStackTrace(); //など、エラーログの出力などの適切な処理を追加する必要があります。
             return false; // 処理失敗
         }
     }
-    
 }
