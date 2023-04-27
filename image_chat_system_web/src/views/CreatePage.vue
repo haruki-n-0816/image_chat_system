@@ -40,15 +40,18 @@
             mail: this.mail,
             password: this.password,
           });
-          console.log(response);
+          if(response==true){
           // アカウント作成に成功した場合、ポップアップメッセージを表示して2秒後に画面を遷移する
           this.showSuccessMessage = true;
           setTimeout(() => {
             this.$router.push('/chatindex2');
           }, 2000);
+        }else{
+          alert("既に登録されているメールアドレスです")
+        }
         } catch (error) {
           console.error(error);
-        }
+        } 
       }
     },
   }

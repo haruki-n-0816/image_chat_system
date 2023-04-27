@@ -108,7 +108,6 @@ export default {
     font-size: 16px;
     background: #e0edff;
     text-align: left;
-    float: left; 
   }
 
   .balloon1-left:before {
@@ -137,7 +136,6 @@ export default {
     font-size: 16px;
     background: #e0edff;
     text-align: right;
-    float: right; 
   }
 
   .balloon1-right:before {
