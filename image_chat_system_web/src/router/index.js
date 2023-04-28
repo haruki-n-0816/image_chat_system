@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LoginPage from '../views/LoginPage.vue'
-import CreatePage from '../views/CreatePage.vue'
+import CreateAccountPage from '../views/CreateAccountPage.vue'
 import ChatPage from '../views/ChatPage.vue'
 import store from '../store'
 
 import ImageEditCropper from '../components/ImageEditCropper.vue'
 import ImageEditCanvas from '../components/ImageEditCanvas.vue'
 import ChatIndexPage from '../views/ChatIndexPage.vue'
-import RoomIndex from '../views/RoomIndex.vue'
+import RoomIndex from '../views/RoomIndexPage.vue'
 
 Vue.use(VueRouter)
 
@@ -20,8 +20,8 @@ const routes = [
   },
   {
     path: '/create',
-    name: 'CreatePage',
-    component: CreatePage
+    name: 'CreateAccountPage',
+    component: CreateAccountPage
   },
   // {
   //   path: '/chatpage',

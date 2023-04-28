@@ -1,19 +1,20 @@
 <template>
   <div>
-    <form class="CreateForm" style="text-align: center;">
-      <h3 class="title">アカウント新規作成</h3>
+    <form style="text-align: center;">
+      <h3 >アカウント新規作成</h3>
       <br>
       <b-alert v-model="showSuccessMessage" variant="success" :dismissible="false" fade>新規作成に成功しました</b-alert>
       <label>名前:</label>
-      <input class="loginInfo" type="text" v-model="name">
+      <input  type="text" v-model="name">
       <br><br>
       <label>mail:</label>
-      <input class="loginInfo" type="mail" v-model="mail">
+      <input type="mail" v-model="mail">
       <br><br>
       <label>Pass:</label>
-      <input class="loginInfo" type="password" v-model="password">
+      <input  type="password" v-model="password">
       <br><br>
       <b-button class="btn btn-primary btn-space" variant="primary" @click="CreateAcaunt()">新規登録</b-button>
+      &nbsp;&nbsp;&nbsp;
       <button class="btn btn-primary btn-space" @click="$router.push('/Login')">キャンセル</button>
       <br><br>
     </form>
@@ -59,16 +60,5 @@ export default{
 
   
   <style>
-  .CreateForm {
-    width: 40%;
-    margin-left: 30%;
-  }
-  
-  .btn-primary {
-    width: 150px;
-  }
-  
-  .btn-space {
-    margin-right: 10px;
-  }
+
   </style>
