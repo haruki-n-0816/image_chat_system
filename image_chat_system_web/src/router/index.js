@@ -3,11 +3,8 @@ import VueRouter from 'vue-router'
 import LoginPage from '../views/LoginPage.vue'
 import CreatePage from '../views/CreatePage.vue'
 import ChatPage from '../views/ChatPage.vue'
-import store from '../store'
-
-import ImageEditCropper from '../components/ImageEditCropper.vue'
-import ImageEditCanvas from '../components/ImageEditCanvas.vue'
 import ImageEditWindow from '../components/ImageEditWindow.vue'
+import store from '../store'
 
 
 import ChatIndexPage from '../views/ChatIndexPage.vue'
@@ -31,23 +28,12 @@ const routes = [
     name: 'ChatPage',
     component: ChatPage,
     meta: { requiresAuth: true }
-  },// ここからテスト
-  {
-    path: '/imageEditCropper',
-    name: 'ImageEditCropper',
-    component: ImageEditCropper,
-  },
-  {
-    path: '/imageEditCanvas',
-    name: 'ImageEditCanvas',
-    component: ImageEditCanvas,
   },
   {
     path: '/imageEditWindow',
     name: 'ImageEditWindow',
     component: ImageEditWindow,
   },
-  // ここまで
   {
     path: '/chatindex',
     name:'ChatIndexPage',
