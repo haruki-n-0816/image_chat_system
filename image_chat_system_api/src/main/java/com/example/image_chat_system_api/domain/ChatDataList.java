@@ -1,5 +1,4 @@
 package com.example.image_chat_system_api.domain;
-
 import java.sql.Timestamp;
 
 import javax.persistence.Entity;
@@ -13,14 +12,13 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "chat_history")
-public class ChatMessageList {
-    
+public class ChatDataList {
     @Id@Getter@Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Getter@Setter
-    private int chat_room_id;
+    private int  chatRoomId;
     
     @Getter@Setter
     private String chat_poster;
@@ -37,3 +35,4 @@ public class ChatMessageList {
     @Getter@Setter
     private Timestamp post_time;
 }
+

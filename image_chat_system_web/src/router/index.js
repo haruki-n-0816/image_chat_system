@@ -49,14 +49,14 @@ const routes = [
     path: '/chatindex',
     name:'ChatIndexPage',
     component:ChatIndexPage,
-    meta: { requiresAuth: true }//ログイン制限
+    // meta: { requiresAuth: true }//ログイン制限
     // component: () => import('../views/ChatRoom.vue')
   },
   {
     path:'/chatindex2',
     name:'RoomIndex',
     component:RoomIndex,
-    meta: { requiresAuth: true }
+    // meta: { requiresAuth: true }
   },
   {
     path: '/WebSocket',
