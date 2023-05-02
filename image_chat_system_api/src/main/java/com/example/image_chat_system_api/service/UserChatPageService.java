@@ -18,7 +18,7 @@ public class UserChatPageService {
         
         ChatMessageList chatMessageList = new ChatMessageList();
 
-        chatMessageList.setChat_room_id(userChatPageModel.getChat_room_id());
+        chatMessageList.setChatRoomId(userChatPageModel.getChat_room_id());
         chatMessageList.setChat_poster(userChatPageModel.getChat_poster());
         chatMessageList.setUserId(userChatPageModel.getUserId());
         chatMessageList.setMessage(userChatPageModel.getMessage());

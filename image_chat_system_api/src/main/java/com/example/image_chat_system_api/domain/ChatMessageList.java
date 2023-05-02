@@ -20,7 +20,7 @@ public class ChatMessageList {
     private int id;
 
     @Getter@Setter
-    private int chat_room_id;
+    private int chatRoomId;
     
     @Getter@Setter
     private String chat_poster;

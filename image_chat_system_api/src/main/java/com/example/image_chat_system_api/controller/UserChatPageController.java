@@ -20,7 +20,7 @@ public class UserChatPageController {
     @Autowired UserChatPageService userChatPageService;
     private static final Logger logger = LoggerFactory.getLogger(UserChatPageController.class);
 
-    @PostMapping("/chatpage")
+    @PostMapping("/chatpagepost")
     public boolean chatpage(@RequestBody UserChatPageModel message){
         logger.debug("Received a message: {}", message);
         

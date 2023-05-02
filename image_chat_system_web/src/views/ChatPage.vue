@@ -1,38 +1,30 @@
 <template>
   <div>
-    <div class="line__container">
-      <h2>チャットページ</h2>
-      <div class="line__contents scroll">
-        <div v-for="message in messages" :key="message.id">
-          {{ message }}
+    <div class="line-container">
+      <div class="h2-a">チャットページ</div>
+
+      <div v-for="message in messages" :key="message.id">
+        <div class="balloon" :class="message.balloonClass">
+          {{ formatDate(message.post_time) }}
+          <!-- <div class="balloon1-right" v-if="!message.isSelf"></div>
+          <div class="balloon1-left" v-else> -->
+          <div class="says">
+            userID:{{ message.userId }} userName: {{ message.chat_poster }} <br>
+            {{ message.message }}
+          </div>
+          <!-- {{ formatDate(message.post_time) }} -->
         </div>
+
+        <div class="bms-clear"></div>
       </div>
 
-        <!-- 相手の吹き出し -->
-        <div class="balloon1-left" style="text-align: left;">
-          <div class="name">name:次郎１</div>
-          <div class="text">こんにちは</div>
-        </div>
 
-        <div class="bms_clear"></div>
-
-
-        <!-- 自分の吹き出し -->
-        <div class="balloon1-right">
-          <p>userId:{{ userId }} 
-            userName:{{ userName }}
-            部屋番号:{{ chat_room_id }}</p>
-          <div class="text">hello!</div>
-        </div>
-        <div class="bms_clear"></div>
-
-      </div>
-      <form @submit.prevent="sendMessage">
-        <input type="text" v-model="message">
-        <button type="submit">送信</button>
-        <!-- <span class="date">{{ formatDate(timestamp) }}</span> -->
-      </form>
     </div>
+    <form @submit.prevent="sendMessage">
+      <input type="text" v-model="message">
+      <button type="submit">送信</button>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -44,75 +36,85 @@ export default {
       message: '',
       userId: '',
       userName: '',
-      image_path: '',
+      imagePath: '',
       messages: [],
-      chat_room_id:'',
+      chat_room_id: '',
+      post_time: '',
     }
   },
 
   // Vueインスタンスが生成された直後に呼ばれるメソッド
-  created() {
+  mounted() {
     this.userId = this.$store.getters.userId;
     this.userName = this.$store.getters.userName;
     axios.defaults.baseURL = 'http://localhost:8081';
-    this.getChatHistoryAll();
     this.chat_room_id = this.$route.params.roomId;
+    this.getChatHistoryAll();
+    // ○秒ごとにチャット履歴を取得するために、setInterval()関数を使用する
+    this.intervalId = setInterval(() => {
+    this.getChatHistoryAll();
+  }, 10000);
   },
-  
-  methods: {
-  //   formatDate(timestamp) {
-  //     const date = new Date(timestamp);
-  //     const year = date.getFullYear();
-  //     const month = date.getMonth() + 1;
-  //     const day = date.getDate();
-  //     const hours = date.getHours();
-  //     const minutes = date.getMinutes();
-  //     const seconds = date.getSeconds();
-  //     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  //   },
+    // コンポーネントが破棄される前に実行される「beforeDestroy」,インターバル処理を停止することができる、これがないとメモリリークのリスクが低い
+    beforeDestroy() {
+    clearInterval(this.intervalId);
+  },
 
-    // async fetchData() {
-    //   try {
-    //     const response = await axios.get('/data');
-    //     this.timestamp = response.data.timestamp;
-    //     alert(this.timestamp)
-    //   } catch (error) {
-    //     alert("タイム取れませーーーーん！")
-    //     this.$store.dispatch('setError', 'タイム取得に失敗しました。');
-    //     console.error(error);
-    //   }
-    // },
+  methods: {
+    formatDate(timestamp) {
+      const date = new Date(timestamp);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+      const seconds = date.getSeconds();
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    },
 
     async sendMessage() {   //ここから送信してDBに登録するためのメソッド
       try {
-        const response = await axios.post('/chatpage', {
-          chat_room_id:this.chat_room_id,
-          chat_poster:this.userName,
-          userId:this.userId,
-          message:this.message,
-          image_path:this.image_path
+        const response = await axios.post('/chatpagepost', {
+          chat_room_id: this.chat_room_id,
+          chat_poster: this.userName,
+          userId: this.userId,
+          message: this.message,
+          imagePath: this.imagePath
         });
         console.log(response);
-        //const { userId, userName } = response.data;
         this.$store.dispatch('setAuthentication', response.data.result);
         this.message = '';    //ボックスをからにする
-        alert(this.userName + '\n' + this.message + '\n' + this.chat_room_id);
+        // alert(this.userName + '\n' + this.message + '\n' + this.chat_room_id);
+        this.getChatHistoryAll();
       } catch (error) {
         alert("エラー出てるよ！")
         console.error(error);
       }
     },
-    async getChatHistoryAll(){
-      alert("①はおけ")
-      try{
-        alert("出とるやんけいえーい！")
-        const response = await axios.post('/chatpagenext',{
-          chat_room_id:this.chat_room_id
+    async getChatHistoryAll() {
+      console.log(this.chat_room_id);
+      this.message = []
+      try {
+        const response = await axios.post('/chatPage', {
+          chat_room_id: this.chat_room_id
         });
         console.log(response);
-        this.messages = response.data;
+        const messages = response.data;
+        this.messages = messages.map(message => {
+          return {
+            id: message.id,
+            chat_room_id: message.chat_room_id,
+            chat_poster: message.chat_poster,
+            userId: message.userId,
+            message: message.message,
+            image_path: message.image_path,
+            post_time: message.post_time,
+            isSelf: message.userId === this.userId,
+            balloonClass: message.userId === this.userId ? 'balloon1-right' : 'balloon1-left',
+          }
+        });
       } catch (error) {
-        alert("エラー出とるやんけ！"+ '\n'+this.chat_room_id)
+        alert("エラー出とるやんけ！" + '\n' + this.chat_room_id)
         console.error(error);
       }
     }
@@ -121,13 +123,14 @@ export default {
 </script>
 
 <style>
-.line__container {
+.line-container {
   padding: 0;
   background: #7494c0;
   overflow: hidden;
   max-width: 500px;
-  margin: 20px auto;
+  margin: 30px auto;
   font-size: 80%;
+  overflow: hidden;
 }
 
 .balloon1-left {
@@ -141,7 +144,7 @@ export default {
   font-size: 16px;
   background: #e0edff;
   text-align: left;
-  float: left; 
+  float: left;
 }
 
 .balloon1-left:before {
@@ -170,7 +173,7 @@ export default {
   font-size: 16px;
   background: #e0edff;
   text-align: right;
-  float: right; 
+  float: right;
 }
 
 .balloon1-right:before {
@@ -188,33 +191,41 @@ export default {
   padding: 0;
 }
 
-h2 {
-	background-color: #fff; /* 背景色 */
-	border: 1px solid #ef858c; /* 枠線 */
-	border-right: 20px solid #ef858c; /* 右側の太い線 */
-	box-shadow: 1px 1px 1px rgba(0,0,0,.1);
-	color: #ef858c; /* 文字色 */
-	padding: 10px 20px; /* 上下・左右の余白 */
-	position:relative;
-}
-h2:after {
-	box-shadow: 0 15px 10px rgba(0, 0, 0, .1); /* 付箋の影 */
-	content: '';
-	position: absolute;
-	transform: rotate(1deg);
-	-moz-transform: rotate(1deg);
-	-webkit-transform: rotate(1deg);
-	-o-transform: rotate(1deg);
-	bottom: 15px;
-	right: -3px;
-	width: 85%;
-	height: 10px;
-	z-index: -1;
+.h2-a {
+  background-color: #fff;
+  /* 背景色 */
+  border: 1px solid #ef858c;
+  /* 枠線 */
+  border-right: 20px solid #ef858c;
+  /* 右側の太い線 */
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
+  color: #ef858c;
+  /* 文字色 */
+  padding: 10px 20px;
+  /* 上下・左右の余白 */
+  position: relative;
+  font-size:40px
 }
 
-.bms_clear {
-        clear: both; /* 左メッセージと右メッセージの回り込み(float)の効果の干渉を防ぐために必要（これが無いと、自分より下のメッセージにfloatが影響する） */
+.h2-a:after {
+  box-shadow: 0 15px 10px rgba(0, 0, 0, .1);
+  /* 付箋の影 */
+  content: '';
+  position: absolute;
+  transform: rotate(1deg);
+  -moz-transform: rotate(1deg);
+  -webkit-transform: rotate(1deg);
+  -o-transform: rotate(1deg);
+  bottom: 15px;
+  right: -3px;
+  width: 85%;
+  height: 10px;
+  z-index: -1;
+}
 
-    }
+.bms-clear {
+  clear: both;
+  /* 左メッセージと右メッセージの回り込み(float)の効果の干渉を防ぐために必要（これが無いと横になる */
+}
 
 </style> 
