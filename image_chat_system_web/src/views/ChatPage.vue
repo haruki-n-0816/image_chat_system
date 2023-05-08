@@ -18,7 +18,7 @@
         <div class="bms-clear"></div>
       </div>
 
-      <form @submit.prevent="sendMessage">
+      <form class="post" @submit.prevent="sendMessage">
         <input type="text" v-model="message">
         <button type="submit">送信</button>
       </form>
@@ -174,18 +174,19 @@ export default {
   overflow: hidden;
 }
 
-  .balloon1-left {
-    position: relative;
-    display: inline-block;
-    margin: 1.5em 0 1.5em 15px;
-    padding: 7px 10px;
-    min-width: 120px;
-    max-width: 100%;
-    color: #555;
-    font-size: 16px;
-    background: #e0edff;
-    text-align: left;
-  }
+.balloon1-left {
+  position: relative;
+  display: inline-block;
+  margin: 1.5em 0 1.5em 15px;
+  padding: 7px 10px;
+  min-width: 120px;
+  max-width: 100%;
+  color: #555;
+  font-size: 16px;
+  background: #e0edff;
+  text-align: left;
+  float: left;
+}
 
 .balloon1-left:before {
   content: "";
@@ -202,18 +203,19 @@ export default {
   padding: 0;
 }
 
-  .balloon1-right {
-    position: relative;
-    display: inline-block;
-    margin: 1.5em 15px 1.5em 0;
-    padding: 7px 10px;
-    min-width: 120px;
-    max-width: 100%;
-    color: #555;
-    font-size: 16px;
-    background: #e0edff;
-    text-align: right;
-  }
+.balloon1-right {
+  position: relative;
+  display: inline-block;
+  margin: 1.5em 15px 1.5em 0;
+  padding: 7px 10px;
+  min-width: 120px;
+  max-width: 100%;
+  color: #555;
+  font-size: 16px;
+  background: #e0edff;
+  text-align: right;
+  float: right;
+}
 
 .balloon1-right:before {
   content: "";
@@ -385,7 +387,13 @@ html {
     transform: rotate(45deg);
   }
 }
-
+.post {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2C3E50;
+}
 .bms-clear {
   clear: both;
   /* 左メッセージと右メッセージの回り込み(float)の効果の干渉を防ぐために必要（これが無いと横になる */

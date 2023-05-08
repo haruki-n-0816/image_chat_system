@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="image-edit-window">
         <b-form-group>
             <b-form-radio v-model="selectedMode" name="selectedMode" value="0"
                 @change="optionChanged">マスキングの移動</b-form-radio>
@@ -285,6 +285,9 @@ export default {
 </script>
 
 <style>
+.image-edit-window{
+    text-align: center;
+}
 canvas {
     display: block;
     margin: auto;
