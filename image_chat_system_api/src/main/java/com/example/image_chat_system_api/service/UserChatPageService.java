@@ -18,20 +18,18 @@ public class UserChatPageService {
         
         ChatMessageList chatMessageList = new ChatMessageList();
 
-        chatMessageList.setChatRoomId(userChatPageModel.getChat_room_id());
-        chatMessageList.setChat_poster(userChatPageModel.getChat_poster());
+        chatMessageList.setChatRoomId(userChatPageModel.getChatRoomId());
+        chatMessageList.setChatPoster(userChatPageModel.getChatPoster());
         chatMessageList.setUserId(userChatPageModel.getUserId());
         chatMessageList.setMessage(userChatPageModel.getMessage());
-        chatMessageList.setImage_path(userChatPageModel.getImage_path());
-        chatMessageList.setPost_time(new Timestamp(System.currentTimeMillis()));
+        chatMessageList.setImagePath(userChatPageModel.getImagePath());
+        chatMessageList.setPostTime(new Timestamp(System.currentTimeMillis()));
 
-        System.out.println(chatMessageList.getChat_poster()+chatMessageList.getUserId()+"タイムはここですなですな");
         try{
             userChatPageRepositry.save(chatMessageList);
             return true;
         } catch(Exception e) {
             e.printStackTrace();
-            // throw new RuntimeException("チャットメッセージの送信に失敗しました");//"チャットメッセージの送信に失敗しました"というエラーメッセージを返す
             return false;
         }
     }

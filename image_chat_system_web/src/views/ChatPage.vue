@@ -2,28 +2,27 @@
   <div>
     <div class="line-container">
       <div class="h2-a">チャットページ</div>
+      <button ref="scrollBtnTop" class="gotop"></button>
+      <button ref="scrollBtn" class="godown"></button>
 
       <div v-for="message in messages" :key="message.id">
         <div class="balloon" :class="message.balloonClass">
-          {{ formatDate(message.post_time) }}
-          <!-- <div class="balloon1-right" v-if="!message.isSelf"></div>
-          <div class="balloon1-left" v-else> -->
+          {{ formatDate(message.postTime) }}
           <div class="says">
-            userID:{{ message.userId }} userName: {{ message.chat_poster }} <br>
+            userID:{{ message.userId }} userName: {{ message.chatPoster }} <br>
             {{ message.message }}
           </div>
-          <!-- {{ formatDate(message.post_time) }} -->
+          <button @click="confirmDelete(message.id)">削除</button>
         </div>
 
         <div class="bms-clear"></div>
       </div>
 
-
+      <form @submit.prevent="sendMessage">
+        <input type="text" v-model="message">
+        <button type="submit">送信</button>
+      </form>
     </div>
-    <form @submit.prevent="sendMessage">
-      <input type="text" v-model="message">
-      <button type="submit">送信</button>
-    </form>
   </div>
 </template>
 
@@ -38,8 +37,8 @@ export default {
       userName: '',
       imagePath: '',
       messages: [],
-      chat_room_id: '',
-      post_time: '',
+      chatRoomId: '',
+      postTime: '',
     }
   },
 
@@ -48,21 +47,44 @@ export default {
     this.userId = this.$store.getters.userId;
     this.userName = this.$store.getters.userName;
     axios.defaults.baseURL = 'http://localhost:8081';
-    this.chat_room_id = this.$route.params.roomId;
+    this.chatRoomId = this.$route.params.roomId;
     this.getChatHistoryAll();
+
+    // スクロールボタンを取得する
+    const scrollBtn = this.$refs.scrollBtn;
+    console.log(scrollBtn);
+
+    // スクロールボタンがクリックされたときに最下部にスクロールする
+    scrollBtn.addEventListener('click', () => {
+      console.log(document.body.scrollHeight);
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+      });
+    });
+    const scrollBtnTop = this.$refs.scrollBtnTop;
+    console.log(scrollBtnTop);
+    scrollBtnTop.addEventListener('click', () => {
+      console.log(0);
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
     // ○秒ごとにチャット履歴を取得するために、setInterval()関数を使用する
     this.intervalId = setInterval(() => {
-    this.getChatHistoryAll();
-  }, 10000);
+      this.getChatHistoryAll();
+    }, 10000);
   },
-    // コンポーネントが破棄される前に実行される「beforeDestroy」,インターバル処理を停止することができる、これがないとメモリリークのリスクが低い
-    beforeDestroy() {
+  // コンポーネントが破棄される前に実行される「beforeDestroy」,インターバル処理を停止することができる、これがないとメモリリークのリスクが低い
+  beforeDestroy() {
     clearInterval(this.intervalId);
   },
 
   methods: {
-    formatDate(timestamp) {
-      const date = new Date(timestamp);
+    formatDate(timeStamp) {
+      const date = new Date(timeStamp);
       const year = date.getFullYear();
       const month = date.getMonth() + 1;
       const day = date.getDate();
@@ -75,8 +97,8 @@ export default {
     async sendMessage() {   //ここから送信してDBに登録するためのメソッド
       try {
         const response = await axios.post('/chatpagepost', {
-          chat_room_id: this.chat_room_id,
-          chat_poster: this.userName,
+          chatRoomId: this.chatRoomId,
+          chatPoster: this.userName,
           userId: this.userId,
           message: this.message,
           imagePath: this.imagePath
@@ -84,37 +106,56 @@ export default {
         console.log(response);
         this.$store.dispatch('setAuthentication', response.data.result);
         this.message = '';    //ボックスをからにする
-        // alert(this.userName + '\n' + this.message + '\n' + this.chat_room_id);
         this.getChatHistoryAll();
       } catch (error) {
         alert("エラー出てるよ！")
         console.error(error);
       }
     },
+
     async getChatHistoryAll() {
-      console.log(this.chat_room_id);
-      this.message = []
+      console.log(this.chatRoomId);
+      this.messages = []
       try {
         const response = await axios.post('/chatPage', {
-          chat_room_id: this.chat_room_id
+          chatRoomId: this.chatRoomId
         });
         console.log(response);
         const messages = response.data;
         this.messages = messages.map(message => {
           return {
             id: message.id,
-            chat_room_id: message.chat_room_id,
-            chat_poster: message.chat_poster,
+            chatRoomId: message.chatRoomId,
+            chatPoster: message.chatPoster,
             userId: message.userId,
             message: message.message,
-            image_path: message.image_path,
-            post_time: message.post_time,
+            imagePath: message.imagePath,
+            postTime: message.postTime,
             isSelf: message.userId === this.userId,
             balloonClass: message.userId === this.userId ? 'balloon1-right' : 'balloon1-left',
           }
         });
       } catch (error) {
-        alert("エラー出とるやんけ！" + '\n' + this.chat_room_id)
+        alert("エラー出とるやんけ！" + '\n' + this.chatRoomId)
+        console.error(error);
+      }
+    },
+
+    async confirmDelete(messageId) {
+      const confirm = window.confirm('本当にこのメッセージを削除しますか？');
+      if (confirm) {
+        await this.deleteMessage(messageId);
+      }
+    },
+    async deleteMessage(messageId) {
+      try {
+        const response = await axios.post('/deleteMessage', {
+          messageId: messageId
+        });
+        console.log(response + "928939383838932892389238932");
+        this.getChatHistoryAll();
+      } catch (error) {
+        alert("デリートのエラー" + '\n' + this.messageId)
         console.error(error);
       }
     }
@@ -204,7 +245,7 @@ export default {
   padding: 10px 20px;
   /* 上下・左右の余白 */
   position: relative;
-  font-size:40px
+  font-size: 40px
 }
 
 .h2-a:after {
@@ -223,9 +264,132 @@ export default {
   z-index: -1;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+.gotop {
+  display: block;
+  width: 60px;
+  height: 60px;
+  box-sizing: border-box;
+  background: #FFF;
+  border: 1px solid #999;
+  padding-top: 30px;
+  text-align: center;
+  letter-spacing: -1px;
+  font-size: 85%;
+  text-decoration: none;
+  color: #333;
+  opacity: 0.5;
+  position: fixed;
+  top: 47%;
+  right: 430px;
+  z-index: 10000;
+  transform: translate(50%, -50%);
+}
+
+.gotop::before {
+  content: "";
+  display: block;
+  border-top: 2px solid #333;
+  border-right: 2px solid #333;
+  width: 25%;
+  height: 25%;
+  top: 25%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  position: absolute;
+  transform: rotate(-45deg);
+}
+
+.gotop:hover {
+  opacity: 1;
+}
+
+@media(max-width:750px) {
+  .gotop {
+    width: 40px;
+    height: 40px;
+    text-indent: -9999px;
+    opacity: 1;
+    border: none;
+    background: none;
+    bottom: 10px;
+    right: 10px;
+  }
+
+  .gotop::before {
+    bottom: 0;
+    left: 50%;
+    right: auto;
+    transform: rotate(45deg);
+  }
+}
+
+.godown {
+  display: block;
+  width: 60px;
+  height: 60px;
+  box-sizing: border-box;
+  background: #FFF;
+  border: 1px solid #999;
+  padding-top: 30px;
+  text-align: center;
+  letter-spacing: -1px;
+  font-size: 85%;
+  text-decoration: none;
+  color: #333;
+  opacity: 0.5;
+  position: fixed;
+  top: 53%;
+  right: 430px;
+  z-index: 10000;
+  transform: translate(50%, -50%);
+}
+
+.godown::before {
+  content: "";
+  display: block;
+  border-top: 2px solid #333;
+  border-right: 2px solid #333;
+  width: 25%;
+  height: 25%;
+  top: 25%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  position: absolute;
+  transform: rotate(135deg);
+}
+
+.godown:hover {
+  opacity: 1;
+}
+
+@media(max-width:750px) {
+  .godown {
+    width: 40px;
+    height: 40px;
+    text-indent: -9999px;
+    opacity: 1;
+    border: none;
+    background: none;
+    bottom: 10px;
+    right: 10px;
+  }
+
+  .godown::before {
+    bottom: 0;
+    left: 50%;
+    right: auto;
+    transform: rotate(45deg);
+  }
+}
+
 .bms-clear {
   clear: both;
   /* 左メッセージと右メッセージの回り込み(float)の効果の干渉を防ぐために必要（これが無いと横になる */
 }
-
 </style> 

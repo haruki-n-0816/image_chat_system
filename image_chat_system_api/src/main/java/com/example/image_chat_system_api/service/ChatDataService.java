@@ -14,11 +14,25 @@ public class ChatDataService {
     @Autowired ChatDataRepository chatDataRepository;
     
     public List<ChatMessageList>findByChatRoomId(UserDataModel userDataModel) {
-        Integer chatRoomId = userDataModel.getChat_room_id();
+        Integer chatRoomId = userDataModel.getChatRoomId();
 
         System.out.println(chatRoomId+"サービスはここです");
+
         return chatDataRepository.findByChatRoomId(chatRoomId);
     }
+
+public boolean deleteMessage(UserDataModel userDataModel){
+    Integer messageId = userDataModel.getMessageId();
+
+    try {
+        chatDataRepository.deleteById(messageId);
+        return true;
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
 }
 
 

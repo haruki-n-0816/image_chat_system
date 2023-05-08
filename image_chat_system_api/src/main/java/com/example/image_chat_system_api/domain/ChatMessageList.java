@@ -23,7 +23,7 @@ public class ChatMessageList {
     private int chatRoomId;
     
     @Getter@Setter
-    private String chat_poster;
+    private String chatPoster;
     
     @Getter@Setter
     private String userId;
@@ -32,8 +32,8 @@ public class ChatMessageList {
     private String message;
     
     @Getter@Setter
-    private String image_path;
+    private String imagePath;
     
     @Getter@Setter
-    private Timestamp post_time;
+    private Timestamp postTime;
 }

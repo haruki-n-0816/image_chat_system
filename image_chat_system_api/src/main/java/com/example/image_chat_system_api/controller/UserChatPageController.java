@@ -27,8 +27,6 @@ public class UserChatPageController {
         boolean word = userChatPageService.chatpage(message);
         logger.debug("Service response: {}", word);
 
-        System.out.println(message.getChat_poster());  
-        System.out.println(word+"いけいけいけいけいけーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー！");
         return word;
     }
 }

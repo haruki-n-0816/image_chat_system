@@ -43,7 +43,6 @@ export default {
                 console.log(respones);
                 this.$store.dispatch('setAuthentication', respones.data.result);
                     if (respones.data.result) {
-                        // alert("ログインしたよ！")
                         this.$store.dispatch('setUserId', respones.data.userId);
                         this.$store.dispatch('setUserName', respones.data.userName);
                         this.userId = this.$store.getters.userId;

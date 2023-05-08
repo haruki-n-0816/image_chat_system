@@ -5,7 +5,9 @@ import lombok.Setter;
 
 public class UserDataModel {
     @Getter@Setter
-    private Integer chat_room_id;
+    private Integer chatRoomId;
 
+    @Getter@Setter
+    private Integer messageId;
     
 }
