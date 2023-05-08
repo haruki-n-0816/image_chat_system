@@ -5,7 +5,6 @@
       <router-link to="/create">CreateAccount</router-link>/
       <!-- <router-link to="/chat">Chat</router-link>/ -->
       <router-link to="/chatindex2">ChatRoomIndex</router-link>/
-      <router-link to="/chatindex">CreateChatRoom</router-link>/
       <!-- <router-link to="/WebSocket">WebSocket</router-link>/ -->
     </nav>
     <router-view/>

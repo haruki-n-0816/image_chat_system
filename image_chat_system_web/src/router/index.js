@@ -9,10 +9,16 @@ import ImageEditCropper from '../components/ImageEditCropper.vue'
 import ImageEditCanvas from '../components/ImageEditCanvas.vue'
 import ChatIndexPage from '../views/ChatIndexPage.vue'
 import RoomIndex from '../views/RoomIndexPage.vue'
+import StartPage from '../views/StartPage.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path:'',
+    name:'StartPage',
+    component:StartPage
+  },
   {
     path: '/login',
     name: 'loginPage',
@@ -45,13 +51,13 @@ const routes = [
     name: 'ImageEditCanvas',
     component: ImageEditCanvas,
   },
-  {
-    path: '/chatindex',
-    name:'ChatIndexPage',
-    component:ChatIndexPage,
-    meta: { requiresAuth: true }//ログイン制限
-    // component: () => import('../views/ChatRoom.vue')
-  },
+  // {
+  //   path: '/chatindex',
+  //   name:'ChatIndexPage',
+  //   component:ChatIndexPage,
+  //   meta: { requiresAuth: true }//ログイン制限
+  //   // component: () => import('../views/ChatRoom.vue')
+  // },
   {
     path:'/chatindex2',
     name:'RoomIndex',

@@ -17,7 +17,7 @@
         </div>
       </div>
 
-    <div style="text-align: center;">
+    <div style="text-align: center;" @submit.prevent>
       <ul v-if="chatIndexes.length > 0">
         <div>いま入れる部屋はこちら！</div>
         <br>
@@ -27,9 +27,22 @@
       </ul>
       <div v-else>いまは部屋がありません...</div>
       <br>
-      <router-link to="/chatindex">新規ルーム作成はこちらから!!</router-link>
+      <!-- <router-link to="/chatindex">新規ルーム作成はこちらから!!</router-link> -->
     </div>
-  </div>
+  
+
+    <button @click="showAddGroupPopup = true">部屋を追加する</button>
+        <div v-if="showAddGroupPopup" >
+          <div >
+            <div >
+              <h3>グループ名を記入してください:</h3>
+              <input type="text" v-model="roomName">
+              <button @click="addGroup">追加する</button>
+              <button @click="showAddGroupPopup = false">閉じる</button>
+            </div>
+          </div>
+        </div>
+</div>
 </template>
 
   
@@ -42,6 +55,9 @@
   export default {
     data() {
       return {
+      rooms: [],
+      roomName: "",
+      showAddGroupPopup: false,
           chatIndexes: [],
           showLogoutPopup: false,
       };
@@ -60,13 +76,39 @@
         }
       },
       async logout() {
-      try {
-        this.$store.dispatch('clearUserData')
-        // ログアウト後の処理（例えば、ログイン画面に遷移する）
-        this.$router.push('/login');
-      } catch (error) {
-        console.error(error);
-      }
+        try {
+          this.$store.dispatch('clearUserData')
+          // ログアウト後の処理
+          this.$router.push('/login');
+        } catch (error) {
+          console.error(error);
+        }
+      },
+      async addGroup() {
+        const groupName = this.roomName;
+        if (groupName) {
+          this.roomName = "";
+          try {
+            const response = await axios.get('/chatindex2');
+            const existingRooms = response.data;
+            const roomExists = existingRooms.some(room => room.roomName === groupName);
+            //someメソッド...指定された関数で実装されているテストに、配列の中の少なくとも 1 つの要素が 合格するかどうかを判定します。
+            //配列の中で指定された関数が true を返す要素を見つけた場合は true を返し、そうでない場合は false を返します。それ以外の場合は false を返します。配列は変更しません。
+            if (!roomExists) {
+              const newRoom = {
+                roomName: groupName
+              };
+              const createResponse = await axios.post('/chatindex', newRoom);
+              console.log(createResponse.data);
+              this.$router.push("/chatindex2");
+            } else {
+              alert("その名前の部屋はすでに存在します。");
+            }
+          } catch (error) {
+            console.log(error);
+          }
+          this.showAddGroupPopup = false;
+        }
     },
     },
     // components: { router }
