@@ -1,0 +1,55 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "全てのタスクを実行",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "docker-compose-up",
+                "flyway-clean-migrate",
+                "api-run",
+                "web-install-serve"
+            ]
+        },
+        {
+            "label": "docker-compose-up",
+            "type": "shell",
+            "command": "docker compose up image_chat_system_db",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true
+            }
+        },
+        {
+            "label": "flyway-clean-migrate",
+            "type": "shell",
+            "command": "cd image_chat_system_flyway && sleep 10 && mvn flyway:clean && mvn flyway:migrate",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true
+            }
+        },
+        {
+            "label": "api-run",
+            "type": "shell",
+            "command": "cd image_chat_system_api && sleep 10 && mvn spring-boot:run",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true
+            }
+        },
+        {
+            "label": "web-install-serve",
+            "type": "shell",
+            "command": "cd image_chat_system_web && rm -rf node_modules/ && npm install && npm run serve",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true
+            }
+        }
+    ]
+}

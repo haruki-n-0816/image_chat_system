@@ -3,10 +3,10 @@ import VueRouter from 'vue-router'
 import LoginPage from '../views/LoginPage.vue'
 import CreatePage from '../views/CreatePage.vue'
 import ChatPage from '../views/ChatPage.vue'
+import ImageEditWindow from '../components/ImageEditWindow.vue'
 import store from '../store'
 
-import ImageEditCropper from '../components/ImageEditCropper.vue'
-import ImageEditCanvas from '../components/ImageEditCanvas.vue'
+
 import ChatIndexPage from '../views/ChatIndexPage.vue'
 import RoomIndex from '../views/RoomIndex.vue'
 
@@ -41,9 +41,9 @@ const routes = [
     component: ImageEditCropper,
   },
   {
-    path: '/imageEditCanvas',
-    name: 'ImageEditCanvas',
-    component: ImageEditCanvas,
+    path: '/imageEditWindow',
+    name: 'ImageEditWindow',
+    component: ImageEditWindow,
   },
   {
     path: '/chatindex',
