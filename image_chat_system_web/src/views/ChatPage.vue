@@ -18,10 +18,10 @@
         <div class="bms-clear"></div>
       </div>
 
-      <form @submit.prevent="sendMessage">
+      <div class="post" @submit.prevent="sendMessage">
         <input type="text" v-model="message">
         <button type="submit">送信</button>
-      </form>
+      </div>
     </div>
   </div>
 </template>
@@ -286,6 +286,7 @@ html {
   top: 47%;
   right: 430px;
   z-index: 10000;
+  overflow: auto;
   transform: translate(50%, -50%);
 }
 
@@ -301,6 +302,7 @@ html {
   right: 0;
   margin: auto;
   position: absolute;
+  overflow: auto;
   transform: rotate(-45deg);
 }
 
@@ -386,6 +388,14 @@ html {
     right: auto;
     transform: rotate(45deg);
   }
+}
+
+.post {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
 }
 
 .bms-clear {
