@@ -16,25 +16,7 @@ public class UserCreateController {
     
     @PostMapping("/create")
     public boolean userCreate(@RequestBody UserCreateModel userCreateModel){
-        
-        boolean result = userCreateServise.userCreate(userCreateModel);
-
-        return result;
+        return userCreateServise.userCreate(userCreateModel);
     }
 
-    // public class chatcon {
-    //     @Autowired catser chatservise;
-        
-    //     @PostMapping("/chatindex")
-    //     public boolean roomName(@RequestBody ChatIndex chatindex){
-            
-    //         System.out.println(chatindex.getRoomName() );
-    
-    //         boolean result = chatservise.roomName(chatindex);
-    
-    //         System.out.println(result);
-    
-    //         return result;
-    //     }
-    // }
 }

@@ -10,17 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.image_chat_system_api.domain.ChatIndex;
 import com.example.image_chat_system_api.service.RoomIndexService;
 
-// @CrossOrigin(origins = "http://localhost:8080")
-// //@RestController
-// public class AllRoomCon {
-//     @Autowired AllRoomSer roomser;
-
-//     @GetMapping("/chatindex2")
-//     public List<ChatIndex> roomNameInsert() {
-//         System.out.println(roomser.getAll());
-//         return roomser.getAll();    
-//     }
-// }
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 public class RoomIndexController {
