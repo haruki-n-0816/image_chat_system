@@ -24,29 +24,17 @@ public class UserCreateServise {
         UserList userList = new UserList();
         // メールアドレスの重複チェック
         UserList existingUser = userCreateRepositry.findByUserMail(userCreateModel.getMail());
-        if (existingUser != null) {
-            throw new RuntimeException("既に登録されたメールアドレスです");
-        }else{
+        if (existingUser == null) {
+
             userList.setUserMail(userCreateModel.getMail());
-        }
+            userList.setUserId(id);
+            userList.setUserName(userCreateModel.getName());
+            userList.setUserPassword(userCreateModel.getPassword());
 
-        userList.setUserId(id);
-        userList.setUserName(userCreateModel.getName());
-        userList.setUserPassword(userCreateModel.getPassword());
-
-        System.out.print(id);
-        try {
             userCreateRepositry.save(userList);
             return true;
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        }else{
             return false;
         }
     }
-
-    // メールアドレスを検索するためのメソッド
-    // public UserList findByUserMail(String userMail) {
-    //     return userCreateRepositry.findByUserMail(userMail);
-    // }
 }

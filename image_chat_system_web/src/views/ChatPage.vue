@@ -174,19 +174,18 @@ export default {
   overflow: hidden;
 }
 
-.balloon1-left {
-  position: relative;
-  display: inline-block;
-  margin: 1.5em 0 1.5em 15px;
-  padding: 7px 10px;
-  min-width: 120px;
-  max-width: 100%;
-  color: #555;
-  font-size: 16px;
-  background: #e0edff;
-  text-align: left;
-  float: left;
-}
+  .balloon1-left {
+    position: relative;
+    display: inline-block;
+    margin: 1.5em 0 1.5em 15px;
+    padding: 7px 10px;
+    min-width: 120px;
+    max-width: 100%;
+    color: #555;
+    font-size: 16px;
+    background: #e0edff;
+    text-align: left;
+  }
 
 .balloon1-left:before {
   content: "";
@@ -203,19 +202,18 @@ export default {
   padding: 0;
 }
 
-.balloon1-right {
-  position: relative;
-  display: inline-block;
-  margin: 1.5em 15px 1.5em 0;
-  padding: 7px 10px;
-  min-width: 120px;
-  max-width: 100%;
-  color: #555;
-  font-size: 16px;
-  background: #e0edff;
-  text-align: right;
-  float: right;
-}
+  .balloon1-right {
+    position: relative;
+    display: inline-block;
+    margin: 1.5em 15px 1.5em 0;
+    padding: 7px 10px;
+    min-width: 120px;
+    max-width: 100%;
+    color: #555;
+    font-size: 16px;
+    background: #e0edff;
+    text-align: right;
+  }
 
 .balloon1-right:before {
   content: "";

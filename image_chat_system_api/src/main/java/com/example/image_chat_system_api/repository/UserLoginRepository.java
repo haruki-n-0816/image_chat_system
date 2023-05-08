@@ -12,4 +12,3 @@ public interface UserLoginRepository extends JpaRepository<UserList, Integer>{
     public Optional<UserList> findByUserMail(String mail);   
 }
 
-
