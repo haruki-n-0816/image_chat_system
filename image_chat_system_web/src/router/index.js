@@ -36,11 +36,6 @@ const routes = [
     props: true,
   },  
   {
-    path: '/imageEditCropper',
-    name: 'ImageEditCropper',
-    component: ImageEditCropper,
-  },
-  {
     path: '/imageEditWindow',
     name: 'ImageEditWindow',
     component: ImageEditWindow,
