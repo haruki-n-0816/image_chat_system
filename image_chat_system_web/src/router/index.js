@@ -6,8 +6,6 @@ import ChatPage from '../views/ChatPage.vue'
 import ImageEditWindow from '../components/ImageEditWindow.vue'
 import store from '../store'
 
-
-import ChatIndexPage from '../views/ChatIndexPage.vue'
 import RoomIndex from '../views/RoomIndexPage.vue'
 import StartPage from '../views/StartPage.vue'
 
