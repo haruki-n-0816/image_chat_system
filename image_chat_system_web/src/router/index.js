@@ -1,18 +1,22 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LoginPage from '../views/LoginPage.vue'
-import CreatePage from '../views/CreatePage.vue'
+import CreateAccountPage from '../views/CreateAccountPage.vue'
 import ChatPage from '../views/ChatPage.vue'
+import ImageEditWindow from '../components/ImageEditWindow.vue'
 import store from '../store'
 
-import ImageEditCropper from '../components/ImageEditCropper.vue'
-import ImageEditCanvas from '../components/ImageEditCanvas.vue'
-import ChatIndexPage from '../views/ChatIndexPage.vue'
-import RoomIndex from '../views/RoomIndex.vue'
+import RoomIndex from '../views/RoomIndexPage.vue'
+import StartPage from '../views/StartPage.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path:'',
+    name:'StartPage',
+    component:StartPage
+  },
   {
     path: '/login',
     name: 'loginPage',
@@ -20,8 +24,8 @@ const routes = [
   },
   {
     path: '/create',
-    name: 'CreatePage',
-    component: CreatePage
+    name: 'CreateAccountPage',
+    component: CreateAccountPage
   },
   // {
   //   path: '/chatpage',
@@ -36,22 +40,17 @@ const routes = [
     props: true,
   },  
   {
-    path: '/imageEditCropper',
-    name: 'ImageEditCropper',
-    component: ImageEditCropper,
+    path: '/imageEditWindow',
+    name: 'ImageEditWindow',
+    component: ImageEditWindow,
   },
-  {
-    path: '/imageEditCanvas',
-    name: 'ImageEditCanvas',
-    component: ImageEditCanvas,
-  },
-  {
-    path: '/chatindex',
-    name:'ChatIndexPage',
-    component:ChatIndexPage,
-    // meta: { requiresAuth: true }//ログイン制限
-    // component: () => import('../views/ChatRoom.vue')
-  },
+  // {
+  //   path: '/chatindex',
+  //   name:'ChatIndexPage',
+  //   component:ChatIndexPage,
+  //   meta: { requiresAuth: true }//ログイン制限
+  //   // component: () => import('../views/ChatRoom.vue')
+  // },
   {
     path:'/chatindex2',
     name:'RoomIndex',

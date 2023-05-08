@@ -18,10 +18,10 @@
         <div class="bms-clear"></div>
       </div>
 
-      <div class="post" @submit.prevent="sendMessage">
+      <form class="post" @submit.prevent="sendMessage">
         <input type="text" v-model="message">
         <button type="submit">送信</button>
-      </div>
+      </form>
     </div>
   </div>
 </template>
