@@ -42,7 +42,6 @@ export default {
             maskingStartY: null,
             maskingEndX: null,
             maskingEndY: null,
-
         };
     },
     mounted() {

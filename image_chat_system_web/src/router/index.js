@@ -1,22 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LoginPage from '../views/LoginPage.vue'
-import CreateAccountPage from '../views/CreateAccountPage.vue'
+import CreateUserPage from '../views/CreateUserPage.vue'
 import ChatPage from '../views/ChatPage.vue'
 import ImageEditWindow from '../components/ImageEditWindow.vue'
-import store from '../store'
-
 import RoomIndex from '../views/RoomIndexPage.vue'
-import StartPage from '../views/StartPage.vue'
+import store from '../store'
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path:'',
-    name:'StartPage',
-    component:StartPage
-  },
   {
     path: '/login',
     name: 'loginPage',
@@ -24,15 +17,9 @@ const routes = [
   },
   {
     path: '/create',
-    name: 'CreateAccountPage',
-    component: CreateAccountPage
+    name: 'CreateUserPage',
+    component: CreateUserPage
   },
-  // {
-  //   path: '/chatpage',
-  //   name: 'ChatPage',
-  //   component: ChatPage,
-  // //   meta: { requiresAuth: true }
-  // },
   {
     path: '/chatpage/:roomId',
     name: 'ChatPage',
@@ -44,25 +31,12 @@ const routes = [
     name: 'ImageEditWindow',
     component: ImageEditWindow,
   },
-  // {
-  //   path: '/chatindex',
-  //   name:'ChatIndexPage',
-  //   component:ChatIndexPage,
-  //   meta: { requiresAuth: true }//ログイン制限
-  //   // component: () => import('../views/ChatRoom.vue')
-  // },
   {
-    path:'/chatindex2',
+    path:'/roomIndex',
     name:'RoomIndex',
     component:RoomIndex,
     // meta: { requiresAuth: true }
   },
-  {
-    path: '/WebSocket',
-    name: 'WebSocket',
-    // component: WebSocket
-    component: () => import('../views/WebSocket.vue')
-  }
 ]
 
 const router = new VueRouter({

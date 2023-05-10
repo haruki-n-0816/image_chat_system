@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class ChatRoomIndexModel {
+    
     @Getter@Setter
     private String roomName;
 }

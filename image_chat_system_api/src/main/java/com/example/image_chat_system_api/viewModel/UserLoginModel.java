@@ -7,7 +7,7 @@ public class UserLoginModel {
 
     @Getter@Setter
     private String mail;
+
     @Getter@Setter
     private String password;
-    
 }

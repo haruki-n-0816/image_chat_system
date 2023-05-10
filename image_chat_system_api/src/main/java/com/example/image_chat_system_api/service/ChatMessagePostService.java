@@ -1,21 +1,18 @@
 package com.example.image_chat_system_api.service;
 
 import java.sql.Timestamp;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.example.image_chat_system_api.domain.ChatMessageList;
-import com.example.image_chat_system_api.repository.UserChatpageRepositry;
+import com.example.image_chat_system_api.repository.ChatMessagePostRepositry;
 import com.example.image_chat_system_api.viewModel.UserChatPageModel;
 
 @Service
-public class UserChatPageService {
+public class ChatMessagePostService {
 
-    @Autowired UserChatpageRepositry userChatPageRepositry;
+    @Autowired ChatMessagePostRepositry chatMessagePostRepositry;
 
-    public boolean chatpage(UserChatPageModel userChatPageModel){
-        
+    public boolean chatMessagePost(UserChatPageModel userChatPageModel){
         ChatMessageList chatMessageList = new ChatMessageList();
 
         chatMessageList.setChatRoomId(userChatPageModel.getChatRoomId());
@@ -26,12 +23,13 @@ public class UserChatPageService {
         chatMessageList.setPostTime(new Timestamp(System.currentTimeMillis()));
 
         try{
-            userChatPageRepositry.save(chatMessageList);
+            chatMessagePostRepositry.save(chatMessageList);
+
             return true;
         } catch(Exception e) {
             e.printStackTrace();
+            
             return false;
         }
     }
 }
-

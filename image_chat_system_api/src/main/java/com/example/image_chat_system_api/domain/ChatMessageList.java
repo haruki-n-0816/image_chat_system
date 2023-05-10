@@ -1,13 +1,11 @@
 package com.example.image_chat_system_api.domain;
 
 import java.sql.Timestamp;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,10 +15,10 @@ public class ChatMessageList {
     
     @Id@Getter@Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Getter@Setter
-    private int chatRoomId;
+    private Integer chatRoomId;
     
     @Getter@Setter
     private String chatPoster;

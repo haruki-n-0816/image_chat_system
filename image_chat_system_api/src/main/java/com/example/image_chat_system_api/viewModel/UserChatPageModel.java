@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class UserChatPageModel {
+    
     @Getter@Setter
     private int chatRoomId;
 
@@ -18,5 +19,4 @@ public class UserChatPageModel {
     
     @Getter@Setter
     private String imagePath;
-
 }

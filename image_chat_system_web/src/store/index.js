@@ -41,8 +41,8 @@ export default new Vuex.Store({
     },
     clearUserData({ commit }) {
       commit('clearAuthentication');
-      // commit('setUserId', null);
-      // commit('setUserName', null);
+      commit('setUserId', null);
+      commit('setUserName', null);
     }
   },
   modules: {

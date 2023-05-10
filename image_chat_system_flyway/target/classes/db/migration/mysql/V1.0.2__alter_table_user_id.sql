@@ -1,1 +1,1 @@
-ALTER TABLE user_list MODIFY COLUMN user_id CHAR(36);
+ALTER TABLE user_list MODIFY COLUMN user_id CHAR(36)    COMMENT 'UUIDに合わせて変更';
