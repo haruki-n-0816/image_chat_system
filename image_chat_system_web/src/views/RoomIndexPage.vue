@@ -1,20 +1,18 @@
 <template>
   <div>
-    <h1>ChatRoom</h1>
+    <h1 class="text-center">ChatRoom</h1>
 
-    <div >
-      <input id="icon" type="image" :src="iconPath" style="width: 70px; height: 70px;" alt="Logout" @click="showLogoutPopup = true" />
-      <div v-if="showLogoutPopup" class="popup-background">
-        <div class="popup-container">
-          <div class="popup">
-            <p>ログインしているユーザー名: {{ this.$store.getters.userName }}</p>
-            <p>ログインしているユーザーID: {{ this.$store.getters.userId }}</p>
-            <p>ログアウトしますか？</p>
-            <button @click="logout">ログアウト</button>
-            <button @click="showLogoutPopup = false">キャンセル</button>
-          </div>
+    <div class="d-flex justify-content-end">
+      <b-img id="icon" :src="iconPath" alt="Logout" class="mr-3" style="width: 70px; height: 70px; cursor: pointer" @click="showLogoutPopup = true" />
+      <b-modal v-model="showLogoutPopup" hide-footer>
+        <div class="popup">
+          <p>ログインしているユーザー名: {{ this.$store.getters.userName }}</p>
+          <p>ログインしているユーザーID: {{ this.$store.getters.userId }}</p>
+          <p>ログアウトしますか？</p>
+          <b-button variant="danger" @click="logout">ログアウト</b-button>
+          <b-button variant="secondary" @click="showLogoutPopup = false">キャンセル</b-button>
         </div>
-      </div>
+      </b-modal>
     </div>
 
     <div class="center" @submit.prevent>
@@ -26,13 +24,17 @@
       </ul>
       <div v-else>いまは部屋がありません...</div>
     </div>
-    <button @click="showAddGroupPopup = true">部屋を追加する</button>
-    <div v-if="showAddGroupPopup">
-      <h3>グループ名を記入してください:</h3>
-      <input type="text" v-model="roomName">
-      <button @click="addGroup">追加する</button>
-      <button @click="showAddGroupPopup = false">閉じる</button>
-    </div>
+    <b-button @click="showAddGroupPopup = true">部屋を追加する</b-button>
+    <b-modal v-model="showAddGroupPopup" hide-footer>
+      <div class="popup">
+        <h3>グループ名を記入してください:</h3>
+        <b-form-input v-model="roomName"></b-form-input>
+        <div>
+          <b-button variant="primary" @click="addGroup">追加する</b-button>
+          <b-button variant="secondary" @click="showAddGroupPopup = false">閉じる</b-button>
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
  
@@ -77,9 +79,7 @@ export default {
     async addGroup() {
       const groupName = this.roomName;
         try {
-          const response = await axios.get('/roomIndex');
-          const existingRooms = response.data;
-          const roomExists = existingRooms.some(room => room.roomName === groupName);
+          const roomExists = this.rooms.some(chatIndex => chatIndex.roomName === groupName);
           //someメソッド...指定された関数で実装されているテストに、配列の中の少なくとも 1 つの要素が 合格するかどうかを判定します。
           //配列の中で指定された関数が true を返す要素を見つけた場合は true を返し、そうでない場合は false を返します。それ以外の場合は false を返します。配列は変更しません。
           if (!roomExists) {
