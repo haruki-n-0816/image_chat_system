@@ -1,16 +1,18 @@
 <template>
   <div>
+    <div class="chat-title">チャットページ</div>
+    <button ref="scrollbtntop" class="go-top"></button>
+    <button ref="scrollbtn" class="go-down"></button>
+    
     <div class="line-container">
-      <div class="chat-title">チャットページ</div>
-      <button ref="scrollbtntop" class="go-top"></button>
-      <button ref="scrollbtn" class="go-down"></button>
-
       <div v-for="message in messages" :key="message.id">
         <div class="speech-balloon" :class="message.balloonClass">
           {{ formatDate(message.postTime) }}
           <div class="says">
             userID:{{ message.userId }} userName:{{ message.chatPoster }} <br>
-            {{ message.message }}
+          </div>
+            <div id="message-position">
+            {{ message.message}}
           </div>
           <button @click="confirmDelete(message.id)">削除</button>
         </div>
@@ -19,7 +21,7 @@
 
     </div>
     <form class="message-post" @submit.prevent="sendMessage">
-      <input class="chat-input" type="text" v-model="messageBox">
+      <textarea class="chat-input" rows="3" cols="20" maxlength="250" type="text" v-model="messageBox" @keypress.enter="sendMessage"></textarea>
       <button type="submit">送信</button>
     </form>
   </div>
@@ -32,7 +34,7 @@ axios.defaults.baseURL = 'http://localhost:8081';
 export default {
   data() {
     return {
-      messageBox: '',
+      messageBox: [],
       userId: '',
       userName: '',
       imagePath: '',
@@ -69,7 +71,7 @@ export default {
     // ○秒ごとにチャット履歴を取得するために、setInterval()関数を使用する
     this.intervalId = setInterval(() => {
       this.getChatHistoryAll();
-    }, 10000);
+    }, 1000);
   },
   // コンポーネントが破棄される前に実行される「beforeDestroy」,インターバル処理を停止することができる、これがないとメモリリークのリスクが低い
   beforeDestroy() {
@@ -90,15 +92,16 @@ export default {
 
     async sendMessage() {   //ここから送信してDBに登録するためのメソッド
       try {
+        const messageBox = this.messageBox;
         const response = await axios.post('/chatPagePost', {
           chatRoomId: this.chatRoomId,
           chatPoster: this.userName,
           userId: this.userId,
-          message: this.messageBox,
+          message: messageBox,
           imagePath: this.imagePath
         });
         console.log(response);
-        this.messageBox = '';    //ボックスをからにする
+        this.messageBox = "";    //ボックスをからにする
         this.getChatHistoryAll();
       } catch (error) {
         console.error(error);
@@ -106,7 +109,7 @@ export default {
     },
 
     async getChatHistoryAll() {
-      this.messages = []
+      // this.messages = []
       try {
         const response = await axios.post('/chatPage', {
           chatRoomId: this.chatRoomId
@@ -158,16 +161,15 @@ export default {
   padding: 0;
   background: #7494c0;
   overflow: hidden;
-  max-width: 500px;
   margin: 30px auto;
   font-size: 80%;
-  overflow: hidden;
+  width: 70%; 
 }
 
 .speech-balloon-left {
   position: relative;
   display: inline-block;
-  margin: 1.5em 0 1.5em 15px;
+  margin: 1.5em 15px 1.5em 15px;
   padding: 7px 10px;
   min-width: 120px;
   max-width: 100%;
@@ -176,6 +178,7 @@ export default {
   background: #e0edff;
   text-align: left;
   float: left;
+  white-space: pre-wrap;
 }
 
 .speech-balloon-left:before {
@@ -188,7 +191,7 @@ export default {
   border-right: 15px solid #e0edff;
 }
 
-.bspeech-balloon-left p {
+.speech-balloon-left p {
   margin: 0;
   padding: 0;
 }
@@ -196,15 +199,17 @@ export default {
 .speech-balloon-right {
   position: relative;
   display: inline-block;
-  margin: 1.5em 15px 1.5em 0;
+  margin: 1.2em 15px 1.2em 15px;
   padding: 7px 10px;
   min-width: 120px;
   max-width: 100%;
   color: #555;
   font-size: 16px;
   background: #e0edff;
-  text-align: right;
+  text-align: left;
   float: right;
+  white-space: pre-wrap;
+
 }
 
 .speech-balloon-right:before {
@@ -230,7 +235,9 @@ export default {
   color: #ef858c; 
   padding: 10px 20px; 
   position: relative;
-  font-size: 40px
+  margin: 30px auto;
+  font-size: 300%;
+  width: 70%; 
 }
 
 .chat-title:after {
@@ -254,23 +261,21 @@ html {
 
 .go-top {
   display: block;
-  width: 60px;
-  height: 60px;
+  width: 3vw;
+  height: 3vw;
   box-sizing: border-box;
   background: #FFF;
   border: 1px solid #999;
   padding-top: 30px;
   text-align: center;
   letter-spacing: -1px;
-  font-size: 85%;
   text-decoration: none;
   color: #333;
-  opacity: 0.5;
+  opacity: 2.5vw;
   position: fixed;
   top: 47%;
-  right: 43px;
+  right: 12%;
   z-index: 10000;
-  overflow: auto;
   transform: translate(50%, -50%);
 }
 
@@ -294,61 +299,23 @@ html {
   opacity: 1;
 }
 
-@media(max-width:750px) {
-  .go-top {
-    width: 40px;
-    height: 40px;
-    text-indent: -9999px;
-    opacity: 1;
-    border: none;
-    background: none;
-    bottom: 10px;
-    right: 10px;
-  }
-
-  .go-top::before {
-    bottom: 0;
-    left: 50%;
-    right: auto;
-    transform: rotate(45deg);
-  }
-}
-
-@media (min-width: 751px) and (max-width: 1200px) {
-  .go-top {
-    width: 50px;
-    height: 50px;
-    bottom: 15px;
-    right: 15px;
-  }
-}
-
-@media (min-width: 1201px) {
-  .go-top {
-    width: 60px;
-    height: 60px;
-    bottom: 20px;
-    right: 20px;
-  }
-}
-
 .go-down {
   display: block;
-  width: 60px;
-  height: 60px;
+  width: 3vw;
+  height: 3vw;
   box-sizing: border-box;
   background: #FFF;
   border: 1px solid #999;
   padding-top: 30px;
   text-align: center;
   letter-spacing: -1px;
-  font-size: 85%;
+  font-size: 2.5vw;
   text-decoration: none;
   color: #333;
-  opacity: 0.5;
+  opacity: 2.5vw;
   position: fixed;
   top: 53%;
-  right: 100px;
+  right: 12%;
   z-index: 10000;
   transform: translate(50%, -50%);
 }
@@ -372,49 +339,15 @@ html {
   opacity: 1;
 }
 
-@media(max-width:750px) {
-  .go-down {
-    width: 40px;
-    height: 40px;
-    text-indent: -9999px;
-    opacity: 1;
-    border: none;
-    background: none;
-    bottom: 10px;
-    right: 10px;
-  }
-
-  .go-down::before {
-    bottom: 0;
-    left: 50%;
-    right: auto;
-    transform: rotate(45deg);
-  }
-}
-
-@media (min-width: 751px) and (max-width: 1200px) {
-  .go-down {
-    width: 50px;
-    height: 50px;
-    bottom: 15px;
-    right: 15px;
-  }
-}
-
-@media (min-width: 1201px) {
-  .go-down {
-    width: 60px;
-    height: 60px;
-    bottom: 20px;
-    right: 20px;
-  }
-}
-
 .chat-input{
-  width: 30%;
-  height: 40px;
+  width: 60vw;
+  max-height: 3em;
   border-radius: 10px;
+  font-size: 100%;
+  resize:none;
+  overflow-wrap:normal;
 }
+
 
 .message-post {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -422,6 +355,11 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+.message-position{
+  text-align: left;
+  color: #ef858c;
 }
 
 .bms-clear {
