@@ -6,11 +6,13 @@ import org.springframework.stereotype.Service;
 import com.example.image_chat_system_api.domain.ChatMessageList;
 import com.example.image_chat_system_api.repository.ChatMessagePostRepositry;
 import com.example.image_chat_system_api.viewModel.UserChatPageModel;
+// import com.example.image_chat_system_api.websocket.DbUpdateCheckService;
 
 @Service
 public class ChatMessagePostService {
 
     @Autowired ChatMessagePostRepositry chatMessagePostRepositry;
+    // @Autowired DbUpdateCheckService dbUpdateCheckService;
 
     public boolean chatMessagePost(UserChatPageModel userChatPageModel){
         ChatMessageList chatMessageList = new ChatMessageList();
@@ -24,7 +26,8 @@ public class ChatMessagePostService {
 
         try{
             chatMessagePostRepositry.save(chatMessageList);
-
+            // dbUpdateCheckService.sendCheckStatus(1);
+            
             return true;
         } catch(Exception e) {
             e.printStackTrace();

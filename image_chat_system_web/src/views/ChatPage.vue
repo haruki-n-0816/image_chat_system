@@ -27,6 +27,7 @@
 
 <script>
 import axios from 'axios';
+import VueSocketIO from 'vue-socket.io';
 axios.defaults.baseURL = 'http://localhost:8081';
 
 export default {
@@ -39,9 +40,24 @@ export default {
       messages: [],
       chatRoomId: '',
       postTime: '',
+      socket: null
     }
   },
-
+  created() {
+    this.socket = new VueSocketIO({
+      debug: true,
+      connection: 'http://localhost:8081',
+      options: { path: '/socket.io/' }
+    });
+    this.socket.io.on('connect', () => {
+      console.log('WebSocket connected.');
+      this.socket.on('message', (data) => {
+        if (1 === data) {
+          this.getChatHistoryAll();
+        }
+      });
+    });
+  },
   mounted() {
     this.userId = this.$store.getters.userId;
     this.userName = this.$store.getters.userName;
@@ -67,14 +83,15 @@ export default {
     });
 
     // ○秒ごとにチャット履歴を取得するために、setInterval()関数を使用する
-    this.intervalId = setInterval(() => {
-      this.getChatHistoryAll();
-    }, 10000);
+    // this.intervalId = setInterval(() => {
+    //   this.getChatHistoryAll();
+    // }, 10000);
   },
   // コンポーネントが破棄される前に実行される「beforeDestroy」,インターバル処理を停止することができる、これがないとメモリリークのリスクが低い
-  beforeDestroy() {
-    clearInterval(this.intervalId);
-  },
+  // beforeDestroy() {
+  //   clearInterval(this.intervalId);
+  // },
+  
 
   methods: {
     formatDate(timeStamp) {
@@ -87,7 +104,9 @@ export default {
       const seconds = date.getSeconds();
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     },
+    messageTimingReceiv() {
 
+    },
     async sendMessage() {   //ここから送信してDBに登録するためのメソッド
       try {
         const response = await axios.post('/chatPagePost', {
@@ -223,12 +242,12 @@ export default {
 }
 
 .chat-title {
-  background-color: #fff; 
-  border: 1px solid #ef858c; 
-  border-right: 20px solid #ef858c; 
+  background-color: #fff;
+  border: 1px solid #ef858c;
+  border-right: 20px solid #ef858c;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
-  color: #ef858c; 
-  padding: 10px 20px; 
+  color: #ef858c;
+  padding: 10px 20px;
   position: relative;
   font-size: 40px
 }
@@ -410,7 +429,7 @@ html {
   }
 }
 
-.chat-input{
+.chat-input {
   width: 30%;
   height: 40px;
   border-radius: 10px;
