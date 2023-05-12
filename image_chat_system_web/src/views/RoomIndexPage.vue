@@ -1,9 +1,10 @@
 <template>
   <div>
+    <navbar></navbar>
     <h1 class="text-center">ChatRoom</h1>
 
-    <div class="d-flex justify-content-end">
-      <b-img id="icon" :src="iconPath" alt="Logout" class="mr-3" style="width: 70px; height: 70px; cursor: pointer" @click="showLogoutPopup = true" />
+    <!-- <div class="d-flex justify-content-end">
+      <b-img id="icon" :src="iconPath" alt="Logout" @click="showLogoutPopup = true" />
       <b-modal v-model="showLogoutPopup" hide-footer>
         <div class="popup">
           <p>ログインしているユーザー名: {{ this.$store.getters.userName }}</p>
@@ -13,7 +14,7 @@
           <b-button variant="secondary" @click="showLogoutPopup = false">キャンセル</b-button>
         </div>
       </b-modal>
-    </div>
+    </div> -->
 
     <div class="center" @submit.prevent>
       <ul v-if="rooms.length > 0">
@@ -24,7 +25,7 @@
       </ul>
       <div v-else>いまは部屋がありません...</div>
     </div>
-    <b-button @click="showAddGroupPopup = true">部屋を追加する</b-button>
+    <b-button variant="primary" id="addButton" @click="showAddGroupPopup = true">部屋を追加する</b-button>
     <b-modal v-model="showAddGroupPopup" hide-footer>
       <div class="popup">
         <h3>グループ名を記入してください:</h3>
@@ -42,7 +43,15 @@
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:8081';
 
+import Vue from 'vue';
+
+import Navbar from '../components/Navbar.vue';
+Vue.component('navbar', Navbar);
+
 export default {
+  components: {
+      Navbar
+    },
   data() {
     return {
       rooms: [],
@@ -66,7 +75,6 @@ export default {
         console.log(error);
       }
     },
-
     async logout() {
       try {
         this.$store.dispatch('clearUserData');
@@ -75,40 +83,27 @@ export default {
         console.error(error);
       }
     },
-    
     async addGroup() {
-      const groupName = this.roomName;
-        try {
-          const roomExists = this.rooms.some(chatIndex => chatIndex.roomName === groupName);
-          //someメソッド...指定された関数で実装されているテストに、配列の中の少なくとも 1 つの要素が 合格するかどうかを判定します。
-          //配列の中で指定された関数が true を返す要素を見つけた場合は true を返し、そうでない場合は false を返します。それ以外の場合は false を返します。配列は変更しません。
-          if (!roomExists) {
-            const newRoom = {
-              roomName: groupName
-            };
-            const createResponse = await axios.post('/chatindex', newRoom);
-            console.log(createResponse.data);
-            location.reload();
-          } else {
-            alert("その名前の部屋はすでに存在します。");
-          }
-        } catch (error) {
-          console.log(error);
+      try {
+        const response = await axios.post('/chatIndex', {
+          roomName: this.roomName
+        });
+        if (response.data === true) {
+          location.reload();
+        } else {
+          alert('既に登録されている部屋です');
         }
-        this.showAddGroupPopup = false;
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
-  // components: { router }
 };
 </script>
 
 <style>
 li {
   list-style: none
-}
-
-ul {
-  padding-left: 0
 }
 
 .icon {
@@ -122,24 +117,6 @@ ul {
 
 h1 {
   text-align: center;
-}
-
-.popup-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.popup-container {
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
 }
 
 .popup {

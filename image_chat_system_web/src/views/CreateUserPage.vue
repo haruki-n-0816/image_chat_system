@@ -1,21 +1,23 @@
 <template>
   <div>
-    <b-form @submit.prevent="createAccount" style="text-align: center;">
-      <h3>アカウント新規作成</h3>
-      <b-alert v-model="showSuccessMessage" variant="success" :dismissible="false" fade>新規作成に成功しました</b-alert>
-      <b-form-group label="名前:">
-        <b-form-input v-model="name" type="text"></b-form-input>
-      </b-form-group>
-      <b-form-group label="mail:">
-        <b-form-input v-model="mail" type="email"></b-form-input>
-      </b-form-group>
-      <b-form-group label="Pass:">
-        <b-form-input v-model="password" type="password"></b-form-input>
-      </b-form-group>
-      <b-button variant="primary" type="submit">新規登録</b-button>
-      <b-button variant="primary" @click="$router.push('/Login')">キャンセル</b-button>
-    </b-form>
-  </div>
+    <div class="forms">
+      <b-form @submit.prevent="createAccount">
+        <b-img :src="logoPath" width="150px"/>
+          <div>
+            <b-alert v-model="showSuccessMessage" variant="success" :dismissible="false" fade>新規作成に成功しました</b-alert>
+              <div class="login-input-wrapper">
+                <b-form-input v-model="name" placeholder="Name" type="text"></b-form-input>
+              </div>
+              <div class="create-input-wrapper">
+                <b-form-input v-model="mail" placeholder="Mail" type="email"></b-form-input>
+              </div>
+                <b-form-input v-model="password" placeholder="Password" type="password"></b-form-input>
+            <b-button variant="secondary" class="create-user-button" type="submit">新規登録</b-button>
+            <b-button variant="secondary" class="create-user-button" @click="$router.push('/Login')">キャンセル</b-button>
+          </div>
+      </b-form>
+    </div>
+    </div>
 </template>
 
 <script>
@@ -29,6 +31,7 @@ export default {
       mail: '',
       password: '',
       showSuccessMessage: false,
+      logoPath: require('@/assets/logo3.png')
     };
   },
   methods: {
@@ -54,3 +57,15 @@ export default {
   },
 };
 </script>
+
+<style>
+  .create-user-button{
+    margin-top: 30px;
+    margin-left: 10px;
+  }
+
+  .create-input-wrapper{
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+</style>
