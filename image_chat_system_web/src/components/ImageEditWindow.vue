@@ -13,9 +13,9 @@
         <b-button variant="primary" @click="exportImage">画像出力</b-button>
         <!-- デバッグ用の情報出力 -->
         <!-- <button @click="allInfo">データ出力</button> -->
-        <br>
-        <input type="file" @change="handleImageUpload" />
-        <canvas ref="canvas" @mousedown="startAction" @mousemove="action" @mouseup="endAction"></canvas>
+        <br><br>
+        <input class="a" type="file" @change="handleImageUpload" />
+            <canvas ref="canvas" @mousedown="startAction" @mousemove="action" @mouseup="endAction"></canvas>
         <br>
     </div>
 </template>
@@ -72,10 +72,23 @@ export default {
             reader.readAsDataURL(file);
         },
         setBackgroundImage(imageUrl) {
+            const canvas = this.canvas;
             fabric.Image.fromURL(imageUrl, (img) => {
-                this.canvas.setWidth(img.width);
-                this.canvas.setHeight(img.height);
-                this.canvas.setBackgroundImage(img, this.canvas.renderAll.bind(this.canvas));
+                const aspectRatio = img.width / img.height;
+                const maxWidth = 330; // 最大表示幅を指定
+                const maxHeight = maxWidth / aspectRatio;
+
+                img.scaleToWidth(maxWidth);
+                img.scaleToHeight(maxHeight);
+
+                canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
+                scaleX: img.scaleX,
+                scaleY: img.scaleY
+                });
+
+                canvas.setWidth(maxWidth);
+                canvas.setHeight(maxHeight);
+                canvas.renderAll();
             });
             this.saveHistory();
         },
@@ -110,7 +123,7 @@ export default {
             });
             const link = document.createElement('a');
             link.href = croppedImage;
-            link.download = 'cropped.png';
+            link.download = '/Users/mitsuma/training/image_chat_system/image_chat_system_web/src/imageDownload';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -287,8 +300,15 @@ export default {
 .image-edit-window{
     text-align: center;
 }
+.a{
+    width: 50vw;
+}
 canvas {
     display: block;
     margin: auto;
+    padding: 5% 0 0 0;
+    max-width: 100%;
+    height: auto;
+    text-align: center;
 }
 </style>

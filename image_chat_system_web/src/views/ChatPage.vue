@@ -3,7 +3,7 @@
     <div class="chat-title">チャットページ</div>
     <button ref="scrollbtntop" class="go-top"></button>
     <button ref="scrollbtn" class="go-down"></button>
-    
+
     <div class="line-container">
       <div v-for="message in messages" :key="message.id">
         <div class="speech-balloon" :class="message.balloonClass">
@@ -11,8 +11,8 @@
           <div class="says">
             userID:{{ message.userId }} userName:{{ message.chatPoster }} <br>
           </div>
-            <div id="message-position">
-            {{ message.message}}
+          <div id="message-position">
+            {{ message.message }}
           </div>
           <button @click="confirmDelete(message.id)">削除</button>
         </div>
@@ -20,10 +20,16 @@
       </div>
 
     </div>
-    <form class="message-post" @submit.prevent="sendMessage">
-      <textarea class="chat-input" rows="3" cols="20" maxlength="250" type="text" v-model="messageBox" @keypress.enter="sendMessage"></textarea>
+    <form class="message-post" @submit.prevent="sendMessage" @keypress.enter="sendMessage">
+      <textarea class="chat-input" placeholder="250文字まで入力できます" maxlength="250" type="text" v-model="messageBox"
+        @keydown.shift.enter="newLine"></textarea>
+      <b-button @click="imageUpLoad">画像</b-button>
       <button type="submit">送信</button>
     </form>
+
+      <b-modal class="modal-position" ref="modal" title="画像編集" @hide="hideModal" ok-title="送信" cancel-title="キャンセル" @ok="submitImageData">
+        <image-edit-window></image-edit-window>
+      </b-modal>
   </div>
 </template>
 
@@ -31,7 +37,14 @@
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:8081';
 
+import Vue from 'vue'
+import ImageEditWindow from '../components/ImageEditWindow.vue'
+Vue.component('image-edit-window', ImageEditWindow);
+
 export default {
+  components: {
+    ImageEditWindow
+  },
   data() {
     return {
       messageBox: [],
@@ -43,7 +56,6 @@ export default {
       postTime: '',
     }
   },
-
   mounted() {
     this.userId = this.$store.getters.userId;
     this.userName = this.$store.getters.userName;
@@ -73,11 +85,10 @@ export default {
       this.getChatHistoryAll();
     }, 1000);
   },
-  // コンポーネントが破棄される前に実行される「beforeDestroy」,インターバル処理を停止することができる、これがないとメモリリークのリスクが低い
+  // コンポーネントが破棄される前に実行される「beforeDestroy」,インターバル処理を停止することができる
   beforeDestroy() {
     clearInterval(this.intervalId);
   },
-
   methods: {
     formatDate(timeStamp) {
       const date = new Date(timeStamp);
@@ -89,25 +100,27 @@ export default {
       const seconds = date.getSeconds();
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     },
-
-    async sendMessage() {   //ここから送信してDBに登録するためのメソッド
-      try {
-        const messageBox = this.messageBox;
-        const response = await axios.post('/chatPagePost', {
-          chatRoomId: this.chatRoomId,
-          chatPoster: this.userName,
-          userId: this.userId,
-          message: messageBox,
-          imagePath: this.imagePath
-        });
-        console.log(response);
-        this.messageBox = "";    //ボックスをからにする
-        this.getChatHistoryAll();
-      } catch (error) {
-        console.error(error);
+    newLine() {
+    },
+    async sendMessage(event) {   //ここから送信してDBに登録するためのメソッド
+      if (!event.shiftKey) {
+        try {
+          const messageBox = this.messageBox;
+          const response = await axios.post('/chatPagePost', {
+            chatRoomId: this.chatRoomId,
+            chatPoster: this.userName,
+            userId: this.userId,
+            message: messageBox,
+            imagePath: this.imagePath
+          });
+          console.log(response);
+          this.messageBox = "";
+          this.getChatHistoryAll();
+        } catch (error) {
+          console.error(error);
+        }
       }
     },
-
     async getChatHistoryAll() {
       // this.messages = []
       try {
@@ -133,14 +146,12 @@ export default {
         console.error(error);
       }
     },
-
     async confirmDelete(messageId) {
       const confirm = window.confirm('本当にこのメッセージを削除しますか？');
       if (confirm) {
         await this.deleteMessage(messageId);
       }
     },
-
     async deleteMessage(messageId) {
       try {
         const response = await axios.post('/deleteMessage', {
@@ -151,6 +162,29 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    async submitImageData() {
+      const imageData = this.$refs.ImageEditWindow.exportImage();
+      alert(imageData);
+      try {
+        const response = await axios.post('/chatPagePost', {
+          chatRoomId: this.chatRoomId,
+          chatPoster: this.userName,
+          userId: this.userId,
+          message: this.messageBox,
+          imagePath: imageData,
+        });
+        console.log(response);
+        this.getChatHistoryAll();
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    imageUpLoad() {
+      this.$refs.modal.show();
+    },
+    hideModal() {
+      this.$refs.modal.hide();
     }
   }
 }
@@ -163,7 +197,7 @@ export default {
   overflow: hidden;
   margin: 30px auto;
   font-size: 80%;
-  width: 70%; 
+  width: 70%;
 }
 
 .speech-balloon-left {
@@ -228,16 +262,17 @@ export default {
 }
 
 .chat-title {
-  background-color: #fff; 
-  border: 1px solid #ef858c; 
-  border-right: 20px solid #ef858c; 
+  background-color: #fff;
+  border: 1px solid #ef858c;
+  border-right: 20px solid #ef858c;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
-  color: #ef858c; 
-  padding: 10px 20px; 
+  color: #ef858c;
+  padding: 10px 20px;
   position: relative;
   margin: 30px auto;
-  font-size: 300%;
-  width: 70%; 
+  font-size: 250%;
+  width: 60vw;
+  text-align: center;
 }
 
 .chat-title:after {
@@ -339,15 +374,14 @@ html {
   opacity: 1;
 }
 
-.chat-input{
+.chat-input {
   width: 60vw;
   max-height: 3em;
   border-radius: 10px;
   font-size: 100%;
-  resize:none;
-  overflow-wrap:normal;
+  resize: none;
+  overflow-wrap: normal;
 }
-
 
 .message-post {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -357,13 +391,19 @@ html {
   color: #2c3e50;
 }
 
-.message-position{
+.message-position {
   text-align: left;
   color: #ef858c;
 }
 
+/* .modal-position{
+  width: 50%;
+  height: auto;
+  text-align: center;
+} */
+
 .bms-clear {
   clear: both;
-  /* 左メッセージと右メッセージの回り込み(float)の効果の干渉を防ぐために必要（これが無いと横になる */
+  /* 左メッセージと右メッセージの回り込み(float)の効果の干渉を防ぐために必要（これが無いと横になる) */
 }
 </style> 
