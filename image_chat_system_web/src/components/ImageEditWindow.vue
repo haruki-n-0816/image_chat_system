@@ -25,25 +25,28 @@ import { fabric } from 'fabric';
 
 export default {
     data() {
-        return {
-            imageUrl: null,
-            selectedMode: 0,
-            history: [],
-            historyIndex: 0,
-            cropStarted: false,
-            cropRect: null,
-            cropStartX: null,
-            cropStartY: null,
-            cropEndX: null,
-            cropEndY: null,
-            maskingStarted: false,
-            maskingRect: null,
-            maskingStartX: null,
-            maskingStartY: null,
-            maskingEndX: null,
-            maskingEndY: null,
-        };
-    },
+  return {
+    imageUrl: null,
+    selectedMode: 0,
+    history: [],
+    historyIndex: 0,
+    cropStarted: false,
+    cropRect: null,
+    cropStartX: null,
+    cropStartY: null,
+    cropEndX: null,
+    cropEndY: null,
+    maskingStarted: false,
+    maskingRect: null,
+    maskingStartX: null,
+    maskingStartY: null,
+    maskingEndX: null,
+    maskingEndY: null,
+    canvasWidth: 0,
+    canvasHeight: 0
+  };
+},
+
     mounted() {
         this.canvas = new fabric.Canvas(this.$refs.canvas);
         this.canvas.selection = true;
@@ -90,8 +93,7 @@ export default {
                 canvas.setHeight(maxHeight);
                 canvas.renderAll();
             });
-            this.saveHistory();
-        },
+            },
         allDelete() {
             const canvas = this.canvas;
             const objects = canvas.getObjects();
@@ -311,4 +313,5 @@ canvas {
     height: auto;
     text-align: center;
 }
+
 </style>
