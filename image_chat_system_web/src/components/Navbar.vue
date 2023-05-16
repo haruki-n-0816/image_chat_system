@@ -1,10 +1,11 @@
 <template>
   <div id="header-menu">
     <ul class="header-list">
-      <li><b-img :src="logoPath" class="tag"/></li>
-      <li><a href="URL">部屋一覧</a></li>
-      <li @click="logout">ログアウト</li>
-  </ul>
+      <b-img :src="logoPath" class="tag" />
+      <li class="nav-item" ><router-link to="/roomIndex" id="nav-link">部屋一覧</router-link></li>
+      <li class="bar-userName"> ユーザー名: {{ this.$store.getters.userName }}</li>
+      <li class="nav-item"><a @click="logout" class="navbar-logout" style="cursor: pointer;">ログアウト</a></li>
+    </ul>
   </div>
 </template>
 
@@ -14,41 +15,81 @@
       return {
         logoPath: require('@/assets/header-tag.png')
       }
+    },
+    methods:{
+      async logout() {
+      try {
+        this.$store.dispatch('clearUserData');
+        this.$router.push('/login');
+      } catch (error) {
+        console.error(error);
+      }
+    },
     }
   }
 </script>
 
 <style>
-  #header-menu{
-  display: block; 
-  position: fixed; /*ポジションを固定する*/
-  top: 0px; /*一番上に設置*/
-  left: 0px;
-  z-index: 9999;  /*どの要素よりも上にくるように*/
-  background-color: rgb(255, 255, 255); /*メニューバー背景色*/
-  width: 100%; /*横幅を100%に*/
-  height: 10%;
+  #header-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4rem;
+    background-color: #e6f3ff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 999;
   }
+
   .header-list {
-    display: flex; /* li要素を横並びにする */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    margin: 0;
+    padding: 0 1rem;
     list-style: none;
-    padding: 0;
   }
-  #header_menu a {
-  float: left; /*メニューを横並びにする*/
-  font-size: 16px;
-  color: #FFF;
+
+  .tag {
+    width: 25rem;
+    height: auto;
   }
-  #header_menu a:after { /*floatでデザインが崩れないように*/
-  display:block;
-  clear: both;
-  content:"";
+
+  .nav-item {
+    margin-left: 2rem;
   }
-  .header-list li {
-    padding-left: 5em;
+
+  #nav-link{
+    color: rgb(0, 0, 0);
+    text-decoration: none;
   }
-  .tag{
-    width: 70%;
-    height: 80%;
+
+  #nav-link:hover{
+    color:blue
+  }
+
+  .navbar-logout {
+    color: red;
+    text-decoration: none;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .bar-userName{
+    flex-grow: 1;
+    text-align: right;
+  }
+
+  li{
+    white-space: nowrap; /* テキストの折り返しを制御 */
+    overflow: hidden; /* テキストがはみ出た場合に隠す */
+    text-overflow: ellipsis; /* テキストがはみ出した場合に省略記号を表示 */
+  }
+
+  .nav-link:hover{
+    color: #f00; 
   }
 </style>

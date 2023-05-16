@@ -1,5 +1,6 @@
 <template>
   <div>
+    <navbar></navbar>
     <div class="line-container">
       <div class="chat-title">チャットページ</div>
       <button ref="scrollbtntop" class="go-top"></button>
@@ -69,7 +70,7 @@ export default {
     // ○秒ごとにチャット履歴を取得するために、setInterval()関数を使用する
     this.intervalId = setInterval(() => {
       this.getChatHistoryAll();
-    }, 10000);
+    }, 1000);
   },
   // コンポーネントが破棄される前に実行される「beforeDestroy」,インターバル処理を停止することができる、これがないとメモリリークのリスクが低い
   beforeDestroy() {
@@ -97,8 +98,7 @@ export default {
           message: this.messageBox,
           imagePath: this.imagePath
         });
-        console.log(response);
-        this.messageBox = '';    //ボックスをからにする
+        console.log(response);  //ボックスをからにする
         this.getChatHistoryAll();
       } catch (error) {
         console.error(error);

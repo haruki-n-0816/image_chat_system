@@ -1,89 +1,76 @@
 <template>
   <div>
     <navbar></navbar>
-    <h1 class="text-center">ChatRoom</h1>
-
-    <!-- <div class="d-flex justify-content-end">
-      <b-img id="icon" :src="iconPath" alt="Logout" @click="showLogoutPopup = true" />
-      <b-modal v-model="showLogoutPopup" hide-footer>
+    <div class="add-room">
+      <b-img :src="logoPath" width="100px" class="add-button"  @click="showAddGroupPopup = true" style="cursor: pointer;"/>
+      <b-modal v-model="showAddGroupPopup" title="新規部屋作成" hide-footer>
         <div class="popup">
-          <p>ログインしているユーザー名: {{ this.$store.getters.userName }}</p>
-          <p>ログインしているユーザーID: {{ this.$store.getters.userId }}</p>
-          <p>ログアウトしますか？</p>
-          <b-button variant="danger" @click="logout">ログアウト</b-button>
-          <b-button variant="secondary" @click="showLogoutPopup = false">キャンセル</b-button>
+          <b-form-input v-model="roomName" placeholder="10文字以内で入力してください"></b-form-input>
+          <div>
+            <b-button variant="primary" @click="addGroup">追加する</b-button>
+            <b-button variant="secondary" @click="showAddGroupPopup = false">閉じる</b-button>
+          </div>
         </div>
       </b-modal>
-    </div> -->
-
-    <div class="center" @submit.prevent>
-      <ul v-if="rooms.length > 0">
-        <div>いま入れる部屋はこちら！</div>
-        <li v-for="chatIndex in rooms" :key="chatIndex.roomId">
-          <router-link :to="{ path: '/chatpage/' + chatIndex.roomId }">{{ chatIndex.roomName + "の部屋" }}</router-link>
-        </li>
-      </ul>
-      <div v-else>いまは部屋がありません...</div>
     </div>
-    <b-button variant="primary" id="addButton" @click="showAddGroupPopup = true">部屋を追加する</b-button>
-    <b-modal v-model="showAddGroupPopup" hide-footer>
-      <div class="popup">
-        <h3>グループ名を記入してください:</h3>
-        <b-form-input v-model="roomName"></b-form-input>
-        <div>
-          <b-button variant="primary" @click="addGroup">追加する</b-button>
-          <b-button variant="secondary" @click="showAddGroupPopup = false">閉じる</b-button>
+
+    <div>
+      <h1 id="chatroom-header">ChatRoom</h1>    
+      <div v-if="rooms.length > 0" class="room-list">
+        <h2 class="room-text">入室可能な部屋はこちら！</h2>  
+      </div> 
+        <h2 v-else class="room-text">いまは部屋がありません...</h2>
+    
+      <div >
+        <div v-for="chatIndex in rooms" :key="chatIndex.roomId" class="room-list-item">
+          <router-link :to="{ path: '/chatpage/' + chatIndex.roomId }" class="room-link">{{ chatIndex.roomName + "の部屋" }}</router-link>
         </div>
       </div>
-    </b-modal>
+    </div>
   </div>
 </template>
- 
+
 <script>
-import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:8081';
+  import axios from 'axios';
+  axios.defaults.baseURL = 'http://localhost:8081';
 
-import Vue from 'vue';
+  import Vue from 'vue';
 
-import Navbar from '../components/Navbar.vue';
-Vue.component('navbar', Navbar);
+  import Navbar from '../components/Navbar.vue';
+  Vue.component('navbar', Navbar);
 
-export default {
-  components: {
-      Navbar
+  export default {
+    components: {
+        Navbar
+      },
+    data() {
+      return {
+        rooms: [],
+        roomName: "",
+        showAddGroupPopup: false,
+        showLogoutPopup: false,
+        logoPath: require('@/assets/ROOM2.png')
+      };
     },
-  data() {
-    return {
-      rooms: [],
-      roomName: "",
-      showAddGroupPopup: false,
-      // chatIndexes: [],
-      showLogoutPopup: false,
-      iconPath: require('@/assets/icon2.jpeg')
-    };
-  },
-  mounted() {
-    this.showAll();
-  },
-  methods: {
-    async showAll() {
-      try {
-        const response = await axios.get("/roomIndex");
-        this.rooms = response.data;
-      }
-      catch (error) {
-        console.log(error);
-      }
+    mounted() {
+      this.showAll();
     },
-    async logout() {
-      try {
-        this.$store.dispatch('clearUserData');
-        this.$router.push('/login');
-      } catch (error) {
-        console.error(error);
-      }
-    },
+    methods: {
+      async showAll() {
+        try {
+          const response = await axios.get("/roomIndex");
+          this.rooms = response.data;
+        }
+        catch (error) {
+          console.log(error);
+        }
+      },
+
     async addGroup() {
+      if (this.roomName.length > 10) {
+        alert('部屋名は10文字以内で入力してください');
+        return;
+      }
       try {
         const response = await axios.post('/chatIndex', {
           roomName: this.roomName
@@ -102,8 +89,12 @@ export default {
 </script>
 
 <style>
-li {
-  list-style: none
+.room-list-item {
+  margin-bottom: 0.5em;
+  text-align: center;
+  margin-top: 1rem;
+  margin-left: 15rem;
+  margin-right: 15rem;
 }
 
 .icon {
@@ -127,5 +118,70 @@ h1 {
 
 .popup input {
   margin-bottom: 10px;
+}
+
+.room-list {
+  padding: 0;
+  text-align: center;
+}
+
+.room-link {
+  display: inline-block;
+  padding: 0.5em 2em;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #333;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.room-link:hover {
+  background-color: #e6e6e6;
+}
+
+.room-text{
+  font-size: 1.2em;
+  margin-top: 1rem;
+  color:#f2f2f2;
+  top: 5rem; /* Adjust the value to match the height of your navbar */
+  left: 0;
+  width: 100%;
+  color: #e6e6e6;
+  z-index: 998; /* Set a lower z-index than the navbar */
+  text-align: center;
+}
+
+.add-button {
+  padding-left: 30px;
+  position: fixed;
+  top: 6rem;
+  right: 0;
+  z-index: 999;
+  margin-right: 1rem;
+}
+
+.add-room{
+  padding-top: 6rem;
+}
+
+#chatroom-header {
+  top: 5rem; /* Adjust the value to match the height of your navbar */
+  left: 0;
+  width: 100%;
+  color: #e6e6e6;
+  z-index: 998; /* Set a lower z-index than the navbar */
+}
+
+@media (max-width: 768px) {
+  #chatroom-header {
+    top: 3.5rem; /* Adjust the value for mobile devices */
+  }
+}
+
+.create-text{
+  text-align: right;
+  margin-top: 5rem;
+  color: #f2f2f2;
 }
 </style>

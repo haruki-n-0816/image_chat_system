@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="forms">
+      <h2>ユーザー新規作成</h2>
       <b-form @submit.prevent="createAccount">
         <b-img :src="logoPath" width="150px"/>
           <div>
