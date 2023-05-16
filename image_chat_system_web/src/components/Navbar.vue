@@ -2,7 +2,7 @@
   <div id="header-menu">
     <ul class="header-list">
       <b-img :src="logoPath" class="tag" />
-      <li class="nav-item" ><router-link to="/roomIndex" id="nav-link">部屋一覧</router-link></li>
+      <li class="nav-item" ><router-link to="/roomIndex" id="nav-link">部屋一覧へ</router-link></li>
       <li class="bar-userName"> ユーザー名: {{ this.$store.getters.userName }}</li>
       <li class="nav-item"><a @click="logout" class="navbar-logout" style="cursor: pointer;">ログアウト</a></li>
     </ul>
