@@ -123,7 +123,7 @@ export default {
             });
             const link = document.createElement('a');
             link.href = croppedImage;
-            link.download = '/Users/mitsuma/training/image_chat_system/image_chat_system_web/src/imageDownload';
+            link.download = 'cropped_image.png'
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);

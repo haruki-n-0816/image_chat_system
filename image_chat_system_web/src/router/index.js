@@ -5,7 +5,6 @@ import CreateUserPage from '../views/CreateUserPage.vue'
 import ChatPage from '../views/ChatPage.vue'
 import ImageEditWindow from '../components/ImageEditWindow.vue'
 import RoomIndex from '../views/RoomIndexPage.vue'
-import ImageEditPage from '../views/ImageEditPage.vue'
 import store from '../store'
 
 Vue.use(VueRouter)
@@ -37,11 +36,6 @@ const routes = [
     name:'RoomIndex',
     component:RoomIndex,
     // meta: { requiresAuth: true }
-  },
-  {
-    path:'/imageEditPage',
-    name:'ImageEditPage',
-    component:ImageEditPage,
   },
 
 ]

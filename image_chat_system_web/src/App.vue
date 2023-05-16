@@ -5,7 +5,6 @@
       <router-link to="/create">CreateAccount</router-link>/
       <router-link to="/RoomIndex">ChatRoomIndex</router-link>/
       <router-link to="/imageEditWindow">ImageEditWindow</router-link>/
-      <router-link to="/imageEditPage">ImageEditPage</router-link>/
     </nav>
     <router-view />
   </div>
