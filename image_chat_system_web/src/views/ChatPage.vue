@@ -47,7 +47,7 @@ export default {
     this.socket = new VueSocketIO({
       debug: true,
       connection: 'http://localhost:8081',
-      options: { path: '/socket.io/' }
+      transports: ['websocket'],
     });
     this.socket.io.on('connect', () => {
       console.log('WebSocket connected.');

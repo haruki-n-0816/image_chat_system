@@ -1,22 +1,40 @@
-package com.example.image_chat_system_api.websocket;
+// package com.example.image_chat_system_api.websocket;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+// import org.springframework.boot.SpringApplication;
+// import org.springframework.boot.autoconfigure.SpringBootApplication;
+// import io.socket.client.IO;
+// import io.socket.client.Socket;
+// import io.socket.emitter.Emitter;
 
-import com.corundumstudio.socketio.SocketIOServer;
+// @SpringBootApplication
+// public class WebSocketController {
 
-@RestController
-public class WebSocketController {
-    
-    @Autowired
-    private SocketIOServer socketIOServer;
+//     public static void main(String[] args) {
+//         SpringApplication.run(WebSocketController.class, args);
+//         startSocketServer();
+//     }
 
-    @GetMapping("/chat")
-    @ResponseBody
-    public String socketIO() {
-        return "OK";
-    }
+//     public static void startSocketServer() {
+//         try {
+//             // ソケットサーバーの作成
+//             final Socket socket = IO.socket("http://localhost:8080"); // クライアントのURLに合わせて変更してください
 
-}
+//             // クライアントからのメッセージ受信時の処理
+//             socket.on("message", new Emitter.Listener() {
+//                 @Override
+//                 public void call(Object... args) {
+//                     String message = (String) args[0];
+//                     System.out.println("Received message: " + message);
+
+//                     // クライアントにメッセージを送信
+//                     socket.emit("message", "Server received your message: " + message);
+//                 }
+//             });
+
+//             // ソケットサーバーの開始
+//             socket.connect();
+//         } catch (Exception e) {
+//             e.printStackTrace();
+//         }
+//     }
+// }

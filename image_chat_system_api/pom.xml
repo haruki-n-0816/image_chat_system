@@ -61,8 +61,18 @@
 		<dependency>
 			<groupId>com.corundumstudio.socketio</groupId>
 			<artifactId>netty-socketio</artifactId>
-			<version>1.7.16</version>
+			<version>1.7.18</version>
 		</dependency>
+		<dependency>
+			<groupId>io.socket</groupId>
+			<artifactId>socket.io-client</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<!-- <dependency>
+			<groupId>com.corundumstudio.socketio</groupId>
+			<artifactId>socketio-server</artifactId>
+			<version>1.7.30</version>
+		</dependency> -->
 	</dependencies>
 
 	<build>

@@ -7,6 +7,8 @@ import ImageEditWindow from '../components/ImageEditWindow.vue'
 import RoomIndex from '../views/RoomIndexPage.vue'
 import store from '../store'
 
+import SocketSample from '../components/SocketSample.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -37,6 +39,11 @@ const routes = [
     component:RoomIndex,
     // meta: { requiresAuth: true }
   },
+  {
+    path: '/socketSample',
+    name: 'SocketSample',
+    component: SocketSample
+  }
 ]
 
 const router = new VueRouter({
