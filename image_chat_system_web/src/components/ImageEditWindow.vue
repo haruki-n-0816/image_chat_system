@@ -11,7 +11,6 @@
         <b-button @click="redo">進む</b-button>
         <b-button variant="danger" @click="allDelete">全削除</b-button>
         <b-button variant="primary" @click="exportImage">画像出力</b-button>
-        <b-button variant="primary" @click="SendImage">画像送信</b-button>
         <!-- デバッグ用の情報出力 -->
         <!-- <button @click="allInfo">データ出力</button> -->
         <br><br>
@@ -136,7 +135,7 @@ export default {
             link.click();
             document.body.removeChild(link);
         },
-        SendImage: async function () {
+        sendImage: async function () {
             const croppedImage = this.canvas.toDataURL({
                 left: this.cropStartX,
                 top: this.cropStartY,

@@ -6,8 +6,8 @@
 
     <div class="line-container" :key="imageKey">
       <div v-for="message in messages" :key="message.id">
-        <div class="speech-balloon" :class="message.balloonClass" >
-          {{ formatDate(message.postTime) }}         
+        <div class="speech-balloon" :class="message.balloonClass">
+          {{ formatDate(message.postTime) }}
           <!-- <button @click="confirmDelete(message.id)">削除</button> -->
           <div>
             userID:{{ message.userId }} userName:{{ message.chatPoster }} <br>
@@ -24,163 +24,158 @@
         <div class="bms-clear"></div>
       </div>
     </div>
-    <div class="container">      
+    <div class="container">
       <form class="message-post" @submit.prevent="sendMessage" @keydown.enter="sendMessage">
-        <b-img :src="logoPath" width="50px" class="pic-edit"  @click="imageUpLoad" style="cursor: pointer;"/>
-        <textarea
-          class="chat-input"
-          placeholder="250文字まで入力できます"
-          maxlength="250"
-          type="text"
-          v-model="messageBox"
-          @keydown.shift.enter="newLine"
-          ref="messageBox" 
-          rows="1"
-        ></textarea>
-        
-        <b-img :src="logoPathz" width="50px" class="pic-edit" @click="sendMessage" style="cursor: pointer;"/>
+        <b-img :src="logoPath" width="50px" class="pic-edit" @click="imageUpLoad" style="cursor: pointer;" />
+        <textarea class="chat-input" placeholder="250文字まで入力できます" maxlength="250" type="text" v-model="messageBox"
+          @keydown.shift.enter="newLine" ref="messageBox" rows="1"></textarea>
+
+        <b-img :src="logoPathz" width="50px" class="pic-edit" @click="sendMessage" style="cursor: pointer;" />
       </form>
     </div>
-    
-    <b-modal class="modal-position" ref="modal" title="画像編集" v-model="openimageModal" @hide="imageModal" ok-title="送信" cancel-title="キャンセル">
-      <image-edit-window></image-edit-window>
+
+    <b-modal class="modal-position" ref="modal" title="画像編集" v-model="openimageModal" @hide="imageModal" ok-title="送信"
+      cancel-title="キャンセル">
+      <image-edit-window ref="ImageEditWindow"></image-edit-window>
     </b-modal>
   </div>
 </template>
 
 <script>
-  import axios from 'axios';
-  import Vue from 'vue'
-  import ImageEditWindow from '../components/ImageEditWindow.vue'
-  import Navbar from '../components/Navbar.vue';
-  import autosize from 'autosize';
-  Vue.component('image-edit-window', ImageEditWindow);
-  Vue.component('navbar', Navbar);
-  axios.defaults.baseURL = 'http://localhost:8081';
+import axios from 'axios';
+import Vue from 'vue'
+import ImageEditWindow from '../components/ImageEditWindow.vue'
+import Navbar from '../components/Navbar.vue';
+import autosize from 'autosize';
+Vue.component('image-edit-window', ImageEditWindow);
+Vue.component('navbar', Navbar);
+axios.defaults.baseURL = 'http://localhost:8081';
 
-  export default {
-    components: {
-      ImageEditWindow,
-      Navbar
-    },
-    
-    data() {
-      return {
-        messageBox: "",
-        userId: '',
-        userName: '',
-        imagePath: '',
-        messages: [],
-        chatRoomId: '',
-        postTime: '',
-        imageKey:0,
-        openimageModal: false,
-        logoPath: require('@/assets/picture-logo.png'),
-        logoPathz: require('@/assets/send2.png'),
-      }
-    },
-    mounted() {
-      this.userId = this.$store.getters.userId;
-      this.userName = this.$store.getters.userName;
-      this.chatRoomId = this.$route.params.roomId;
-      this.getChatHistoryAll();
+export default {
+  components: {
+    ImageEditWindow,
+    Navbar
+  },
 
-      // スクロールボタンを取得する
-      const scrollBtn = this.$refs.scrollbtn;
+  data() {
+    return {
+      messageBox: "",
+      userId: '',
+      userName: '',
+      imagePath: '',
+      messages: [],
+      chatRoomId: '',
+      postTime: '',
+      imageKey: 0,
+      openimageModal: false,
+      logoPath: require('@/assets/picture-logo.png'),
+      logoPathz: require('@/assets/send2.png'),
+    }
+  },
+  mounted() {
+    this.userId = this.$store.getters.userId;
+    this.userName = this.$store.getters.userName;
+    this.chatRoomId = this.$route.params.roomId;
+    this.getChatHistoryAll();
 
-      // スクロールボタンがクリックされたときに最下部にスクロールする
-      scrollBtn.addEventListener('click', () => {
-        window.scrollTo({
-          top: document.body.scrollHeight,
-          behavior: 'smooth'
-        });
+    // スクロールボタンを取得する
+    const scrollBtn = this.$refs.scrollbtn;
+
+    // スクロールボタンがクリックされたときに最下部にスクロールする
+    scrollBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
       });
-      const scrollBtnTop = this.$refs.scrollbtntop;
-        scrollBtnTop.addEventListener('click', () => {
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
+    });
+    const scrollBtnTop = this.$refs.scrollbtntop;
+    scrollBtnTop.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    // テキストエリアを取得し、autosizeを初期化する
+    const textarea = this.$refs.messageBox;
+    autosize(textarea);
+    // 初期の高さを設定するために、一度リサイズしてから高さをリセットする
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+
+    // ○秒ごとにチャット履歴を取得するために、setInterval()関数を使用する
+    this.intervalId = setInterval(() => {
+      this.getChatHistoryAll();
+    }, 1000);
+
+    this.imageEditWindow = this.$refs.imageEditWindow;
+  },
+  // コンポーネントが破棄される前に実行される「beforeDestroy」,インターバル処理を停止することができる
+  beforeDestroy() {
+    clearInterval(this.intervalId);
+  },
+
+  methods: {
+    formatDate(timeStamp) {
+      const date = new Date(timeStamp);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+      const seconds = date.getSeconds();
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    },
+    newLine() {
+    },
+    async sendMessage(event) {   //ここから送信してDBに登録するためのメソッド
+      if (!event.shiftKey) {
+        try {
+          const messageBox = this.messageBox;
+          const response = await axios.post('/chatPagePost', {
+            chatRoomId: this.chatRoomId,
+            chatPoster: this.userName,
+            userId: this.userId,
+            message: messageBox,
+            imagePath: this.imagePath
           });
-        });
-      // テキストエリアを取得し、autosizeを初期化する
-      const textarea = this.$refs.messageBox; 
-        autosize(textarea);
-      // 初期の高さを設定するために、一度リサイズしてから高さをリセットする
-      textarea.style.height = 'auto';
-      textarea.style.height = textarea.scrollHeight + 'px';
-
-      // ○秒ごとにチャット履歴を取得するために、setInterval()関数を使用する
-      this.intervalId = setInterval(() => {
-        this.getChatHistoryAll();
-      }, 1000);
-    },
-    // コンポーネントが破棄される前に実行される「beforeDestroy」,インターバル処理を停止することができる
-    beforeDestroy() {
-      clearInterval(this.intervalId);
-    },
-
-    methods: {
-      formatDate(timeStamp) {
-        const date = new Date(timeStamp);
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-        const hours = date.getHours();
-        const minutes = date.getMinutes();
-        const seconds = date.getSeconds();
-        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-      },
-      newLine() {
-      },
-      async sendMessage(event) {   //ここから送信してDBに登録するためのメソッド
-        if (!event.shiftKey) {
-          try {
-            const messageBox = this.messageBox;
-            const response = await axios.post('/chatPagePost', {
-              chatRoomId: this.chatRoomId,
-              chatPoster: this.userName,
-              userId: this.userId,
-              message: messageBox,
-              imagePath: this.imagePath
-            });
-            console.log(response);
-            this.messageBox = "";
-            this.getChatHistoryAll();
-            this.$nextTick(() => {
+          console.log(response);
+          this.messageBox = "";
+          this.getChatHistoryAll();
+          this.$nextTick(() => {
             const textarea = this.$refs.messageBox;
             textarea.style.height = 'auto';
             textarea.style.height = textarea.scrollHeight + 'px';
           });
-          } catch (error) {
-            console.error(error);
-          }
-        }
-      },
-      async getChatHistoryAll() {
-        try {
-          const response = await axios.post('/chatPage', {
-            chatRoomId: this.chatRoomId
-          });
-          console.log(response);
-          const messages = response.data;
-          this.messages = messages.map(message => {
-            return {
-              id: message.id,
-              chatRoomId: message.chatRoomId,
-              chatPoster: message.chatPoster,
-              userId: message.userId,
-              message: message.message,
-              imagePath: message.imagePath,
-              postTime: message.postTime,
-              isSelf: message.userId === this.userId,
-              balloonClass: message.userId === this.userId ? 'speech-balloon-right' : 'speech-balloon-left',
-            }
-          });
         } catch (error) {
           console.error(error);
         }
-      },
-      //削除メソッド
+      }
+    },
+    async getChatHistoryAll() {
+      try {
+        const response = await axios.post('/chatPage', {
+          chatRoomId: this.chatRoomId
+        });
+        console.log(response);
+        const messages = response.data;
+        this.messages = messages.map(message => {
+          return {
+            id: message.id,
+            chatRoomId: message.chatRoomId,
+            chatPoster: message.chatPoster,
+            userId: message.userId,
+            message: message.message,
+            imagePath: message.imagePath,
+            postTime: message.postTime,
+            isSelf: message.userId === this.userId,
+            balloonClass: message.userId === this.userId ? 'speech-balloon-right' : 'speech-balloon-left',
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    //削除メソッド
     //   async confirmDelete(messageId) {
     //   const confirm = window.confirm('本当にこのメッセージを削除しますか？');
     //   if (confirm) {
@@ -198,16 +193,16 @@
     //     console.error(error);
     //   }
     // },
-      // async submitImageData() {
-      // },
-      imageUpLoad() {
-        this.$refs.modal.show();
-      },
-      imageModal() {
+    // async submitImageData() {
+    // },
+    imageUpLoad() {
+      this.$refs.modal.show();
+    },
+    imageModal() {
       this.$refs.modal.hide();
-      },
-      getImagePath(imagePath) {
-      try{
+    },
+    getImagePath(imagePath) {
+      try {
         // alert(`public/${imagePath}`);
         return require(`/public/chatupload/${imagePath}`);
         // return require("/public/chatupload/2023-05-23.112335.admin12345.png");
@@ -215,52 +210,51 @@
         // alert(error);
       }
       location.reload();
-      // this.reloadImage();
-      },
-      reloadImage(){
-        this.imageKey += 1;
-      },
-      resetTextareaSize() {
-        const textarea = this.$refs.messageBox;
-        textarea.style.height = 'auto';
-        textarea.style.height = textarea.scrollHeight + 'px';
-      },
     },
-    watch: {
-      messageBox() {
-        this.autosizeTextarea();
-      }
+    reloadImage() {
+      this.imageKey += 1;
     },
-  }
+    resetTextareaSize() {
+      const textarea = this.$refs.messageBox;
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    },
+    sendImage() {
+      this.$refs.ImageEditWindow.sendImage();
+    },
+  },
+
+}
 </script>
 
 <style>
-  .chat-page {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
+.chat-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
-  .pic-edit{
-    margin-bottom: 40px;
-    margin-left: 0.5rem;
-    margin-right: 1rem;
-  }
+.pic-edit {
+  margin-bottom: 40px;
+  margin-left: 0.5rem;
+  margin-right: 1rem;
+}
 
-  .container {
-    display: flex;
-    align-items: center; /* 縦方向の中央揃え */
-  }
+.container {
+  display: flex;
+  align-items: center;
+  /* 縦方向の中央揃え */
+}
 
-  .chat-input {
-    width: 50vw;
-    border-radius: 10px;  
-    font-size: 100%;
-    overflow-wrap: normal;
-    margin-bottom: 0;
-    word-break: break-all;
-    resize: vertical;
-  } 
+.chat-input {
+  width: 50vw;
+  border-radius: 10px;
+  font-size: 100%;
+  overflow-wrap: normal;
+  margin-bottom: 0;
+  word-break: break-all;
+  resize: vertical;
+}
 
 .message-post {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -281,7 +275,7 @@
   padding: 1rem;
   /* background: #7494C0; */
   overflow: hidden;
-  margin:2rem auto 0 auto;
+  margin: 2rem auto 0 auto;
   font-size: 80%;
   width: 69.5%;
   padding-bottom: 6.5rem;
@@ -348,12 +342,16 @@
   margin: 0;
   padding: 0;
 }
-.speech-balloon-left, .speech-balloon-right {
+
+.speech-balloon-left,
+.speech-balloon-right {
   border-radius: 10px;
 }
+
 html {
   scroll-behavior: smooth;
 }
+
 .go-top {
   display: block;
   width: 3vw;
@@ -431,7 +429,7 @@ html {
 }
 
 .go-down:hover {
-  opacity: 1; 
+  opacity: 1;
 }
 
 .chat-input {
@@ -456,7 +454,7 @@ html {
   font-size: 170%;
 }
 
-.modal-position{
+.modal-position {
   width: 50%;
   height: auto;
   text-align: center;
