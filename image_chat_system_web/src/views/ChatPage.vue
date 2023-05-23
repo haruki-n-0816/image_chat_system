@@ -107,7 +107,7 @@ export default {
     },
     newLine() {
     },
-    async sendMessage(event) {   //ここから送信してDBに登録するためのメソッド
+    async sendMessage(event) {
       if (!event.shiftKey) {
         try {
           const messageBox = this.messageBox;
@@ -182,7 +182,6 @@ export default {
         return require(`@/assets/${imagePath}`);
       } catch (error) {
         // alert(error);
-        // return require('@/assets/imageDownload/2023-05-22.153541.admin12345.png');
       }
       location.reload();
     }
