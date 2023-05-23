@@ -1,9 +1,10 @@
 <template>
   <div id="header-menu">
     <ul class="header-list">
-      <b-img :src="logoPath" class="tag" />
-      <li class="nav-item" ><router-link to="/roomIndex" id="nav-link">部屋一覧へ</router-link></li>
-      <li class="bar-userName"> ユーザー名: {{ this.$store.getters.userName }}</li>
+      <b-img :src="logoPath" class="tag" /> 
+      <li v-if="shouldShowRoomName" class="bar-room-name">{{ "入室中の部屋："+this.$store.getters.roomName }}</li>
+      <li v-if="shouldShowRoomName" class="nav-item" ><router-link to="/roomIndex" id="nav-link-exit">退室</router-link></li>
+      <li class="bar-user-name"> ユーザー名: {{ this.$store.getters.userName }}</li>
       <li class="nav-item"><a @click="logout" class="navbar-logout" style="cursor: pointer;">ログアウト</a></li>
     </ul>
   </div>
@@ -11,6 +12,14 @@
 
 <script>
   export default {
+    computed: {
+      currentRoute() {
+        return this.$route.path;
+      },
+      shouldShowRoomName() {
+        return this.currentRoute !== '/roomIndex'; // 表示しないURLを指定
+      }
+    },
     data() {
       return {
         logoPath: require('@/assets/header-tag.png')
@@ -35,7 +44,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 4rem;
+    height: 3rem;
     background-color: #e6f3ff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 999;
@@ -57,16 +66,16 @@
   }
 
   .nav-item {
-    margin-left: 2rem;
+    margin-left: 1rem;
   }
 
-  #nav-link{
-    color: rgb(0, 0, 0);
+  #nav-link-exit{
+    color: rgb(255, 0, 0);
     text-decoration: none;
   }
 
-  #nav-link:hover{
-    color:blue
+  #nav-link-exit:hover{
+    color:rgb(1, 1, 172)
   }
 
   .navbar-logout {
@@ -78,8 +87,8 @@
     margin: 0;
   }
 
-  .bar-userName{
-    flex-grow: 1;
+  .bar-user-name{
+    margin-left: 2rem;
     text-align: right;
   }
 
@@ -91,5 +100,9 @@
 
   .nav-link:hover{
     color: #f00; 
+  }
+
+  .bar-room-name{
+    text-align: right;
   }
 </style>

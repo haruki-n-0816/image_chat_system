@@ -61,8 +61,6 @@
 
 <style>
   body {
-    height: 100vh;
-    /* display: flex; */
     justify-content: center;
     align-items: center;
     background-image: url(~@/assets/kabe.jpg);
@@ -93,6 +91,8 @@
     margin-bottom: 0;
     margin-right:300px ;
     margin-left: 300px;
+    border-radius:30px;
+
   }
 
   @media (max-width: 600px) {
@@ -105,38 +105,36 @@
 
   @media (min-width: 601px) and (max-width: 900px) {
   /* 601px以上900px以下の画面サイズの場合のスタイル */
-  .forms {
-    margin: 40px;
-    padding: 2em;
-    max-width: 500px; /* 追加 */
-    margin-left: auto; /* 追加 */
-    margin-right: auto; /* 追加 */
+    .forms {
+      margin: 40px;
+      padding: 2em;
+      max-width: 500px; 
+      margin-left: auto; 
+      margin-right: auto; 
+    }
   }
-}
 
-
-@media (min-width: 901px) and (max-width: 1200px) {
-  /* 901px以上1200px以下の画面サイズの場合のスタイル */
-  .forms {
-    margin: 60px;
-    padding: 3em;
-    max-width: 600px; /* 適切な幅に調整 */
-    margin-left: auto;
-    margin-right: auto;
+  @media (min-width: 901px) and (max-width: 1200px) {
+    /* 901px以上1200px以下の画面サイズの場合のスタイル */
+    .forms {
+      margin: 60px;
+      padding: 3em;
+      max-width: 600px; 
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
-}
 
 @media (min-width: 1201px) {
   /* 1201px以上の画面サイズの場合のスタイル */
   .forms {
-    margin: 40px;
-    padding: 4em;
-    max-width: 800px; /* 適切な幅に調整 */
+    margin: 60px 40px 40px 40px;
+    padding: 2em;
+    max-width: 800px; 
     margin-left: auto;
     margin-right: auto;
   }
 }
-
 
   .login-button {
     margin-top: 30px;
