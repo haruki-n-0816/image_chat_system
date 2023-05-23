@@ -14,6 +14,10 @@
           <div id="message-position">
             {{ message.message }}
           </div>
+          <!-- <img v-if="message.imagePath" :src="require(`@/assets/${message.imagePath}`)"  alt="Image"> -->
+          <img v-if="message.imagePath" :src="getImagePath(message.imagePath)" alt="Image">
+          <!-- <img :src="getImagePath()" alt="Image"> -->
+          <!-- {{ message.imagePath }} -->
           <button @click="confirmDelete(message.id)">削除</button>
         </div>
         <div class="bms-clear"></div>
@@ -27,9 +31,9 @@
       <button type="submit">送信</button>
     </form>
 
-      <b-modal class="modal-position" ref="modal" title="画像編集" @hide="hideModal" ok-title="送信" cancel-title="キャンセル" @ok="submitImageData">
-        <image-edit-window></image-edit-window>
-      </b-modal>
+    <b-modal class="modal-position" ref="modal" title="画像編集" v-model="openimageModal" @hide="imageModal" ok-title="送信" cancel-title="キャンセル">
+      <image-edit-window></image-edit-window>
+    </b-modal>
   </div>
 </template>
 
@@ -54,6 +58,7 @@ export default {
       messages: [],
       chatRoomId: '',
       postTime: '',
+      openimageModal: false,
     }
   },
   mounted() {
@@ -72,7 +77,7 @@ export default {
         behavior: 'smooth'
       });
     });
-    const scrollBtnTop = this.$refs.scrollbtntop;
+    const scrollBtnTop = document.querySelector('.go-top');
     scrollBtnTop.addEventListener('click', () => {
       window.scrollTo({
         top: 0,
@@ -122,7 +127,6 @@ export default {
       }
     },
     async getChatHistoryAll() {
-      // this.messages = []
       try {
         const response = await axios.post('/chatPage', {
           chatRoomId: this.chatRoomId
@@ -163,28 +167,24 @@ export default {
         console.error(error);
       }
     },
-    async submitImageData() {
-      const imageData = this.$refs.ImageEditWindow.exportImage();
-      alert(imageData);
-      try {
-        const response = await axios.post('/chatPagePost', {
-          chatRoomId: this.chatRoomId,
-          chatPoster: this.userName,
-          userId: this.userId,
-          message: this.messageBox,
-          imagePath: imageData,
-        });
-        console.log(response);
-        this.getChatHistoryAll();
-      } catch (error) {
-        console.error(error);
-      }
-    },
+    // async submitImageData() {
+
+    // },
     imageUpLoad() {
       this.$refs.modal.show();
     },
-    hideModal() {
+    imageModal() {
       this.$refs.modal.hide();
+    },
+    getImagePath(imagePath) {
+      try{
+        // alert(`@/assets/${imagePath}`);
+        return require(`@/assets/${imagePath}`);
+      } catch (error) {
+        // alert(error);
+        // return require('@/assets/imageDownload/2023-05-22.153541.admin12345.png');
+      }
+      location.reload();
     }
   }
 }
@@ -213,6 +213,7 @@ export default {
   text-align: left;
   float: left;
   white-space: pre-wrap;
+  word-break: break-all;
 }
 
 .speech-balloon-left:before {
@@ -243,7 +244,7 @@ export default {
   text-align: left;
   float: right;
   white-space: pre-wrap;
-
+  word-break: break-all;
 }
 
 .speech-balloon-right:before {
@@ -381,6 +382,7 @@ html {
   font-size: 100%;
   resize: none;
   overflow-wrap: normal;
+  word-break: break-all;
 }
 
 .message-post {
@@ -396,11 +398,11 @@ html {
   color: #ef858c;
 }
 
-/* .modal-position{
+.modal-position{
   width: 50%;
   height: auto;
   text-align: center;
-} */
+}
 
 .bms-clear {
   clear: both;
