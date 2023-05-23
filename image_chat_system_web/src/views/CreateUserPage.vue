@@ -39,7 +39,7 @@ export default {
       mail: '',
       password: '',
       showSuccessMessage: false,
-      logoPath: require('@/assets/logo3.png'),
+      logoPath: require('/public/assets/logo.png'),
       email: 'email@email.com'
     };
   },computed:{

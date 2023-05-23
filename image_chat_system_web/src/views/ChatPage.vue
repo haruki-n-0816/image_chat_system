@@ -73,8 +73,8 @@
         messages: [],
         chatRoomId: '',
         postTime: '',
-        logoPath: require('@/assets/picture-logo.png'),
-        logoPathz: require('@/assets/send2.png'),
+        logoPath: require('/public/assets/picture-logo.png'),
+        logoPathz: require('/public/assets/send.png'),
       }
     },
     mounted() {

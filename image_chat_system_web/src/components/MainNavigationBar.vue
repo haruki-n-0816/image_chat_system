@@ -23,7 +23,7 @@
     },
     data() {
       return {
-        logoPath: require('@/assets/header-tag.png')
+        logoPath: require('/public/assets/header-tag.png')
       }
     },
     methods:{

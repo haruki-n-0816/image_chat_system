@@ -29,7 +29,7 @@
         userName: '',
         userId: '',
         errorMessage: '',
-        logoPath: require('@/assets/logo3.png')
+        logoPath: require('/public/assets/logo.png')
       }
     },
   
@@ -63,7 +63,7 @@
   body {
     justify-content: center;
     align-items: center;
-    background-image: url(~@/assets/kabe.jpg);
+    background-image: url(/public/assets/kabe.jpg);
     background-size: cover;
     background-position: center;
   }
@@ -76,7 +76,7 @@
     right: 0;
     bottom: 0;
     z-index: -1;
-    background-image: url(~@/assets/kabe.jpg);
+    background-image: url(/public/assets/kabe.jpg);
     background-size: cover;
     background-position: center;
     filter: blur(6px); 

@@ -54,7 +54,7 @@
         roomName: "",
         showAddGroupPopup: false,
         showLogoutPopup: false,
-        logoPath: require('@/assets/ROOM2.png')
+        logoPath: require('/public/assets/room-index.png')
       };
     },
     mounted() {
