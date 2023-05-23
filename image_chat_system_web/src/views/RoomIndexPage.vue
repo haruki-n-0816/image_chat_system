@@ -1,6 +1,6 @@
 <template>
   <div>
-    <navbar></navbar>
+    <main-navigation-bar></main-navigation-bar>
     <div class="add-room">
       <b-img :src="logoPath" width="100px" class="add-button"  @click="showAddGroupPopup = true" style="cursor: pointer;"/>
       <b-modal v-model="showAddGroupPopup" title="新規部屋作成" hide-footer>
@@ -34,18 +34,19 @@
   </div>
 </template>
 
+<!-- eslint-disable  -->
 <script>
   import axios from 'axios';
   axios.defaults.baseURL = 'http://localhost:8081';
 
   import Vue from 'vue';
 
-  import Navbar from '../components/Navbar.vue';
-  Vue.component('navbar', Navbar);
+  import MainNavigationBar from '../components/MainNavigationBar.vue';
+  Vue.component('main-navigation-bar', MainNavigationBar);
 
   export default {
     components: {
-        Navbar
+      MainNavigationBar
       },
     data() {
       return {
@@ -58,12 +59,11 @@
     },
     mounted() {
       this.showAll();
-          // ○秒ごとにチャット履歴を取得するために、setInterval()関数を使用する
       this.intervalId = setInterval(() => {
         this.showAll();
       }, 1000);
     },
-      // コンポーネントが破棄される前に実行される「beforeDestroy」,インターバル処理を停止することができる
+
     beforeDestroy() {
       clearInterval(this.intervalId);
     },
@@ -121,7 +121,7 @@
 
   @media (max-width: 767px) {
     #chatroom-header {
-      top: 3.5rem; /* Adjust the value for mobile devices */
+      top: 3.5rem; 
     }
     .room-list-item {
       margin-left: 20%;
@@ -178,11 +178,11 @@
     margin-top: 1rem;
     margin-bottom: 1rem;
     color:#f2f2f2;
-    top: 5rem; /* Adjust the value to match the height of your navbar */
+    top: 5rem;
     left: 0;
     width: 100%;
     color: #e6e6e6;
-    z-index: 998; /* Set a lower z-index than the navbar */
+    z-index: 998;
     text-align: center;
   }
 
@@ -200,11 +200,11 @@
   }
 
   #chatroom-header {
-    top: 5rem; /* Adjust the value to match the height of your navbar */
+    top: 5rem;
     left: 0;
     width: 100%;
     color: #e6e6e6;
-    z-index: 998; /* Set a lower z-index than the navbar */
+    z-index: 998; 
   }
 
   .create-text{

@@ -2,14 +2,15 @@
   <div id="header-menu">
     <ul class="header-list">
       <b-img :src="logoPath" class="tag" /> 
-      <li v-if="shouldShowRoomName" class="bar-room-name">{{ "入室中の部屋："+this.$store.getters.roomName }}</li>
-      <li v-if="shouldShowRoomName" class="nav-item" ><router-link to="/roomIndex" id="nav-link-exit">退室</router-link></li>
       <li class="bar-user-name"> ユーザー名: {{ this.$store.getters.userName }}</li>
       <li class="nav-item"><a @click="logout" class="navbar-logout" style="cursor: pointer;">ログアウト</a></li>
+      <li v-if="shouldShowRoomName" class="bar-room-name">{{ "入室中の部屋："+this.$store.getters.roomName }}</li>
+      <li v-if="shouldShowRoomName" class="nav-item" ><router-link to="/roomIndex" id="nav-link-exit">退室</router-link></li>
     </ul>
   </div>
 </template>
 
+<!-- eslint-disable  -->
 <script>
   export default {
     computed: {
@@ -87,11 +88,6 @@
     margin: 0;
   }
 
-  .bar-user-name{
-    margin-left: 2rem;
-    text-align: right;
-  }
-
   li{
     white-space: nowrap; /* テキストの折り返しを制御 */
     overflow: hidden; /* テキストがはみ出た場合に隠す */
@@ -103,6 +99,12 @@
   }
 
   .bar-room-name{
+    margin-left: 2rem;
+    text-align: right;
+  }
+
+  .bar-user-name{
+    margin-left: 2rem;
     text-align: right;
   }
 </style>

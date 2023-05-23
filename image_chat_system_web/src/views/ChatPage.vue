@@ -1,6 +1,6 @@
 <template>
   <div class="chat-page">
-    <navbar></navbar>
+    <main-navigation-bar></main-navigation-bar>
     <button ref="scrollbtntop" class="go-top"></button>
     <button ref="scrollbtn" class="go-down"></button>
 
@@ -31,18 +31,19 @@
           v-model="messageBox"
           @keydown.shift.enter="newLine"
           ref="messageBox" 
-          rows="1"
         ></textarea>
         
         <b-img :src="logoPathz" width="50px" class="pic-edit" @click="sendMessage" style="cursor: pointer;"/>
       </form>
     </div>
-    
+
     <b-modal class="modal-position" ref="modal" title="画像編集" @hide="hideModal" ok-title="送信" cancel-title="キャンセル" @ok="submitImageData">
       <image-edit-window></image-edit-window>
     </b-modal>
   </div>
 </template>
+
+<!-- eslint-disable  -->
 
 <script>
   import axios from 'axios';
@@ -52,19 +53,17 @@
   import ImageEditWindow from '../components/ImageEditWindow.vue'
   Vue.component('image-edit-window', ImageEditWindow);
 
-  import Navbar from '../components/Navbar.vue';
-  Vue.component('navbar', Navbar);
+  import MainNavigationBar from '../components/MainNavigationBar.vue';
+  Vue.component('main-navigation-bar', MainNavigationBar);
 
   import autosize from 'autosize';
 
 
   export default {
     components: {
-      ImageEditWindow
+      ImageEditWindow,
+      MainNavigationBar
     },
-    components: {
-          Navbar
-        },
     data() {
       return {
         messageBox: "",
@@ -97,7 +96,6 @@
       // テキストエリアを取得し、autosizeを初期化する
       const textarea = this.$refs.messageBox; 
         autosize(textarea);
-    
 
       // 初期の高さを設定するために、一度リサイズしてから高さをリセットする
       textarea.style.height = 'auto';
@@ -228,11 +226,6 @@
         textarea.style.height = textarea.scrollHeight + 'px';
       },
     },
-    watch: {
-      messageBox() {
-        this.autosizeTextarea();
-      }
-    },
   }
 </script>
 
@@ -264,194 +257,197 @@
     resize: vertical;
   } 
 
-.message-post {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #fff;
-  z-index: 9999;
-  background-color: transparent;
-}
+  .message-post {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    background-color: transparent;
+  }
 
-.line-container {
-  padding: 1rem;
-  /* background: #7494C0; */
-  overflow: hidden;
-  margin:2rem auto 0 auto;
-  font-size: 80%;
-  width: 69.5%;
-  padding-bottom: 6.5rem;
-}
+  .line-container {
+    padding: 1rem;
+    /* background: #7494C0; */
+    overflow: hidden;
+    margin:2rem auto 0 auto;
+    font-size: 80%;
+    width: 69.5%;
+    padding-bottom: 6.5rem;
+  }
 
-.speech-balloon-left {
-  position: relative;
-  display: inline-block;
-  margin: 1.5em 15px 1.5em 15px;
-  padding: 7px 10px;
-  min-width: 120px;
-  max-width: 100%;
-  color: #555;
-  font-size: 14px;
-  background: #ffffff;
-  text-align: left;
-  float: left;
-  white-space: pre-wrap;
-}
+  .speech-balloon-left {
+    position: relative;
+    display: inline-block;
+    margin: 1.5em 15px 1.5em 15px;
+    padding: 7px 10px;
+    min-width: 120px;
+    max-width: 100%;
+    color: #555;
+    font-size: 14px;
+    background: #ffffff;
+    text-align: left;
+    float: left;
+    white-space: pre-wrap;
+  }
 
-.speech-balloon-left:before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: -30px;
-  margin-top: -15px;
-  border: 15px solid transparent;
-  border-right: 15px solid #ffffff;
-}
+  .speech-balloon-left:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -30px;
+    margin-top: -15px;
+    border: 15px solid transparent;
+    border-right: 15px solid #ffffff;
+  }
 
-.speech-balloon-left p {
-  margin: 0;
-  padding: 0;
-}
+  .speech-balloon-left p {
+    margin: 0;
+    padding: 0;
+  }
 
-.speech-balloon-right {
-  position: relative;
-  display: inline-block;
-  margin: 1.2em 15px 1.2em 15px;
-  padding: 7px 10px;
-  min-width: 120px;
-  max-width: 100%;
-  color: #555;
-  font-size: 14px;
-  background: #ffffff;
-  text-align: left;
-  float: right;
-  white-space: pre-wrap;
-  word-break: break-all;
-}
+  .speech-balloon-right {
+    position: relative;
+    display: inline-block;
+    margin: 1.2em 15px 1.2em 15px;
+    padding: 7px 10px;
+    min-width: 120px;
+    max-width: 100%;
+    color: #555;
+    font-size: 14px;
+    background: #ffffff;
+    text-align: left;
+    float: right;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
 
-.speech-balloon-right:before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 100%;
-  margin-top: -12px;
-  border: 15px solid transparent;
-  border-left: 15px solid #ffffff;
-}
+  .speech-balloon-right:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    margin-top: -12px;
+    border: 15px solid transparent;
+    border-left: 15px solid #ffffff;
+  }
 
-.speech-balloon-right p {
-  margin: 0;
-  padding: 0;
-}
+  .speech-balloon-right p {
+    margin: 0;
+    padding: 0;
+  }
 
-.speech-balloon-left, .speech-balloon-right {
-  border-radius: 10px;
-}
+  .speech-balloon-left, .speech-balloon-right {
+    border-radius: 10px;
+  }
 
 
-html {
-  scroll-behavior: smooth;
-}
+  html {
+    scroll-behavior: smooth;
+  }
 
-.go-top {
-  display: block;
-  width: 3vw;
-  height: 3vw;
-  box-sizing: border-box;
-  background: #FFF;
-  border: 1px solid #999;
-  padding-top: 30px;
-  text-align: center;
-  letter-spacing: -1px;
-  text-decoration: none;
-  color: #333;
-  opacity: 2.5vw;
-  position: fixed;
-  top: 47%;
-  right: 12%;
-  z-index: 10000;
-  transform: translate(50%, -50%);
-}
+  .go-top {
+    display: block;
+    width: 3vw;
+    height: 3vw;
+    box-sizing: border-box;
+    background: #FFF;
+    border: 1px solid #999;
+    padding-top: 30px;
+    text-align: center;
+    letter-spacing: -1px;
+    text-decoration: none;
+    color: #333;
+    opacity: 2.5vw;
+    position: fixed;
+    top: 47%;
+    right: 12%;
+    z-index: 10000;
+    transform: translate(50%, -50%);
+  }
 
-.go-top::before {
-  content: "";
-  display: block;
-  border-top: 2px solid #333;
-  border-right: 2px solid #333;
-  width: 25%;
-  height: 25%;
-  top: 25%;
-  left: 0;
-  right: 0;
-  margin: auto;
-  position: absolute;
-  overflow: auto;
-  transform: rotate(-45deg);
-}
+  .go-top::before {
+    content: "";
+    display: block;
+    border-top: 2px solid #333;
+    border-right: 2px solid #333;
+    width: 25%;
+    height: 25%;
+    top: 25%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    position: absolute;
+    overflow: auto;
+    transform: rotate(-45deg);
+  }
 
-.go-top:hover {
-  opacity: 1;
-}
+  .go-top:hover {
+    opacity: 1;
+  }
 
-.go-down {
-  display: block;
-  width: 3vw;
-  height: 3vw;
-  box-sizing: border-box;
-  background: #FFF;
-  border: 1px solid #999;
-  padding-top: 30px;
-  text-align: center;
-  letter-spacing: -1px;
-  font-size: 2.5vw;
-  text-decoration: none;
-  color: #333;
-  opacity: 2.5vw;
-  position: fixed;
-  top: 53%;
-  right: 12%;
-  z-index: 10000;
-  transform: translate(50%, -50%);
-}
+  .go-down {
+    display: block;
+    width: 3vw;
+    height: 3vw;
+    box-sizing: border-box;
+    background: #FFF;
+    border: 1px solid #999;
+    padding-top: 30px;
+    text-align: center;
+    letter-spacing: -1px;
+    font-size: 2.5vw;
+    text-decoration: none;
+    color: #333;
+    opacity: 2.5vw;
+    position: fixed;
+    top: 53%;
+    right: 12%;
+    z-index: 10000;
+    transform: translate(50%, -50%);
+  }
 
-.go-down::before {
-  content: "";
-  display: block;
-  border-top: 2px solid #333;
-  border-right: 2px solid #333;
-  width: 25%;
-  height: 25%;
-  top: 25%;
-  left: 0;
-  right: 0;
-  margin: auto;
-  position: absolute;
-  transform: rotate(135deg);
-}
+  .go-down::before {
+    content: "";
+    display: block;
+    border-top: 2px solid #333;
+    border-right: 2px solid #333;
+    width: 25%;
+    height: 25%;
+    top: 25%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    position: absolute;
+    transform: rotate(135deg);
+  }
 
-.go-down:hover {
-  opacity: 1; 
-}
+  .go-down:hover {
+    opacity: 1; 
+  }
 
-#message-position {
-  text-align: left;
-  font-size: 170%;
-}
+  #message-position {
+    text-align: left;
+    font-size: 170%;
+  }
 
-.modal-position{
-  width: 50%;
-  height: auto;
-  text-align: center;
-}
+  .modal-position{
+    width: 50%;
+    height: auto;
+    text-align: center;
+  }
 
-.bms-clear {
-  clear: both;
-  /* 左メッセージと右メッセージの回り込み(float)の効果の干渉を防ぐために必要（これが無いと横になる) */
-}
+  .b-modal {
+    z-index: 9999;
+  }
+
+  .bms-clear {
+    clear: both;
+    /* 左メッセージと右メッセージの回り込み(float)の効果の干渉を防ぐために必要（これが無いと横になる) */
+  }
 </style> 

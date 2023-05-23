@@ -10,8 +10,9 @@
                 <b-form-input v-model="name" placeholder="Name" type="text"></b-form-input>
               </div>
               <div class="create-input-wrapper">
-                <b-form-input v-model="mail" placeholder="Mail" type="email"></b-form-input>
-              </div>           
+                <b-form-input v-model="mail" placeholder="Mail" @input="validateMail"></b-form-input>
+                <div v-if="isMailInvalid" class="validation-error">半角英数字と@以外の文字は使用できません</div>
+              </div>         
               <div class="password-wrapper">
                 <b-form-input v-model="password" placeholder="Password" type="password" class="password-input"></b-form-input>
                 <b-button class="password-toggle" @click.once="showHidden"></b-button>
@@ -38,7 +39,8 @@ export default {
       mail: '',
       password: '',
       showSuccessMessage: false,
-      logoPath: require('@/assets/logo3.png')
+      logoPath: require('@/assets/logo3.png'),
+      isMailInvalid: false
     };
   },
   methods: {
@@ -71,7 +73,11 @@ export default {
         input.setAttribute('type', type === 'password' ? 'text' : 'password')
         passwordToggle.classList.toggle('is-visible')
       })
-    }
+    },
+    validateMail() {
+      const regExp = /^[a-zA-Z0-9@]*$/;
+      this.isMailInvalid = !regExp.test(this.mail);
+    },
   },
 };
 </script>

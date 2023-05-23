@@ -4,7 +4,7 @@ import LoginPage from '../views/LoginPage.vue'
 import CreateUserPage from '../views/CreateUserPage.vue'
 import ChatPage from '../views/ChatPage.vue'
 import ImageEditWindow from '../components/ImageEditWindow.vue'
-import Navbar from '../components/Navbar.vue'
+import MainNavigationBar from '../components/MainNavigationBar.vue'
 import RoomIndex from '../views/RoomIndexPage.vue'
 import store from '../store'
 
@@ -39,9 +39,9 @@ const routes = [
     // meta: { requiresAuth: true }
   },
   {
-    path:'/navbar',
-    name:'Navbar',
-    component:Navbar
+    path:'/mainNavigationBar',
+    name:'MainNavigationBar',
+    component:MainNavigationBar
   },
 ]
 
