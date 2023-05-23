@@ -31,8 +31,8 @@
       <button type="submit">送信</button>
     </form>
 
-    <b-modal class="modal-position" ref="modal" title="画像編集" v-model="openimageModal" @hide="imageModal" ok-title="送信" cancel-title="キャンセル">
-      <image-edit-window></image-edit-window>
+    <b-modal class="modal-position" ref="modal" title="画像編集" v-model="openimageModal" @hide="imageModal" @ok="sendImage" cancel-title="キャンセル">
+      <image-edit-window ref="ImageEditWindow"></image-edit-window>
     </b-modal>
   </div>
 </template>
@@ -89,6 +89,8 @@ export default {
     this.intervalId = setInterval(() => {
       this.getChatHistoryAll();
     }, 1000);
+
+    this.imageEditWindow = this.$refs.imageEditWindow;
   },
   // コンポーネントが破棄される前に実行される「beforeDestroy」,インターバル処理を停止することができる
   beforeDestroy() {
@@ -184,6 +186,9 @@ export default {
         // alert(error);
       }
       location.reload();
+    },
+    sendImage(){
+      this.$refs.ImageEditWindow.sendImage();
     }
   }
 }
