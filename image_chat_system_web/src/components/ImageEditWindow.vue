@@ -15,12 +15,14 @@
         <!-- <button @click="allInfo">データ出力</button> -->
         <br><br>
         <input class="a" type="file" @change="handleImageUpload" />
-            <canvas ref="canvas" @mousedown="startAction" @mousemove="action" @mouseup="endAction"></canvas>
+        <canvas ref="canvas" @mousedown="startAction" @mousemove="action" @mouseup="endAction"></canvas>
         <br>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:8081';
 import { fabric } from 'fabric';
 
 export default {
@@ -57,6 +59,9 @@ export default {
         this.canvas.on('object:added', function (e) {
             e.target.selectable = false;
         });
+        this.userId = this.$store.getters.userId;
+        this.userName = this.$store.getters.userName;
+        this.chatRoomId = this.$route.params.roomId;
     },
     methods: {
         saveHistory() {
@@ -85,8 +90,8 @@ export default {
                 img.scaleToHeight(maxHeight);
 
                 canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
-                scaleX: img.scaleX,
-                scaleY: img.scaleY
+                    scaleX: img.scaleX,
+                    scaleY: img.scaleY
                 });
 
                 canvas.setWidth(maxWidth);
@@ -125,10 +130,44 @@ export default {
             });
             const link = document.createElement('a');
             link.href = croppedImage;
-            link.download = 'cropped_image.png'
+            link.download = 'cropped.png';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        },
+        sendImage: async function () {
+            const croppedImage = this.canvas.toDataURL({
+                left: this.cropStartX,
+                top: this.cropStartY,
+                width: this.cropEndX - this.cropStartX,
+                height: this.cropEndY - this.cropStartY
+            });
+            const base64Data = croppedImage.replace(/^data:image\/(png|jpeg);base64,/, "");//実際のBase64エンコードされた画像データの部分だけにする
+            const binaryData = atob(base64Data);    //デコードしてバイナリデータへ（atobでBase64エンコードを逆変換するために使用）
+            const arrayBuffer = new ArrayBuffer(binaryData.length);// ArrayBufferバイナリデータの格納に使用される(サイズ固定)
+            const uint8Array = new Uint8Array(arrayBuffer);//整数値を格納するための固定サイズの配列（8ビット符号なし）、元の画像データをバイト単位で格納した配列
+
+            for (let i = 0; i < binaryData.length; i++) {
+                uint8Array[i] = binaryData.charCodeAt(i);
+            }
+            
+            const blob = new Blob([arrayBuffer], { type: "image/jpeg" }); //Blobオブジェクトに変換(Blobオブジェクトはファイルのように扱える)
+
+            const formData = new FormData();
+            formData.append("image", blob, "image.jpg");
+            formData.append("chatRoomId", this.chatRoomId); 
+            formData.append("chatPoster", this.userName); 
+            formData.append("userId", this.userId); 
+            try {
+                const response = await axios.post('/chatImagePost', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'  //送信されるデータの種類
+                    }
+                });
+                console.log(response);
+            } catch (error) {
+                console.error(error);
+            }
         },
         optionChanged() {
             if (this.selectedMode == 0) {
@@ -299,12 +338,14 @@ export default {
 </script>
 
 <style>
-.image-edit-window{
+.image-edit-window {
     text-align: center;
 }
-.a{
+
+.a {
     width: 50vw;
 }
+
 canvas {
     display: block;
     margin: auto;

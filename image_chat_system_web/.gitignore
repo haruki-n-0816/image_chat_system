@@ -21,3 +21,7 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Chat upload image file
+public/chatupload/*.png
+public/chatupload/*.jpg

@@ -40,7 +40,7 @@ export default {
       password: '',
       showSuccessMessage: false,
       logoPath: require('/public/assets/logo.png'),
-      email: 'email@email.com'
+      email: ''
     };
   },computed:{
     isFormInvalid() {
