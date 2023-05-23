@@ -10,15 +10,15 @@
                 <b-form-input v-model="name" placeholder="Name" type="text"></b-form-input>
               </div>
               <div class="create-input-wrapper">
-                <b-form-input v-model="mail" placeholder="Mail" @input="validateMail"></b-form-input>
-                <div v-if="isMailInvalid" class="validation-error">半角英数字と@以外の文字は使用できません</div>
-              </div>         
+                <b-form-input  type="text" name="email" v-model="email"></b-form-input>
+                <p v-if="isInValidEmail" class="error" style="color:red">※メールアドレスを正しく入力してください。</p>
+              </div>           
               <div class="password-wrapper">
                 <b-form-input v-model="password" placeholder="Password" type="password" class="password-input"></b-form-input>
                 <b-button class="password-toggle" @click.once="showHidden"></b-button>
               </div>
               <div>
-                <b-button variant="primary" class="create-user-button" type="submit" >新規登録</b-button>
+                <b-button variant="primary" class="create-user-button" type="submit" :disabled="isInValidEmail">新規登録</b-button>
                 <b-button variant="secondary" class="create-user-button" @click="$router.push('/Login')">キャンセル</b-button>
                 <p class="text">(au bord du feu)をご利用いただく際には、節度を守ってご利用ください。</p>
               </div>
@@ -40,29 +40,42 @@ export default {
       password: '',
       showSuccessMessage: false,
       logoPath: require('@/assets/logo3.png'),
-      isMailInvalid: false
+      email: 'email@email.com'
     };
+  },computed:{
+    isFormInvalid() {
+      return !(this.name && this.email && this.password);
+    },
+    isInValidEmail(){
+      const reg = new RegExp(/^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/);
+      return !reg.test(this.email);
+    }
   },
   methods: {
     async createAccount() {
       try {
-        const response = await axios.post('/create', {
-          name: this.name,
-          mail: this.mail,
-          password: this.password,
-        });
-        if (response.data === true) {
-          this.showSuccessMessage = true;
-          setTimeout(() => {
-            this.$router.push('/login');
-          }, 2000);
-        } else {
-          alert('既に登録されているメールアドレスです');
+        if(this.isFormInvalid){
+            alert('入力フォームを正しく入力してください');
+          }else if (!this.isFormInvalid) {
+          const response = await axios.post('/create', {
+            name: this.name,
+            mail: this.email,
+            password: this.password,
+          });
+          if (response.data === true) {
+            this.showSuccessMessage = true;
+            setTimeout(() => {
+              this.$router.push('/login');
+            }, 2000);
+          } else {
+            alert('既に登録されているメールアドレスです');
+          }
         }
       } catch (error) {
         console.error(error);
       }
     },
+
     async showHidden(event){
       event.preventDefault();
       const passwordToggle = document.querySelector('.password-toggle')
@@ -73,11 +86,7 @@ export default {
         input.setAttribute('type', type === 'password' ? 'text' : 'password')
         passwordToggle.classList.toggle('is-visible')
       })
-    },
-    validateMail() {
-      const regExp = /^[a-zA-Z0-9@]*$/;
-      this.isMailInvalid = !regExp.test(this.mail);
-    },
+    }
   },
 };
 </script>
