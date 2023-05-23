@@ -4,16 +4,16 @@
 // import org.springframework.web.socket.WebSocketSession;
 // import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-// public class SocketHandler {
-
+// public class SocketHandler extends TextWebSocketHandler {
+    
 //     @Override
-//     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-//         // クライアントからのメッセージを受け取った時の処理を記述します
-//         String clientMessage = message.getPayload();
-//         System.out.println("Received message from client: " + clientMessage);
+//     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+//         // クライアントからのメッセージを受信した際の処理を記述します
+//         String receivedMessage = message.getPayload();
+//         System.out.println("Received message: " + receivedMessage);
         
-//         // レスポンスとしてメッセージを送信します
-//         String serverMessage = "Hello from server!";
-//         session.sendMessage(new TextMessage(serverMessage));
+//         // メッセージを加工してクライアントに送信する場合は以下のようにします
+//         String modifiedMessage = "Modified: " + receivedMessage;
+//         session.sendMessage(new TextMessage(modifiedMessage));
 //     }
 // }
