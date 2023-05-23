@@ -11,7 +11,6 @@
         <b-button @click="redo">進む</b-button>
         <b-button variant="danger" @click="allDelete">全削除</b-button>
         <b-button variant="primary" @click="exportImage">画像出力</b-button>
-        <b-button variant="primary" @click="sendImage">画像送信</b-button>
         <!-- デバッグ用の情報出力 -->
         <!-- <button @click="allInfo">データ出力</button> -->
         <br><br>
