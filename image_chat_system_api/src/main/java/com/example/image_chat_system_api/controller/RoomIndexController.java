@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.image_chat_system_api.domain.ChatIndex;
 import com.example.image_chat_system_api.service.RoomIndexService;
-import com.example.image_chat_system_api.viewModel.ChatRoomIndexModel;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -23,10 +22,9 @@ public class RoomIndexController {
         return roomIndexService.roomGetAll();    
     }
 
-    @PostMapping("/chatindex")
-    public boolean checkRoomName(@RequestBody ChatRoomIndexModel chatRoomIndexModel){
-        boolean result = roomIndexService.createRoom(chatRoomIndexModel);
-
-        return result;
+    @PostMapping("/chatIndex")
+    public boolean checkRoomName(@RequestBody ChatIndex chatIndex){
+        
+        return roomIndexService.createRoom(chatIndex);
     }
 }

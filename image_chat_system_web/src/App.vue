@@ -1,15 +1,10 @@
 <template>
   <div id="app">
-    <nav>
+    <!-- <nav>
       <router-link to="/login">Login</router-link> /
       <router-link to="/create">CreateAccount</router-link>/
       <router-link to="/RoomIndex">ChatRoomIndex</router-link>/
-      <router-link to="/imageEditWindow">ImageEditWindow</router-link>/
-    </nav>
+    </nav> -->
     <router-view />
   </div>
 </template>
-
-<style>
-
-</style>

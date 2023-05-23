@@ -28,25 +28,28 @@ import { fabric } from 'fabric';
 
 export default {
     data() {
-        return {
-            imageUrl: null,
-            selectedMode: 0,
-            history: [],
-            historyIndex: 0,
-            cropStarted: false,
-            cropRect: null,
-            cropStartX: null,
-            cropStartY: null,
-            cropEndX: null,
-            cropEndY: null,
-            maskingStarted: false,
-            maskingRect: null,
-            maskingStartX: null,
-            maskingStartY: null,
-            maskingEndX: null,
-            maskingEndY: null,
-        };
-    },
+  return {
+    imageUrl: null,
+    selectedMode: 0,
+    history: [],
+    historyIndex: 0,
+    cropStarted: false,
+    cropRect: null,
+    cropStartX: null,
+    cropStartY: null,
+    cropEndX: null,
+    cropEndY: null,
+    maskingStarted: false,
+    maskingRect: null,
+    maskingStartX: null,
+    maskingStartY: null,
+    maskingEndX: null,
+    maskingEndY: null,
+    canvasWidth: 0,
+    canvasHeight: 0
+  };
+},
+
     mounted() {
         this.canvas = new fabric.Canvas(this.$refs.canvas);
         this.canvas.selection = true;
@@ -96,8 +99,7 @@ export default {
                 canvas.setHeight(maxHeight);
                 canvas.renderAll();
             });
-            this.saveHistory();
-        },
+            },
         allDelete() {
             const canvas = this.canvas;
             const objects = canvas.getObjects();
@@ -141,7 +143,6 @@ export default {
                 width: this.cropEndX - this.cropStartX,
                 height: this.cropEndY - this.cropStartY
             });
-            alert(croppedImage);
             const base64Data = croppedImage.replace(/^data:image\/(png|jpeg);base64,/, "");//実際のBase64エンコードされた画像データの部分だけにする
             const binaryData = atob(base64Data);    //デコードしてバイナリデータへ（atobでBase64エンコードを逆変換するために使用）
             const arrayBuffer = new ArrayBuffer(binaryData.length);// ArrayBufferバイナリデータの格納に使用される(サイズ固定)
@@ -150,7 +151,7 @@ export default {
             for (let i = 0; i < binaryData.length; i++) {
                 uint8Array[i] = binaryData.charCodeAt(i);
             }
-
+            
             const blob = new Blob([arrayBuffer], { type: "image/jpeg" }); //Blobオブジェクトに変換(Blobオブジェクトはファイルのように扱える)
 
             const formData = new FormData();
@@ -354,4 +355,5 @@ canvas {
     height: auto;
     text-align: center;
 }
+
 </style>

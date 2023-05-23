@@ -30,7 +30,7 @@ public class ChatImagePostController {
                                     
         // String relativePath = "directory/file.txt";
         // String saveDirectory = "../../../../../../../../image_chat_system_web/src/imageDownload";
-        String saveDirectory = "/Users/mitsuma/training/image_chat_system/image_chat_system_web/src/assets/imageDownload";//自分のものに変更
+        String saveDirectory = "/Users/mitsuma/training/image_chat_system/image_chat_system_web/public/chatupload";//自分のものに変更
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd.HHmmss");
         String dateTimeString = now.format(formatter);
@@ -39,7 +39,7 @@ public class ChatImagePostController {
         try {
             Path filePath = Paths.get(saveDirectory, fileName);
             Files.write(filePath,image.getBytes());
-            String imagePath = "imageDownload/"+fileName;
+            String imagePath = fileName;
             boolean result = chatImagePostService.chatImagePost(chatRoomId, chatPoster, userId, imagePath);
             System.out.println(imagePath);
 

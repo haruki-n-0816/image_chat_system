@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import createPersistedState from 'vuex-persistedstate'
+import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex)
 
@@ -8,12 +8,14 @@ export default new Vuex.Store({
   state: {
     isAuthenticated: false,
     userId: null,
-    userName: null
+    userName: null,
+    roomName:''
   },
   getters: {
     isAuthenticated: state => state.isAuthenticated,
     userId: state => state.userId,
     userName: state => state.userName,
+    roomName:state => state.roomName
   },
   mutations: {
     setAuthentication(state, status) {
@@ -27,6 +29,9 @@ export default new Vuex.Store({
     },
     clearAuthentication(state) {
       state.isAuthenticated = false;
+    },
+    setRoomName(state, roomName){
+      state.roomName = roomName;
     }
   },
   actions: {
@@ -43,6 +48,9 @@ export default new Vuex.Store({
       commit('clearAuthentication');
       commit('setUserId', null);
       commit('setUserName', null);
+    },
+    setRoomName({commit}, roomName){
+      commit('setRoomName', roomName);
     }
   },
   modules: {
