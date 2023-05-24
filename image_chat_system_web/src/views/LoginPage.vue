@@ -41,12 +41,12 @@
             password: this.password,
           });
           console.log(response);
-          this.$store.dispatch('setAuthentication', response.data.result);
+          sessionStorage.setItem('setAuthentication',JSON.stringify(response.data.result));
           if (response.data.result) {
-            this.$store.dispatch('setUserId', response.data.userId);
-            this.$store.dispatch('setUserName', response.data.userName);
-            this.userId = this.$store.getters.userId;
-            this.userName = this.$store.getters.userName;
+            sessionStorage.setItem('userId',JSON.stringify(response.data.userId));
+            sessionStorage.setItem('userName',JSON.stringify(response.data.userName));
+            this.userId = sessionStorage.getItem('userId');
+            this.userName = sessionStorage.getItem('userName');
             this.$router.push("/roomIndex");
           }else{
             alert("ログインに失敗しました。メールアドレス、パスワードをご確認ください。")

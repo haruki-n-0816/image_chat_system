@@ -3,10 +3,10 @@ import VueRouter from 'vue-router'
 import LoginPage from '../views/LoginPage.vue'
 import CreateUserPage from '../views/CreateUserPage.vue'
 import ChatPage from '../views/ChatPage.vue'
-import ImageEditWindow from '../components/ImageEditWindow.vue'
+// import ImageEditWindow from '../components/ImageEditWindow.vue'
 import MainNavigationBar from '../components/MainNavigationBar.vue'
 import RoomIndex from '../views/RoomIndexPage.vue'
-import store from '../store'
+// import store from '../store'
 
 Vue.use(VueRouter)
 
@@ -27,11 +27,11 @@ const routes = [
     component: ChatPage,
     props: true,
   },  
-  {
-    path: '/imageEditWindow',
-    name: 'ImageEditWindow',
-    component: ImageEditWindow,
-  },
+  // {
+  //   path: '/imageEditWindow',
+  //   name: 'ImageEditWindow',
+  //   component: ImageEditWindow,
+  // },
   {
     path:'/roomIndex',
     name:'RoomIndex',
@@ -53,7 +53,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!store.getters.isAuthenticated) {
+    if (!sessionStorage.getItem('setAuthentication')) {
       next({
         path: '/login',
         query: { redirect: to.fullPath }

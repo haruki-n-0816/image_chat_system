@@ -37,12 +37,15 @@ export default new Vuex.Store({
   actions: {
     setAuthentication({commit}, status) {
       commit('setAuthentication', status);
+      sessionStorage.setItem('setAuthentication',JSON.stringify(status));
     },
     setUserId({commit}, userId) {
       commit('setUserId', userId);
+      sessionStorage.setItem('userId',JSON.stringify(userId));
     },
     setUserName({commit}, userName){
       commit('setUserName', userName);
+      sessionStorage.setItem('userName',JSON.stringify(userName));
     },
     clearUserData({ commit }) {
       commit('clearAuthentication');
@@ -51,9 +54,20 @@ export default new Vuex.Store({
     },
     setRoomName({commit}, roomName){
       commit('setRoomName', roomName);
-    }
+    },
+    // initializeStore({ commit }) {
+    //   // セッションストレージからデータを取得し、ストアにセットする
+    //   const userIdData = sessionStorage.getItem('userId');
+    //   const userNameData = sessionStorage.getItem('userName');
+    //   if (userIdData && userNameData) {
+    //     const userId = JSON.parse(userIdData);
+    //     const userName = JSON.parse(userNameData);
+    //     // commit('setUserId', userId);
+    //     // commit('setUserName',userName);
+    //   }
+    // }
   },
   modules: {
   },
   plugins: [createPersistedState()]
-})
+});

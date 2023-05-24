@@ -72,8 +72,8 @@ export default {
     }
   },
   mounted() {
-    this.userId = this.$store.getters.userId;
-    this.userName = this.$store.getters.userName;
+    this.userId = sessionStorage.getItem('userId');
+    this.userName = sessionStorage.getItem('userName');
     this.chatRoomId = this.$route.params.roomId;
     this.getChatHistoryAll();
 
@@ -103,6 +103,8 @@ export default {
     }, 1000);
 
     this.imageEditWindow = this.$refs.imageEditWindow;
+
+    // store.dispatch('initializeStore');
   },
   beforeDestroy() {
     clearInterval(this.intervalId);
@@ -199,7 +201,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      location.reload();
+      // location.reload();
     },
     reloadImage() {
       this.imageKey += 1;

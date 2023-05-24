@@ -156,8 +156,8 @@ export default {
             const formData = new FormData();
             formData.append("image", blob, "image.jpg");
             formData.append("chatRoomId", this.chatRoomId); 
-            formData.append("chatPoster", this.userName); 
-            formData.append("userId", this.userId); 
+            formData.append("chatPoster", sessionStorage.getItem('userName')); 
+            formData.append("userId", sessionStorage.getItem('userId')); 
             try {
                 const response = await axios.post('/chatImagePost', formData, {
                     headers: {
