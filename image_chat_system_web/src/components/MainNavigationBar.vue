@@ -26,9 +26,6 @@ export default {
     shouldShowRoomName() {
       return this.currentRoute !== '/roomIndex'; // 表示しないURLを指定
     },
-    // userName(){
-    //   return sessionStorage.getItem('userName');
-    // }
   },
   mounted() {
     this.userName = sessionStorage.getItem('userName');
@@ -36,7 +33,6 @@ export default {
   methods: {
     async logout() {
       try {
-        // this.$store.dispatch('clearUserData');
         sessionStorage.removeItem('setAuthentication');
         sessionStorage.removeItem('userId');
         sessionStorage.removeItem('userName');

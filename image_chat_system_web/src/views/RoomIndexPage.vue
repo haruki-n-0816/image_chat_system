@@ -63,7 +63,7 @@ export default {
     this.intervalId = setInterval(() => {
       this.showAll();
     }, 1000);
-    store.dispatch('initializeStore');
+    // store.dispatch('initializeStore');
   },
 
   beforeDestroy() {

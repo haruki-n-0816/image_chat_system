@@ -6,7 +6,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,7 +40,7 @@ public class ChatImagePostController {
             Files.write(filePath,image.getBytes());
             String imagePath = fileName;
             boolean result = chatImagePostService.chatImagePost(chatRoomId, chatPoster, userId, imagePath);
-            System.out.println(imagePath);
+            // System.out.println(imagePath);
 
             return result;
         } catch (IOException e) {

@@ -38,8 +38,6 @@
   </div>
 </template>
 
-<!-- eslint-disable  -->
-
 <script>
 import axios from 'axios';
 import Vue from 'vue'
@@ -152,7 +150,7 @@ export default {
         const response = await axios.post('/chatPage', {
           chatRoomId: this.chatRoomId
         });
-        console.log(response);
+        // console.log(response);
         const messages = response.data;
         this.messages = messages.map(message => {
           return {
@@ -201,7 +199,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      // location.reload();
+      location.reload();
     },
     reloadImage() {
       this.imageKey += 1;

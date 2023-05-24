@@ -3,10 +3,7 @@ import VueRouter from 'vue-router'
 import LoginPage from '../views/LoginPage.vue'
 import CreateUserPage from '../views/CreateUserPage.vue'
 import ChatPage from '../views/ChatPage.vue'
-// import ImageEditWindow from '../components/ImageEditWindow.vue'
-import MainNavigationBar from '../components/MainNavigationBar.vue'
 import RoomIndex from '../views/RoomIndexPage.vue'
-// import store from '../store'
 
 Vue.use(VueRouter)
 
@@ -26,22 +23,12 @@ const routes = [
     name: 'ChatPage',
     component: ChatPage,
     props: true,
-  },  
-  // {
-  //   path: '/imageEditWindow',
-  //   name: 'ImageEditWindow',
-  //   component: ImageEditWindow,
-  // },
+  },
   {
     path:'/roomIndex',
     name:'RoomIndex',
     component:RoomIndex,
-    // meta: { requiresAuth: true }
-  },
-  {
-    path:'/mainNavigationBar',
-    name:'MainNavigationBar',
-    component:MainNavigationBar
+    meta: { requiresAuth: true }
   },
 ]
 
