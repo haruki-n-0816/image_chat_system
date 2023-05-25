@@ -4,7 +4,7 @@
       <b-img :src="logoPath" class="tag" />
       <li class="bar-user-name">{{ "ユーザー名:" + userName }}</li>
       <li class="nav-item"><a @click="logout" class="navbar-logout" style="cursor: pointer;">ログアウト</a></li>
-      <li v-if="shouldShowRoomName" class="bar-room-name">{{ "入室中の部屋：" + this.$store.getters.roomName }}</li>
+      <li v-if="shouldShowRoomName" class="bar-room-name">{{ "入室中の部屋：" + roomName }}</li>
       <li v-if="shouldShowRoomName" class="nav-item"><router-link to="/roomIndex" id="nav-link-exit">退室</router-link></li>
     </ul>
   </div>
@@ -13,6 +13,7 @@
 <!-- eslint-disable  -->
 <script>
 export default {
+  props: ['roomName'],
   data() {
     return {
       logoPath: require('/public/assets/header-tag.png'),

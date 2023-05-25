@@ -22,12 +22,15 @@ public class ChatMessagePostService {
         chatMessageList.setImagePath(userChatPageModel.getImagePath());
         chatMessageList.setPostTime(new Timestamp(System.currentTimeMillis()));
 
+        System.out.println(userChatPageModel.getUserId()+"pipipipip");
+
         try{
             chatMessagePostRepositry.save(chatMessageList);
 
             return true;
         } catch(Exception e) {
             e.printStackTrace();
+            System.out.println("キャッチ");
             
             return false;
         }

@@ -10,7 +10,8 @@
           {{ formatDate(message.postTime) }}
           <!-- <button @click="confirmDelete(message.id)">削除</button> -->
           <div>
-            userID:{{ message.userId }} userName:{{ message.chatPoster }} <br>
+            userName:{{ message.chatPoster }}<br>
+             userID:{{ message.userId }} <br>
           </div>
           <div id="message-position">
             {{ message.message }}
@@ -35,6 +36,9 @@
       cancel-title="キャンセル" @ok="sendImage">
       <image-edit-window ref="ImageEditWindow"></image-edit-window>
     </b-modal>
+    <div>
+      <main-navigation-bar :roomName="roomName"></main-navigation-bar>
+  </div>
   </div>
 </template>
 
@@ -65,6 +69,7 @@ export default {
       messages: [],
       chatRoomId: '',
       postTime: '',
+      roomName:'',
       imageKey: 0,
       openimageModal: false,
       logoPath: require('/public/assets/picture-logo.png'),
@@ -76,6 +81,7 @@ export default {
     this.userName = sessionStorage.getItem('userName');
     this.chatRoomId = this.$route.params.roomId;
     this.getChatHistoryAll();
+    this.getRooomName();
 
     const scrollBtn = this.$refs.scrollbtn;
 
@@ -104,11 +110,17 @@ export default {
 
     this.imageEditWindow = this.$refs.imageEditWindow;
 
-    // store.dispatch('initializeStore');
   },
   beforeDestroy() {
-    clearInterval(this.intervalId);
+  const scrollBtn = this.$refs.scrollbtn;
+  scrollBtn.removeEventListener('click', this.scrollToBottom);
+
+  const scrollBtnTop = this.$refs.scrollbtntop;
+  scrollBtnTop.removeEventListener('click', this.scrollToTop);
+
+  clearInterval(this.intervalId);
   },
+
 
   methods: {
     formatDate(timeStamp) {
@@ -171,6 +183,18 @@ export default {
         console.error(error);
       }
     },
+    async getRooomName() {
+      try {
+    const response = await axios.post('/getRoomName', null, {
+      params: {
+        chatRoomId: this.chatRoomId
+      }
+    });
+        this.roomName = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
     //削除メソッド
     //   async confirmDelete(messageId) {
     //   const confirm = window.confirm('本当にこのメッセージを削除しますか？');
@@ -201,7 +225,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      // location.reload();
+      location.reload();
     },
     reloadImage() {
       this.imageKey += 1;
