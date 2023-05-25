@@ -11,7 +11,7 @@
 					</div>
 					<div class="create-input-wrapper">
 						<b-form-input type="text" name="email" v-model="email"></b-form-input>
-						<p v-if="isInValidEmail" class="error" style="color:red">※メールアドレスを正しく入力してください。</p>
+						<p v-if="isInValidEmail && email" class="error" style="color:red">※メールアドレスを正しく入力してください。</p>
 					</div>
 					<div class="password-wrapper">
 						<b-form-input v-model="password" placeholder="Password" type="password"

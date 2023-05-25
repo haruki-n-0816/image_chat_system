@@ -190,7 +190,7 @@ h1 {
 	top: 6rem;
 	right: 0;
 	z-index: 999;
-	margin-right: 20%;
+  right: 1rem;
 }
 
 @media(max-width: 412px){
@@ -199,7 +199,7 @@ h1 {
       top: 5em;
     }
   }
-  
+
 @media(max-width: 640px){
   .add-button{
     width: 85px;

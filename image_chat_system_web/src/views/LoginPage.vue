@@ -100,6 +100,13 @@ body::before {
 	}
 }
 
+@media (max-width: 600px) {
+	.forms {
+		margin: 20px;
+		padding: 1em;
+	}
+}
+
 @media (min-width: 601px) and (max-width: 900px) {
 	.forms {
 		margin: 40px;

@@ -75,7 +75,7 @@ export default {
 	list-style: none;
 }
 
-@media (max-width: 495px){
+@media (max-width: 520px){
     .header-list{
       font-size: smaller;
     }
