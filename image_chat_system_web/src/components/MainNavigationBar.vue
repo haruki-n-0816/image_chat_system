@@ -1,7 +1,7 @@
 <template>
 	<div id="header-menu">
 		<ul class="header-list">
-			<b-img :src="logoPath" class="tag" />
+			<li class="logo-container"><b-img :src="logoPath" class="tag" /> </li>
 			<li class="bar-user-name">{{ "ユーザー名:" + userName }}</li>
 			<li class="nav-item"><a @click="logout" class="navbar-logout" style="cursor: pointer;">ログアウト</a></li>
 			<li v-if="shouldShowRoomName" class="bar-room-name">{{ "入室中の部屋：" + roomName }}</li>
@@ -59,6 +59,12 @@ export default {
 	z-index: 999;
 }
 
+@media (max-width: 920px){
+    .logo-container {
+      display: none;
+    }
+  }
+
 .header-list {
 	display: flex;
 	align-items: center;
@@ -68,6 +74,18 @@ export default {
 	padding: 0 1rem;
 	list-style: none;
 }
+
+@media (max-width: 495px){
+    .header-list{
+      font-size: smaller;
+    }
+  }
+
+@media (max-width: 434px){
+.header-list{
+	font-size: 1px;
+}
+} 
 
 .tag {
 	width: 25rem;

@@ -193,6 +193,20 @@ h1 {
 	margin-right: 20%;
 }
 
+@media(max-width: 412px){
+    .add-button{
+      width: 60px;
+      top: 5em;
+    }
+  }
+  
+@media(max-width: 640px){
+  .add-button{
+    width: 85px;
+    top: 4em;
+  }
+}
+
 .add-room {
 	padding-top: 5rem;
 }
