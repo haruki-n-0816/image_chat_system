@@ -54,16 +54,16 @@ export default {
 	left: 0;
 	width: 100%;
 	height: 3rem;
-	background-color: #e6f3ff;
+	background-color: #ffffff;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	z-index: 999;
 }
 
-@media (max-width: 920px){
-    .logo-container {
-      display: none;
-    }
-  }
+@media (max-width: 860px) {
+	.logo-container {
+		display: none;
+	}
+}
 
 .header-list {
 	display: flex;
@@ -75,17 +75,17 @@ export default {
 	list-style: none;
 }
 
-@media (max-width: 520px){
-    .header-list{
-      font-size: smaller;
-    }
-  }
-
-@media (max-width: 434px){
-.header-list{
-	font-size: 1px;
+@media (max-width: 52px) {
+	.header-list {
+		font-size: smaller;
+	}
 }
-} 
+
+@media (max-width: 434px) {
+	.header-list {
+		font-size: 1px;
+	}
+}
 
 .tag {
 	width: 25rem;
