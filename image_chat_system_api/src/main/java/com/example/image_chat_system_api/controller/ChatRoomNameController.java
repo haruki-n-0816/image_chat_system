@@ -17,7 +17,6 @@ public class ChatRoomNameController {
     @PostMapping("/getRoomName")
     public String chatRoomName(@RequestParam("chatRoomId") Integer chatRoomId){
         String answer = ChatRoomNameService.chatRoomName(chatRoomId);
-        System.out.println(chatRoomId+"コントローラー");
 
         return answer;
     }

@@ -48,7 +48,6 @@ export default {
     canvasHeight: 0
   };
 },
-
     mounted() {
         this.canvas = new fabric.Canvas(this.$refs.canvas);
         this.canvas.selection = true;
@@ -59,8 +58,6 @@ export default {
         this.canvas.on('object:added', function (e) {
             e.target.selectable = false;
         });
-        this.userId = this.$store.getters.userId;
-        this.userName = this.$store.getters.userName;
         this.chatRoomId = this.$route.params.roomId;
     },
     methods: {
@@ -142,7 +139,7 @@ export default {
                 width: this.cropEndX - this.cropStartX,
                 height: this.cropEndY - this.cropStartY
             });
-            const base64Data = croppedImage.replace(/^data:image\/(png|jpeg);base64,/, "");//実際のBase64エンコードされた画像データの部分だけにする
+            const base64Data = croppedImage.replace(/^data:image\/(png|jpeg);base64,/, "");
             const binaryData = atob(base64Data);    //デコードしてバイナリデータへ（atobでBase64エンコードを逆変換するために使用）
             const arrayBuffer = new ArrayBuffer(binaryData.length);// ArrayBufferバイナリデータの格納に使用される(サイズ固定)
             const uint8Array = new Uint8Array(arrayBuffer);//整数値を格納するための固定サイズの配列（8ビット符号なし）、元の画像データをバイト単位で格納した配列
@@ -161,7 +158,7 @@ export default {
             try {
                 const response = await axios.post('/chatImagePost', formData, {
                     headers: {
-                        'Content-Type': 'multipart/form-data'  //送信されるデータの種類
+                        'Content-Type': 'multipart/form-data'
                     }
                 });
                 console.log(response);
@@ -354,5 +351,4 @@ canvas {
     height: auto;
     text-align: center;
 }
-
 </style>

@@ -40,11 +40,11 @@ public class ChatImagePostController {
             Files.write(filePath,image.getBytes());
             String imagePath = fileName;
             boolean result = chatImagePostService.chatImagePost(chatRoomId, chatPoster, userId, imagePath);
-            System.out.println(imagePath);
 
             return result;
         } catch (IOException e) {
             e.printStackTrace(); 
+            
             return false;
         }
     }

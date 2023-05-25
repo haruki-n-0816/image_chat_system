@@ -1,7 +1,6 @@
 package com.example.image_chat_system_api.viewModel;
 
 import org.springframework.web.multipart.MultipartFile;
-
 import lombok.Getter;
 import lombok.Setter;
 
