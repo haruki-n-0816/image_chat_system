@@ -43,8 +43,8 @@
           console.log(response);
           sessionStorage.setItem('setAuthentication',JSON.stringify(response.data.result));
           if (response.data.result) {
-            sessionStorage.setItem('userId',JSON.stringify(response.data.userId));
-            sessionStorage.setItem('userName',JSON.stringify(response.data.userName));
+            sessionStorage.setItem('userId',response.data.userId);
+            sessionStorage.setItem('userName',response.data.userName);
             this.userId = sessionStorage.getItem('userId');
             this.userName = sessionStorage.getItem('userName');
             this.$router.push("/roomIndex");

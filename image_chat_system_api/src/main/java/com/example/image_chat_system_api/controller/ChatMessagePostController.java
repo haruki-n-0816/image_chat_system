@@ -17,7 +17,6 @@ public class ChatMessagePostController {
 
     @PostMapping("/chatPagePost")
     public boolean chatMessagePost(@RequestBody UserChatPageModel message) {
-        System.out.println(message.getUserId()+"ここですここ");
         boolean result = chatMessagePostService.chatMessagePost(message);
 
         return result;
