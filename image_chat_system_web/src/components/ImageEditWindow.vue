@@ -7,10 +7,17 @@
             <b-form-radio v-model="selectedMode" name="selectedMode" value="2" @change="optionChanged">マスキング</b-form-radio>
             <!-- <b-form-radio v-model="selectedMode" name="selectedMode" value="3" @change="optionChanged">ペン</b-form-radio> -->
         </b-form-group>
-        <b-button @click="undo">戻る</b-button>
-        <b-button @click="redo">進む</b-button>
-        <b-button variant="danger" @click="allDelete">全削除</b-button>
-        <b-button variant="primary" @click="exportImage">画像出力</b-button>
+
+        <div class="select-button">
+            <div class="">
+                <b-button class="btn btn--yellow btn--cubic" variant="danger" @click="allDelete">全削除</b-button>
+                <b-button variant="primary" @click="exportImage">画像出力</b-button>  
+            </div>     
+            <div>
+                <b-button @click="undo">戻る</b-button>
+                <b-button @click="redo">進む</b-button>
+            </div> 
+        </div>
         <!-- デバッグ用の情報出力 -->
         <!-- <button @click="allInfo">データ出力</button> -->
         <br><br>
@@ -27,27 +34,27 @@ import { fabric } from 'fabric';
 
 export default {
     data() {
-  return {
-    imageUrl: null,
-    selectedMode: 0,
-    history: [],
-    historyIndex: 0,
-    cropStarted: false,
-    cropRect: null,
-    cropStartX: null,
-    cropStartY: null,
-    cropEndX: null,
-    cropEndY: null,
-    maskingStarted: false,
-    maskingRect: null,
-    maskingStartX: null,
-    maskingStartY: null,
-    maskingEndX: null,
-    maskingEndY: null,
-    canvasWidth: 0,
-    canvasHeight: 0
-  };
-},
+        return {
+            imageUrl: null,
+            selectedMode: 0,
+            history: [],
+            historyIndex: 0,
+            cropStarted: false,
+            cropRect: null,
+            cropStartX: null,
+            cropStartY: null,
+            cropEndX: null,
+            cropEndY: null,
+            maskingStarted: false,
+            maskingRect: null,
+            maskingStartX: null,
+            maskingStartY: null,
+            maskingEndX: null,
+            maskingEndY: null,
+            canvasWidth: 0,
+            canvasHeight: 0
+        };
+    },
     mounted() {
         this.canvas = new fabric.Canvas(this.$refs.canvas);
         this.canvas.selection = true;
@@ -335,6 +342,10 @@ export default {
 </script>
 
 <style>
+canvas{
+    /* right: 5rem; */
+}
+
 .image-edit-window {
     text-align: center;
 }
@@ -350,5 +361,22 @@ canvas {
     max-width: 100%;
     height: auto;
     text-align: center;
+    transform: translate(70px, 20px);
+}  
+
+@media(min-width: 460px){
+    .canvas{
+        display: block;
+        margin: auto;
+        padding: 5% 0 0 0;
+        max-width: 100%;
+        height: auto;
+        text-align: center;
+        transform: translate(70px, 20px);
+    }
+}
+
+.select-button button{
+    margin-left: 1px;
 }
 </style>

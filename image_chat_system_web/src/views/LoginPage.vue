@@ -5,12 +5,17 @@
 			<b-img :src="logoPath" width="180px" />
 			<div>
 				<div class="login-input-wrapper">
-					<b-form-input type="email" placeholder="Mail" v-model="mail"></b-form-input>
+					<b-form-input type="text" placeholder="Mail" v-model="email"></b-form-input>
+					<p v-if="isInValidEmail && email" class="error" style="color:red">※メールアドレスを正しく入力してください。</p>
 				</div>
-				<b-form-input type="password" placeholder="Password" v-model="password"></b-form-input>
+				<div class="password-wrapper">
+					<b-form-input type="password" placeholder="Password" v-model="password"></b-form-input>
+					<b-button class="password-toggle" @click.once="showHidden"></b-button>
+				</div>
+				<p v-if="isInValidPassword && password" class="error" style="color:red">※パスワードを正しく入力してください。</p>
 			</div>
 			<div class="button-wrapper">
-				<b-button class="login-button" variant="secondary" type="submit">ログイン</b-button>
+				<b-button class="login-button" variant="primary" type="submit" :disabled="isFormInvalid">ログイン</b-button>
 				<router-link to="/create" class="to-create-page">新規登録の方はこちらから</router-link>
 			</div>
 		</form>
@@ -29,8 +34,22 @@ export default {
 			userName: '',
 			userId: '',
 			errorMessage: '',
-			logoPath: require('/public/assets/logo.png')
+			logoPath: require('/public/assets/logo.png'),
+			email:''
 		}
+	},
+	computed:{
+		isFormInvalid() {
+			return !(this.email && this.password);
+		},
+		isInValidEmail() {
+			const reg = new RegExp(/^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/);
+			return !reg.test(this.email);
+		},
+		isInValidPassword(){
+			const vali = new RegExp(/^[A-Za-z0-9]+$/)
+			return !vali.test(this.password);
+		},
 	},
 	methods: {
 		async loginCheck() {
@@ -53,6 +72,16 @@ export default {
 			} catch (error) {
 				console.log(error);
 			}
+		},
+		async showHidden() {
+			const passwordToggle = document.querySelector('.password-toggle')
+
+			passwordToggle.addEventListener('click', (e) => {
+				const input = e.target.previousElementSibling
+				const type = input.getAttribute('type')
+				input.setAttribute('type', type === 'password' ? 'text' : 'password')
+				passwordToggle.classList.toggle('is-visible')
+			})
 		}
 	}
 }

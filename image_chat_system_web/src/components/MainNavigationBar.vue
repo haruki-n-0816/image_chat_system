@@ -59,7 +59,7 @@ export default {
 	z-index: 999;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1200px) {
 	.logo-container {
 		display: none;
 	}
