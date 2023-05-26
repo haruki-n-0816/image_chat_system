@@ -459,4 +459,9 @@ html {
 .bms-clear {
 	clear: both;
 }
+
+.image-editing{
+    width: 10%;
+    height: 10%;
+}
 </style> 

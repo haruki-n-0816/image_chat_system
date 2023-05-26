@@ -8,15 +8,11 @@
             <!-- <b-form-radio v-model="selectedMode" name="selectedMode" value="3" @change="optionChanged">ペン</b-form-radio> -->
         </b-form-group>
 
-        <div class="select-button">
-            <div class="">
-                <b-button class="btn btn--yellow btn--cubic" variant="danger" @click="allDelete">全削除</b-button>
-                <b-button variant="primary" @click="exportImage">画像出力</b-button>  
-            </div>     
-            <div>
-                <b-button @click="undo">戻る</b-button>
-                <b-button @click="redo">進む</b-button>
-            </div> 
+        <div class="select-button" style="cursor: pointer;">
+            <b-img @click="undo" src="/assets/戻るボタン.png" class="image-editing" alt="戻る"/>
+            <b-img @click="redo" src="/assets/進むボタン.png" class="image-editing" alt="進む"/>
+            <b-img @click="allDelete" src="/assets/消しゴム.jpeg" class="image-editing" alt="全削除"/>
+            <b-img @click="exportImage" src="/assets/保存.png" class="image-editing" alt="画像出力"/>
         </div>
         <!-- デバッグ用の情報出力 -->
         <!-- <button @click="allInfo">データ出力</button> -->

@@ -29,7 +29,6 @@ axios.defaults.baseURL = 'http://localhost:8081';
 export default {
 	data() {
 		return {
-			mail: '',
 			password: '',
 			userName: '',
 			userId: '',
@@ -55,7 +54,7 @@ export default {
 		async loginCheck() {
 			try {
 				const response = await axios.post('/login', {
-					mail: this.mail,
+					mail: this.email,
 					password: this.password,
 				});
 				console.log(response);
